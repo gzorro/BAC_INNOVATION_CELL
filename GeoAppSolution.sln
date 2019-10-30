@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.GeoAppWebAPI", "1.GeoAppWebAPI", "{1071DAC0-19F3-4CA3-8CD7-4A59C8E01207}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.WebApp", "0.WebApp", "{46207F2C-8229-4828-BF43-9DE4B66DE076}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Services", "3.Services", "{E3F1FB4D-03B7-49B5-80CE-79D5C40F49E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Business", "4.Business", "{F9DE076E-512F-4642-909C-CADEAD658B6F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5.Proxy", "5.Proxy", "{4134944B-7007-4A1E-A2D2-74A35785E9C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6.DAR", "6.DAR", "{BF15919B-CDE9-4C84-A941-C4830D5B34E0}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CC349184-5BF0-4162-A469-6C0180E21B3C}
+	EndGlobalSection
+EndGlobal
