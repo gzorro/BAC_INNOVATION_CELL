@@ -15,9 +15,38 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5.Proxy", "5.Proxy", "{4134
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6.DAR", "6.DAR", "{BF15919B-CDE9-4C84-A941-C4830D5B34E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{998C6DE9-EB22-4DD4-8243-D86E50AD461A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoWebAPI", "GeoWebAPI\GeoWebAPI.csproj", "{1D676336-F326-42FA-9F7C-54AF3459B720}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoWebAPI.Tests", "GeoWebAPI.Tests\GeoWebAPI.Tests.csproj", "{7D27517B-56E9-4ADF-87E7-6069129BACBE}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{998C6DE9-EB22-4DD4-8243-D86E50AD461A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{998C6DE9-EB22-4DD4-8243-D86E50AD461A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{998C6DE9-EB22-4DD4-8243-D86E50AD461A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{998C6DE9-EB22-4DD4-8243-D86E50AD461A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D676336-F326-42FA-9F7C-54AF3459B720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D676336-F326-42FA-9F7C-54AF3459B720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D676336-F326-42FA-9F7C-54AF3459B720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D676336-F326-42FA-9F7C-54AF3459B720}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D27517B-56E9-4ADF-87E7-6069129BACBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D27517B-56E9-4ADF-87E7-6069129BACBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D27517B-56E9-4ADF-87E7-6069129BACBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D27517B-56E9-4ADF-87E7-6069129BACBE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{998C6DE9-EB22-4DD4-8243-D86E50AD461A} = {46207F2C-8229-4828-BF43-9DE4B66DE076}
+		{1D676336-F326-42FA-9F7C-54AF3459B720} = {1071DAC0-19F3-4CA3-8CD7-4A59C8E01207}
+		{7D27517B-56E9-4ADF-87E7-6069129BACBE} = {1071DAC0-19F3-4CA3-8CD7-4A59C8E01207}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC349184-5BF0-4162-A469-6C0180E21B3C}
