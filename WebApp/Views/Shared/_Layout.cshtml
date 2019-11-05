@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Sistema de Georeferenciación</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/esri")
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+
+    <!-- footer -->
+    <hr />
+    <footer>
+        <center>
+            <p>&copy; @DateTime.Now.Year - Banco Agrario de Colombia</p>
+        </center>
+    </footer>
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
