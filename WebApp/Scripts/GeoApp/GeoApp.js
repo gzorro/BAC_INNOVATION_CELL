@@ -35,8 +35,6 @@ class GeoApp {
                 , "esri/widgets/Sketch"
             ],
             function (Map, MapView, GraphicsLayer, Sketch) {
-                debugger;
-
                 //Carga de la capa gráfica
                 graphicsLayer = new GraphicsLayer();
 
@@ -80,7 +78,6 @@ class GeoApp {
                 view.watch("stationary", function (isStationary) {
                     ShowCoordinates(view.center);
                 });
-                
             }
         );
     }

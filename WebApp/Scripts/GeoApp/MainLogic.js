@@ -40,11 +40,23 @@ function ShowCoordinates(pt)
 function SavePolygon (event) {
     if (event.state === "complete") {
         let polygonCoordinate = event.graphic.geometry.rings;
-        debugger;
         //Borrar gráfica del mapa
         graphicsLayer.remove(event.graphic);
-
+        
+        debugger;
+        var jsonData = JSON.stringify(polygonCoordinate[0]);
         //TODO: Guardar coordenadas del polígono
+        Download(jsonData, 'json.txt', 'text/plain');
         //SavePolygon(polygonCoordinate);
     }
 }
+
+function Download(content, fileName, contentType) {
+    debugger;
+    var a = document.createElement("a");
+    var file = new Blob([content], { type: contentType });
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+}
+
