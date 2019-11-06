@@ -1,6 +1,8 @@
 ﻿/**property */
 var map = {};
 var view = {};
+var sketch = {};
+var graphicsLayer = {};
 class GeoApp {
     /**
      * Constructor de clase
@@ -20,8 +22,8 @@ class GeoApp {
         ],
             function (Map, MapView, GraphicsLayer, Sketch) {
 
-                var graphicsLayer = new GraphicsLayer();
-
+                graphicsLayer = new GraphicsLayer();
+                //CreateMap();
                 map = new Map({
                     //basemap: "streets-relief-vector" //Mostrar modo calle
                     basemap: "topo", //Mostrar modo topográfico
@@ -42,7 +44,7 @@ class GeoApp {
                     zoom: 8
                 });
 
-                var sketch = new Sketch({
+                sketch = new Sketch({
                     view: view,
                     layer: graphicsLayer
                 });
@@ -68,22 +70,17 @@ class GeoApp {
                 view.ui.add(coordsWidget, "bottom-right");
 
                 view.watch("stationary", function (isStationary) {
-                    showCoordinates(view.center);
+                    ShowCoordinates(view.center);
                 });
 
                 view.on("pointer-move", function (evt) {
-                    showCoordinates(view.toMap({ x: evt.x, y: evt.y }));
+                    ShowCoordinates(view.toMap({ x: evt.x, y: evt.y }));
                 });
 
-            });
+                BindFunctions();
 
-            //*** ADD ***//
-            function showCoordinates(pt) {
-                var coords = "Lat/Lon " + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) +
-                    " | Scale 1:" + Math.round(view.scale * 1) / 1 +
-                    " | Zoom " + view.zoom;
-                coordsWidget.innerHTML = coords;
-            }
+                
+            });
     }
 
     static ClickEvent(evt) {
