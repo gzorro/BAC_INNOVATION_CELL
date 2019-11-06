@@ -9,6 +9,18 @@ namespace WebApp
         // Para obtener más información sobre las uniones, visite https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+
+            //StyleBundles 
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/bootstrap.css",
+                      "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/esri").Include(
+                      "~/Content/esri/esri-arcGis-4.min.css"
+                      , "~/Content/esri/esri-main.css"
+                      ));
+
+            //Base Bundles
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-3.3.1.js"));
 
@@ -23,16 +35,7 @@ namespace WebApp
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
-
-            bundles.Add(new StyleBundle("~/Content/esri").Include(
-                      "~/Content/esri/esri-arcGis-4.min.css"
-                      ,"~/Content/esri/esri-main.css"
-                      //, "~/Content/esri/esri-bootstrap.min.css"
-                      ));
-
+            //App Business Bundle
             /*Validamos la configuración de compilación, si es debug, lanzar las configuraciones js no minificadas */
             if (((CompilationSection)System.Configuration.ConfigurationManager.GetSection(@"system.web/compilation")).Debug)
             {
@@ -44,7 +47,10 @@ namespace WebApp
             else //Production
             {
                 bundles.Add(new ScriptBundle("~/bundles/GeoApp").Include(
-                      "~/Scripts/GeoApp/GeoApp.min.js"));
+                      "~/Scripts/GeoApp/GeoApp.min.js"
+                      ,"~/Scripts/GeoApp/MainLogic.min.js"
+                      , "~/Scripts/GeoApp/ArcGisCom-4.13.min.js"
+                      ));
             }
         }
     }

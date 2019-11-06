@@ -1,4 +1,6 @@
-﻿(ExecuteCore = () => {
+﻿//Old, deprecated
+
+(ExecuteCore = () => {
     debugger;
     require([
             "esri/Map"

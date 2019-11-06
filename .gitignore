@@ -2,5 +2,6 @@
 # Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
 ################################################################################
 
+# Se excluyen carpetas de ámbito local
 /.vs
 /obj/Debug

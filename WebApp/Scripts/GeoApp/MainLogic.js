@@ -1,11 +1,24 @@
 ﻿/**
- * Guardar polígono
- * @param {any} coordinatePolygon
- */
-function SavePolygon(coordinatePolygon)
+ * Core principal de funcionalidad del mapa esri
+ * @Authors {Germán f. Grimaldi}, {Javier Becerra}
+ * 
+ * */
+
+/* ******************************************************************************************************* */
+/* ******************************************************************************************************* */
+
+/**
+ * Agregar componente de coordenadas al objeto view
+ * */
+function AddCoordsToView()
 {
-    debugger;
-    alert('estamos probando');
+    //Bottom function
+    let coordsWidget = document.createElement("div");
+    coordsWidget.id = "coordsWidget";
+    coordsWidget.className = "esri-widget esri-component";
+    coordsWidget.style.padding = "7px 15px 5px";
+
+    view.ui.add(coordsWidget, "bottom-right");
 }
 
 /**
@@ -21,20 +34,17 @@ function ShowCoordinates(pt)
 }
 
 /**
- * Orquestador de eventos
- * */
-function BindFunctions()
-{
-    debugger;
-    //Cuando se guarde el polígono se ejecuta este evento
-    sketch.on("create", function (event) {
-        if (event.state === "complete") {
-            let polygonCoordinate = event.graphic.geometry.rings;
-            debugger;
-            //Borrar gráfica del mapa
-            graphicsLayer.remove(event.graphic);
-            //Guardar coordenadas del polígono
-            SavePolygon(polygonCoordinate);
-        }
-    });
+ * Guardar coordenadas de polígono en .json
+ * @param {any} event
+ */
+function SavePolygon (event) {
+    if (event.state === "complete") {
+        let polygonCoordinate = event.graphic.geometry.rings;
+        debugger;
+        //Borrar gráfica del mapa
+        graphicsLayer.remove(event.graphic);
+
+        //TODO: Guardar coordenadas del polígono
+        //SavePolygon(polygonCoordinate);
+    }
 }

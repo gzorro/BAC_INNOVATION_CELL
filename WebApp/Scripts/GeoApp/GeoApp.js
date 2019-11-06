@@ -3,97 +3,85 @@ var map = {};
 var view = {};
 var sketch = {};
 var graphicsLayer = {};
+let _enumTypeMaps = 
+    {
+        Topo: "topo"
+        , Satellite:"satellite"
+        , Hybrid:"hybrid"
+        , Gray:"gray"
+        , DarkGray:"dark-gray"
+        , Oceans:"oceans"
+        , Osm:"osm"
+        , NationalGeographic:"national-geographic"
+        , StreetsReliefVector: "streets-relief-vector"
+    }
+/**
+ * Clase parental de Instancia del mapa esri
+ * */
 class GeoApp {
     /**
      * Constructor de clase
      * */
     constructor() {
         GeoApp.Init();
-        //GeoApp.MapLoad();
     }
 
     static Init() {
-        debugger;
-        require([
-            "esri/Map"
-            , "esri/views/MapView"
-            , "esri/layers/GraphicsLayer"
-            , "esri/widgets/Sketch"
-        ],
+        require(
+            [
+                "esri/Map"
+                , "esri/views/MapView"
+                , "esri/layers/GraphicsLayer"
+                , "esri/widgets/Sketch"
+            ],
             function (Map, MapView, GraphicsLayer, Sketch) {
+                debugger;
 
+                //Carga de la capa gráfica
                 graphicsLayer = new GraphicsLayer();
-                //CreateMap();
-                map = new Map({
-                    //basemap: "streets-relief-vector" //Mostrar modo calle
-                    basemap: "topo", //Mostrar modo topográfico
 
-                    //basemap disponibles(para implementar solo se necesita cambiar el string value): 
-                    //satellite, hybrid, topo, gray, dark-gray, oceans, osm, national-geographic
-
-                    //*** ADD ***//
-                    layers: [graphicsLayer]
-
-                });
-
-                view = new MapView({
-                    container: "viewDiv", // Reference to the DOM node that will contain the view
-                    map: map, // References the map object created
-                    center: [-74.2973328, 4.570868], // longitude, latitude //Centro de Colombia
-                    //center: [-118.80500, 34.02700], // longitude, latitude //Original
-                    zoom: 8
-                });
-
-                sketch = new Sketch({
-                    view: view,
-                    layer: graphicsLayer
-                });
+                //Inicialización de componentes
+                map = new Map(
+                    {
+                        basemap: _enumTypeMaps.Topo,
+                        layers: [graphicsLayer]
+                    });
+                view = new MapView(
+                    {
+                        container: "viewDiv", // Referencia al objeton DOM (div)
+                        map: map, // Referencia a objeto map
+                        center: [-74.2973328, 4.570868], // longitude, latitude //Centro de Colombia
+                        zoom: 8
+                    });
+                sketch = new Sketch(
+                    {
+                        view: view,
+                        layer: graphicsLayer
+                    });
 
                 view.ui.add(sketch, "top-right");
 
-                //when the map is clicked create a buffer around the click point of the specified distance.
-                map.on("click", function (evt) {
-                    debugger;
-                    map.graphics.clear();
-                    map.graphics.add(new Graphic(evt.mapPoint, symbol));
-                    map.infoWindow.setContent("X: " + evt.mapPoint.x.toString() + ", <br>Y: " + evt.mapPoint.y.toString());
-                    map.infoWindow.show(evt.mapPoint)
+                //Agregar componente de coordenadas
+                AddCoordsToView();
+
+                /** Eventos Bind **/
+
+                //Cuando se guarde el polígono se ejecuta este evento
+                sketch.on("create", function (event) {
+                    SavePolygon(event);
                 });
 
-
-                //Bottom function
-                var coordsWidget = document.createElement("div");
-                coordsWidget.id = "coordsWidget";
-                coordsWidget.className = "esri-widget esri-component";
-                coordsWidget.style.padding = "7px 15px 5px";
-
-                view.ui.add(coordsWidget, "bottom-right");
-
-                view.watch("stationary", function (isStationary) {
-                    ShowCoordinates(view.center);
-                });
-
+                //evento complementario que guarda posición en mapa
                 view.on("pointer-move", function (evt) {
                     ShowCoordinates(view.toMap({ x: evt.x, y: evt.y }));
                 });
 
-                BindFunctions();
-
+                //evento de asignación de coordenadas
+                view.watch("stationary", function (isStationary) {
+                    ShowCoordinates(view.center);
+                });
                 
-            });
+            }
+        );
     }
-
-    static ClickEvent(evt) {
-        debugger;
-    }
-
-    /**
-     * Método principal de consumo
-     * @returns false
-     * */
-    static MapLoad() {
-        //TODO: cargar información geográfica.
-
-    }
-
 }
