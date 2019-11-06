@@ -46,7 +46,7 @@ function SavePolygon (event) {
         debugger;
         var jsonData = JSON.stringify(polygonCoordinate[0]);
         //TODO: Guardar coordenadas del polígono
-        Download(jsonData, 'json.txt', 'text/plain');
+        Download(jsonData, 'json.json', 'text/json');
         //SavePolygon(polygonCoordinate);
     }
 }
