@@ -38,6 +38,7 @@ namespace WebApp
             {
                 bundles.Add(new ScriptBundle("~/bundles/GeoApp").Include(
                       "~/Scripts/GeoApp/GeoApp.js"
+                      ,"~/Scripts/GeoApp/MainLogic.js"
                       , "~/Scripts/GeoApp/ArcGisCom-4.13.js"));
             }
             else //Production

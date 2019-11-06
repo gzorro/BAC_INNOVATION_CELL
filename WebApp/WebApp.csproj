@@ -166,6 +166,7 @@
     <Content Include="Scripts\GeoApp\ArcGisCom-4.13.js" />
     <Content Include="Scripts\GeoApp\Core.js" />
     <Content Include="Scripts\GeoApp\GeoApp.js" />
+    <Content Include="Scripts\GeoApp\MainLogic.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
