@@ -12,13 +12,30 @@
  * */
 function AddCoordsToView()
 {
-    //Bottom function
     let coordsWidget = document.createElement("div");
     coordsWidget.id = "coordsWidget";
     coordsWidget.className = "esri-widget esri-component";
     coordsWidget.style.padding = "7px 15px 5px";
 
     view.ui.add(coordsWidget, "bottom-right");
+}
+
+/**
+ * Agrega determinado elemento a la vista
+ * @param {string} nameElement Nombre del elemento a agregar
+ * @param {string} idElement ID de elemento a agregar
+ * @param {List<string>} classes lista de string con las clases a implementar para el elemento a agregar
+ * @param {string} ubication Ubicación del elemento a agregar según librería de esri
+ */
+function AddElementToView(nameElement, idElement, classes, ubication) {
+    debugger;
+    let coordsWidget = document.createElement(nameElement);
+    coordsWidget.id = idElement;
+    let classesToImplement = "";
+    classes.forEach(x => classesToImplement += `${x} `);
+    coordsWidget.className = classes;
+
+    view.ui.add(coordsWidget, ubication);
 }
 
 /**
@@ -42,17 +59,14 @@ function SavePolygon (event) {
         let polygonCoordinate = event.graphic.geometry.rings;
         //Borrar gráfica del mapa
         graphicsLayer.remove(event.graphic);
-        
-        debugger;
-        var jsonData = JSON.stringify(polygonCoordinate[0]);
+
         //TODO: Guardar coordenadas del polígono
+        var jsonData = JSON.stringify(polygonCoordinate[0]);
         Download(jsonData, 'json.json', 'text/json');
-        //SavePolygon(polygonCoordinate);
     }
 }
 
 function Download(content, fileName, contentType) {
-    debugger;
     var a = document.createElement("a");
     var file = new Blob([content], { type: contentType });
     a.href = URL.createObjectURL(file);
