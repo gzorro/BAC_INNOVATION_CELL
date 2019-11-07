@@ -14,7 +14,20 @@ let _enumTypeMaps =
         , Osm:"osm"
         , NationalGeographic:"national-geographic"
         , StreetsReliefVector: "streets-relief-vector"
-    }
+}
+let _enumTypeMaps =
+{//bottom-leading | bottom-left | bottom-right | bottom-trailing | top-leading | top-left | top-right | top-trailing | manual
+    TopRight: "top-right"
+    , TopLeft: "top-left"
+    , TopLeading: "top-leading"
+    , TopTrailing: "top-trailing"
+    , BottomRight: "bottom-right"
+    , BottomLeft: "bottom-left"
+    , BottomLeading: "bottom-leading"
+    , BottomTrailing: "bottom-trailing"
+    , Oceans: "oceans"
+    , Osm: "osm"
+}
 /**
  * Clase parental de Instancia del mapa esri
  * */
@@ -61,7 +74,8 @@ class GeoApp {
 
                 //Agregar componente de coordenadas
                 AddCoordsToView();
-
+                debugger;
+                AddElementToView("button", "btnGuardar", ["btn", "btn-primary"], "bottom-left");
                 /** Eventos Bind **/
 
                 //Cuando se guarde el polígono se ejecuta este evento
