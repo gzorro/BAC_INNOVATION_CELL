@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Sistema de Georeferenciación</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="../Content/esri/esri-main.css" >
+    <link rel="stylesheet" href="../Content/bootstrap.css" >
+    <link rel="stylesheet" href="../Content/Site.css" >
+    <link rel="stylesheet" href="../Content/esri/esri-arcGis-4.min.css" >
+    <!-- No se puede cargar de forma local-->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.13/esri/themes/light/main.css">
+
+</head>
+<body>
+    <div>
+        <div id="viewDiv"></div>
+    </div>
+           
+    <!-- footer -->
+    <hr />
+    <footer>
+        <center>
+            <p>&copy; 2019 - Banco Agrario de Colombia</p>
+        </center>
+    </footer>
+
+    <!--Scripts section -->
+
+    <script src="../Controller/jquery-3.3.1.js"></script>
+    <script src="../Controller/bootstrap.js"></script>
+    <script src="../Controller/GeoApp/GeoApp.js"></script>
+    <script src="../Controller/GeoApp/MainLogic.js"></script>
+    <script src="../Controller/GeoApp/ArcGisCom-4.13.js"></script>
+    
+    <!-- Inicializaciòn de lógica de negocio-->
+    <script>
+        $(document).ready(function() {
+            new GeoApp();
+        });
+    </script>
+    <!--End section-->
+
+</body>
+</html>
