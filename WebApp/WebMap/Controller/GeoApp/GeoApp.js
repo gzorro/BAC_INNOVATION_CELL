@@ -11,37 +11,38 @@ class GeoApp {
     }
 
     static Init() {
-        require(
-            [
-                "esri/Map"
-                , "esri/views/MapView"
-                , "esri/Graphic"
-                , "esri/layers/GraphicsLayer"
-                , "esri/widgets/Sketch"
-            ],
-            function (Map, MapView, Graphic, GraphicsLayer, Sketch) {
+        require(_listEsriReferences,
+            function (Map, WebMap, MapView, Graphic, GraphicsLayer, Sketch) {
                 //Carga de la capa gráfica
                 graphicsLayer = new GraphicsLayer();
 
-                //Instanciamos objeto de tipo Graphics para poder usar sus métodos en las clases funcionales
-                graphicInstance = new Graphic();
 
                 //Inicialización de componentes
                 map = new Map(
                     {
-                        basemap: _enumTypeMaps.Topo,
+                        basemap: _enumTypeMaps.Hybrid,
                         layers: [graphicsLayer]
                     });
+                // webMap = new WebMap(
+                //     {
+                //         portalItem: {
+                //             id: "e691172598f04ea8881cd2a4adaa45ba"
+                //         },
+                        
+                //   });
+
                 view = new MapView(
                     {
                         container: "viewDiv", // Referencia al objeton DOM (div)
                         map: map, // Referencia a objeto map
+                        // map: webMap, // Referencia a objeto webMap
                         center: [-74.2973328, 4.570868], // longitude, latitude //Centro de Colombia
                         zoom: 8
                     });
                 sketch = new Sketch(
                     {
                         view: view,
+                        aviableCreateTools: ["polygon"],
                         layer: graphicsLayer
                     });
 
@@ -77,8 +78,6 @@ class GeoApp {
                 //evento de guardado de polígonos
                 $('#btnGuardar').on('click', function(evt) {
                     let namefile = `_PolygonSaved_.json`
-                    // SavePolygonList(namefile, 'text/json');
-                    debugger;
                     SavePolygonList(namefile);
                 });
 

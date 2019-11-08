@@ -60,6 +60,7 @@ function ShowCoordinates(pt)
  */
 function SavePolygon (event) {
     if (event.state === "complete") {
+        debugger;
         let polygonCoordinate = event.graphic.geometry.rings;
         _listPoligonToSave.push(polygonCoordinate[0]); 
         if(_listPoligonToSave.length === 1)
@@ -77,8 +78,8 @@ function SavePolygonList(nameFile, fileType)
 {
     if(_listPoligonToSave.length > 0)
     {
-        // let listFormatted = SetFormatDecimal(100000,9);
-        let jsonData = JSON.stringify(_listPoligonToSave);
+        let listFormatted = SetFormatDecimal(100000,9);
+        let jsonData = JSON.stringify(listFormatted);
         // let jsonData = JSON.stringify(listFormatted);
         Download(jsonData, nameFile, fileType);
         PolygonsRemove();
@@ -117,7 +118,6 @@ function LoadJsonPolygon(fileName)
  */
 function DrawPolygonsSaved(jsonObject)
 {
-    debugger;
     jsonObject.forEach(x => {
         if(x.length > 0)
             DrawPolygon(x);
@@ -130,7 +130,6 @@ function DrawPolygonsSaved(jsonObject)
  */
 function DrawPolygon(polygonCoordinates)
 {
-    debugger;
     let polygon = {
         type: "polygon",
         rings: polygonCoordinates
@@ -179,7 +178,10 @@ function SetFormatDecimal(divisibleBy, lengthFormat)
     _listPoligonToSave.forEach(x => {
         let listCoordsPolygon = [];
         x.forEach(y => {
-            let obj = [parseFloat((y[0]/divisibleBy).toFixed(lengthFormat)), parseFloat((y[1]/divisibleBy).toFixed(lengthFormat))]
+            debugger;
+            let latitude = parseFloat((y[0]/divisibleBy).toFixed(lengthFormat))+9;
+            let longitude = parseFloat((y[1]/divisibleBy).toFixed(lengthFormat))-1; 
+            let obj = [latitude,longitude];
             // let obj = [parseFloat((y[1]/divisibleBy).toFixed(lengthFormat)), parseFloat((y[0]/divisibleBy).toFixed(lengthFormat))]
             
             listCoordsPolygon.push(obj);

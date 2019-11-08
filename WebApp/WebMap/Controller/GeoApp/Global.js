@@ -1,12 +1,23 @@
 /** Propiedaes globales */
 var map = {};
+var webMap 
 var view = {};
 var sketch = {};
 var graphicsLayer = {};
 var graphicInstance = null;
 
+//Referencias de esri
+var _listEsriReferences = 
+[
+    "esri/Map"
+    , "esri/WebMap"
+    ,"esri/views/MapView"
+    ,"esri/Graphic"
+    ,"esri/layers/GraphicsLayer"
+    ,"esri/widgets/Sketch"
+]
 
-//Tipos de mapa a implementar
+//Tipos de mapas a implementar(for Map)
 var _enumTypeMaps = 
 {
     Topo: "topo"
