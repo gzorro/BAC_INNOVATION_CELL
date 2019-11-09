@@ -109,6 +109,8 @@ footer {
 }
 
 
+
+
 #coordinateString {
   position: absolute;
   bottom: 10px;
@@ -211,4 +213,5 @@ footer {
 .mensaje .etiquetaBuscador{
     margin-left: 64%;
 }
+
 
