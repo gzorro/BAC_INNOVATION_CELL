@@ -5,6 +5,11 @@ var view = {};
 var sketch = {};
 var graphicsLayer = {};
 var graphicInstance = null;
+var searchWidget = {};
+var latitud
+var longitud
+var geom
+var arregloJson
 
 //Referencias de esri
 var _listEsriReferences = 
@@ -15,6 +20,7 @@ var _listEsriReferences =
     ,"esri/Graphic"
     ,"esri/layers/GraphicsLayer"
     ,"esri/widgets/Sketch"
+    ,"esri/widgets/Search"
 ]
 
 //Tipos de mapas a implementar(for Map)

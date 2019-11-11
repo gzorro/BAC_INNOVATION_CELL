@@ -214,4 +214,6 @@ footer {
     margin-left: 64%;
 }
 
-
+.close #close img{
+     width: 32px;
+}

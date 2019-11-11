@@ -190,3 +190,37 @@ function SetFormatDecimal(divisibleBy, lengthFormat)
     });
     return listPolygonsAssigned;
 }
+
+/** 
+ * Buscar aptitud de cultivo a apartir de punto de referencia 
+ * @param latitud valor latitud del punto georeferenciado desde la búsqueda
+ * @param longitud valor longitud del punto georeferenciado desde la búsqueda
+ **/
+function searchPoint(latitud, longitud){
+              
+    $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) {
+        
+        arregloJson = JSON.parse(data);
+        console.log(arregloJson);
+
+    });
+}
+
+
+/**
+ * abrir modal en donde se muestra la info correspondiente a la aptitud
+ * 
+ * 
+ */
+function openModal(){
+
+    $('#popup').fadeIn('slow');
+    /*
+    $('#archivo').html(
+      "<p id='archivo'>Estamos consultado la UPRA a través del WSO2 BAC.</p>"+
+      ""                      
+    );*/
+    $('.popup-overlay').fadeIn('show');
+    $('.popup-overlay').height($(window).height());
+
+}

@@ -18,6 +18,22 @@
         <div id="viewDiv"></div>
     </div>
            
+    <!-- ventana emergente -->
+    <div id="popup" style="display: none;">
+			<div class="content-popup">
+				<div class="close">
+				  <a href="#" id="close">
+					<img src="/GeoWebAPI/images/cerrar.png" alt="Botón cerrar" />
+                  </a>                  
+                </div>
+                <div>
+                        <h1>Buscador</h1>
+                </div>
+                
+            </div>  
+    </div>   
+    <div class="popup-overlay"></div>     
+
     <!-- footer -->
     <hr />
     <footer>
@@ -39,6 +55,22 @@
     <script>
         $(document).ready(function() {
             new GeoApp();
+
+            //Mostar ventana emergente con info de aptiitud
+            $('#open').on('click', function(){             
+             $('#popup').fadeIn('slow');
+             $('.popup-overlay').fadeIn('slow');
+             $('.popup-overlay').height($(window).height());
+                return false;
+            });
+
+			$('#close').on('click', function(){
+				$('#popup').fadeOut('slow');
+				$('.popup-overlay').fadeOut('slow');
+				location.reload();
+				return false;
+			});
+
         });
     </script>
     <!--End section-->

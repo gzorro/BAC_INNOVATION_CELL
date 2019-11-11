@@ -12,7 +12,7 @@ class GeoApp {
 
     static Init() {
         require(_listEsriReferences,
-            function (Map, WebMap, MapView, Graphic, GraphicsLayer, Sketch) {
+            function (Map, WebMap, MapView, Graphic, GraphicsLayer, Sketch,Search) {
                 //Carga de la capa gráfica
                 graphicsLayer = new GraphicsLayer();
 
@@ -21,7 +21,7 @@ class GeoApp {
                 map = new Map(
                     {
                         basemap: _enumTypeMaps.Hybrid,
-                        layers: [graphicsLayer]
+                        layers: [graphicsLayer]                        
                     });
                 // webMap = new WebMap(
                 //     {
@@ -31,14 +31,52 @@ class GeoApp {
                         
                 //   });
 
+                
+
                 view = new MapView(
                     {
                         container: "viewDiv", // Referencia al objeton DOM (div)
                         map: map, // Referencia a objeto map
                         // map: webMap, // Referencia a objeto webMap
-                        center: [-74.2973328, 4.570868], // longitude, latitude //Centro de Colombia
+                        center: [-74.2973328, 4.570868], // longitude, latitude //Centro de Colombia                                                
                         zoom: 8
                     });
+
+
+                //Buscador
+                searchWidget = new Search({
+                    view: view
+                  });                  
+                  view.ui.add(searchWidget, {
+                    position: "top-left"
+                    //index: 2
+                  });
+                 
+                searchWidget.on("select-result", function(event){
+                    //console.log("The selected search result: ", event);        
+                });
+
+
+                searchWidget.on('search-complete', function(event){
+                    if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
+                      geom = event.results[0].results[0].feature.geometry;
+                      console.log(geom.latitude + ", " + geom.longitude);
+                      latitud = geom.latitude;
+                      longitud = geom.longitude;
+                   
+                      //openModal();
+                     
+                      /*
+                      */
+                      //Función según punto trae la info de aptitud de cultivo
+                      searchPoint( latitud, longitud);   
+                    }else{                      
+                      console.log("No hay resultados");
+                    }
+                });
+        
+                //Fin buscador
+
                 sketch = new Sketch(
                     {
                         view: view,
