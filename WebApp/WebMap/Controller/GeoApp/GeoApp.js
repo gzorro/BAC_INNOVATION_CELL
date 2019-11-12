@@ -20,7 +20,7 @@ class GeoApp {
                 //Inicialización de componentes
                 map = new Map(
                     {
-                        basemap: _enumTypeMaps.Topo,
+                        basemap: _enumTypeMaps.Hybrid,
                         layers: [graphicsLayer]                        
                     });
                 // webMap = new WebMap(
