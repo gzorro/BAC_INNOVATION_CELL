@@ -20,7 +20,7 @@ class GeoApp {
                 //Inicialización de componentes
                 map = new Map(
                     {
-                        basemap: _enumTypeMaps.Hybrid,
+                        basemap: _enumTypeMaps.Topo,
                         layers: [graphicsLayer]                        
                     });
                 // webMap = new WebMap(
@@ -130,7 +130,8 @@ class GeoApp {
                             }
                             let polygon = {
                                 type: "polygon",
-                                rings: x
+                                rings: x,
+                                spatialReference: { wkid: 102100 }
                               };
                         
                             let simpleFillSymbol = {

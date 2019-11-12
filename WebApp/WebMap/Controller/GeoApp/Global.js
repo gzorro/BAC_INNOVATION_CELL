@@ -28,14 +28,14 @@ var _enumTypeMaps =
 {
     Topo: "topo"
     , Satellite:"satellite"
-        , Hybrid:"hybrid"
-        , Gray:"gray"
-        , DarkGray:"dark-gray"
-        , Oceans:"oceans"
-        , Osm:"osm"
-        , NationalGeographic:"national-geographic"
-        , StreetsReliefVector: "streets-relief-vector"
-    }
+    , Hybrid:"hybrid"
+    , Gray:"gray"
+    , DarkGray:"dark-gray"
+    , Oceans:"oceans"
+    , Osm:"osm"
+    , NationalGeographic:"national-geographic"
+    , StreetsReliefVector: "streets-relief-vector"
+}
 //Posiciones permitidas para objeto view
 var _enumTypePosition =
 {
