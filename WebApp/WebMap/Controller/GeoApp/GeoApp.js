@@ -12,16 +12,34 @@ class GeoApp {
 
     static Init() {
         require(_listEsriReferences,
-            function (Map, WebMap, MapView, Graphic, GraphicsLayer, Sketch,Search) {
+            function (Map, WebMap, MapView, Graphic, GraphicsLayer, Sketch,Search,SpatialReference,Point) {
                 //Carga de la capa gráfica
                 graphicsLayer = new GraphicsLayer();
+
+
+                const viewSpatialReference = new SpatialReference({
+                    //wkid: 54042 // winkel III
+                    wkid:102100
+                });
+
+
+
+                const point = new Point({
+                    x:-8230739.205745591, 
+                    y:525886.7546018914,
+                     //x: 6832.430696818978,
+                     //y: -209082.39095501788,
+                     spatialReference: viewSpatialReference
+                });
 
 
                 //Inicialización de componentes
                 map = new Map(
                     {
                         basemap: _enumTypeMaps.Hybrid,
-                        layers: [graphicsLayer]                        
+                        layers: [graphicsLayer],                             
+                        center: point,
+                        scale: 15000000
                     });
                 // webMap = new WebMap(
                 //     {
@@ -40,39 +58,45 @@ class GeoApp {
                         // map: webMap, // Referencia a objeto webMap
                         center: [-74.2973328, 4.570868], // longitude, latitude //Centro de Colombia                                                
                         zoom: 8
-                    });
+                    }
+                );
 
 
                 //Buscador
                 searchWidget = new Search({
-                    view: view
-                  });                  
-                  view.ui.add(searchWidget, {
+                    view: view                                      
+                });                  
+
+                view.ui.add(searchWidget, {
                     position: "top-left"
-                    //index: 2
-                  });
+                    //index: 2                  
+                });
                  
                 searchWidget.on("select-result", function(event){
                     //console.log("The selected search result: ", event);        
                 });
 
 
+
                 searchWidget.on('search-complete', function(event){
                     if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
-                      geom = event.results[0].results[0].feature.geometry;
-                      console.log(geom.latitude + ", " + geom.longitude);
-                      latitud = geom.latitude;
-                      longitud = geom.longitude;
+                     // debugger;
+                     //   geom = event.results[0].results[0].feature.geometry;**
+                      latitud = event.results[0].results[0].extent.xmax; 
+                      longitud = event.results[0].results[0].extent.ymax;
                    
-                      //openModal();
+                      openModal();
                      
-                      /*
-                      */
+                      //  Funcion cargar cultivo       
+                      buscarCultivo(latitud, longitud);  
+
                       //Función según punto trae la info de aptitud de cultivo
                       searchPoint( latitud, longitud);   
+                    
                     }else{                      
                       console.log("No hay resultados");
                     }
+                 
                 });
         
                 //Fin buscador

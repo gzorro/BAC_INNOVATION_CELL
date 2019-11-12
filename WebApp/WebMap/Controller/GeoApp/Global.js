@@ -10,6 +10,8 @@ var latitud
 var longitud
 var geom
 var arregloJson
+var valorAptitud
+var valorCultivo
 
 //Referencias de esri
 var _listEsriReferences = 
@@ -21,6 +23,8 @@ var _listEsriReferences =
     ,"esri/layers/GraphicsLayer"
     ,"esri/widgets/Sketch"
     ,"esri/widgets/Search"
+    ,"esri/geometry/SpatialReference"
+    ,"esri/geometry/Point"
 ]
 
 //Tipos de mapas a implementar(for Map)

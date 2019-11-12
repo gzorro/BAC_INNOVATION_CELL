@@ -198,11 +198,112 @@ function SetFormatDecimal(divisibleBy, lengthFormat)
  * @param longitud valor longitud del punto georeferenciado desde la búsqueda
  **/
 function searchPoint(latitud, longitud){
-              
+          
+   
     $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) {
         
         arregloJson = JSON.parse(data);
-        console.log(arregloJson);
+       // console.log(arregloJson);
+
+
+
+
+          
+
+
+
+       $("#aptitud").on('change', function() {
+           
+          valorAptitud = $("#aptitud option:selected").text();            
+          console.log("Aptitud "+valorAptitud);       
+
+
+          valorCultivo = $("#cultivos option:selected").text();
+          console.log("Cultivo  "+valorCultivo);
+
+          $("#myDIV *").filter(function() {
+              
+            $("#myDIV *").each(function() { 
+
+                text = $(this).text()
+                text = text.replace(".", "<br/><br/>")                         
+                $(this).text(text)
+                //$(this).html(text)
+
+              });
+
+
+              let alt = $(this).html($(this).text())
+           
+              //$(this).toggle(alt.html().indexOf(valorAptitud) > -1).html()
+              //$(this).toggle($(this).text().indexOf(valorAptitud) > -1)
+              //$(this).toggle($(this).text().indexOf(valorCultivo) > -1)
+
+              $(this).toggle(alt.html().indexOf(valorAptitud) > -1)
+
+            /** 
+              if(alt.html().indexOf(valorAptitud) > -1 || alt.html().indexOf(valorCultivo) > -1){
+                   $(this).toggle(alt.html().indexOf(valorAptitud && valorCultivo) > -1)
+              }else{
+                console.log("Nada");
+              }
+            **/
+
+          });
+        
+       });
+
+
+       //Al realizar la busqueda general de punto se visualiza esta información inicial
+       $.each(arreglo.aptitudes, function(i,item){
+            
+               let contenido = "<div class='list-group' id='myDIV'>"
+                +"<div class='list-group-item active'>"
+                + ""+ Object.keys(item)[0] +"  . <br/>______________________________________________________________________________<br/>"
+            // + "<div class='list-group-item'>"                        
+                + " Servicio : . "
+                + "                              "
+                + item[Object.getOwnPropertyNames(item)[0]].servicio +"<br/>"
+                //+ "<div class='list-group-item'>"
+                + " Nombre cientifico:  . "						
+                + item[Object.getOwnPropertyNames(item)[0]].nombre_cientifico +"<br/>"
+                //+ "   ______________________________________________________________________    "
+                //+ "<div class='list-group-item'>"
+                + " Aptitud: . "
+                + item[Object.getOwnPropertyNames(item)[0]].aptitud +" <br/>"
+                //+ "   ______________________________________________________________________     "
+                //+ "<div class='list-group-item'>"
+                + " Municipio: . "
+                //+ "   ______________________________________________________________________     "
+                + item[Object.getOwnPropertyNames(item)[0]].municipio+"<br/>"
+                //+ "<div class='list-group-item'>"
+                + " Departamento: . "						
+                + " "+item[Object.getOwnPropertyNames(item)[0]].departamen +" <br/> "                        
+                //+ "    ______________________________________________________________________   "
+                +"</div>";  
+
+            document.getElementById("carga_info").innerHTML += contenido; 
+                
+
+       });
+
+
+
+       //$( "#aptitud").html(select);
+       $( ".result" ).html( data );
+         
+       //console.log(data);
+
+       $('#popup').fadeIn('slow');
+
+       var firstPart = data.substring(data.indexOf("<br/><br/>"),data.lastIndexOf("</body>"));
+
+       $('#archivo').html(firstPart);
+       //debugger;
+       $('.popup-overlay').fadeIn('slow');
+       $('.popup-overlay').height($(window).height());             
+
+
 
     });
 }
@@ -216,12 +317,46 @@ function searchPoint(latitud, longitud){
 function openModal(){
 
     $('#popup').fadeIn('slow');
-    /*
     $('#archivo').html(
       "<p id='archivo'>Estamos consultado la UPRA a través del WSO2 BAC.</p>"+
-      ""                      
-    );*/
+      "<img src='../Content/Images//ajax-loader-2.gif'style='display: block;margin: 0 auto;' />"+
+      "<br/><br/><br/>"                      
+    );
     $('.popup-overlay').fadeIn('show');
     $('.popup-overlay').height($(window).height());
+
+}
+
+
+/**
+ * Función encargada de cargar el select con los tipos de cultivo cargados desde la UPRA
+ *  @param latitud
+ *  @param longitud
+ */
+function buscarCultivo( latitud, longitud){
+
+    $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) { 
+         
+       //alert( latitud + " + " + longitud);
+       
+          arreglo = JSON.parse(data);           
+       
+          var select2 = $("<select></select>").attr("id", "cultivos").attr("name", "cultivos").addClass("target");
+          select2.append($("<option></option>").attr("value", " ").text("Seleccione"))
+          $.each(arreglo.aptitudes,function(i,item){
+           select2.append($("<option></option>").attr("value", Object.keys(item)[0]).text(Object.keys(item)[0]));
+          });     
+          $("#tCultivos").html(select2);
+        
+    });         
+     
+}
+
+
+/**
+ * 
+ * 
+ */
+function buscarUpra(){     
 
 }

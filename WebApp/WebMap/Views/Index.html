@@ -25,15 +25,72 @@
 			<div class="content-popup">
 				<div class="close">
 				  <a href="#" id="close">
-					<img src="../Content/img/cerrar.png" alt="Botón cerrar" />
+                <!-- E:\GIT-Integracion\BAC_INNOVATION_CELL\WebApp\WebMap\Content\Images\cerrar.png -->
+					<img src="../Content/Images/cerrar.png" alt="Botón cerrar" />
                   </a>                  
                 </div>
-                <div>
-                        <h1>Buscador</h1>
+
+                <div> 
+
+                        <h1>Buscador</h1>					                                 
+                        
+                        <p id="archivo">Estamos consultado la UPRA a través del WSO2 BAC.</p>
+                        
+                        <div class="row mensaje">
+    
+                            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">                    		                    		
+                                <span class="infoPrincipal">A traves de la siguiente interfaz se puede consultar el tipo de aptitud por cultivo de un determinado lugar en Colombia basado en la UPRA.</span>
+                            </div>
+                         
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">   
+                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">  
+    
+                                  <p class="etiquetaBuscador">
+                                      <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Aptitud
+                                  </p>                            
+    
+                            </div> 
+    
+                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                <!--<div id="aptitud"></div> CREA EL SELECT Automatico desde el JSON pero con valores repetidos-->
+                                
+                                <select id="aptitud" name="aptitud" class="target"><!-- onchange="busquedaAvanzada(this.value)" -->
+                                   <option value="">Seleccione</option>
+                                   <option value="Aptitud alta">Aptitud alta</option>
+                                   <option value="Aptitud baja">Aptitud baja</option>
+                                   <option value="Aptitud media">Aptitud media</option>
+                                   <option value="Exclusión legal">Exclusión legal</option>
+                                   <option value="No apta">No apta</option>
+                                </select>
+                                
+                            </div>
+                            
+                        </div>	
+                        
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                             <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">  
+    
+                                  <p class="etiquetaBuscador">
+                                      <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Tipo cultivo
+                                  </p>                            
+    
+                            </div> 
+    
+                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                <div id="tCultivos"></div>
+                            </div>
+                        </div>				
+                            
+                        </div>	
+                        
+
+                        <div id="carga_info"></div>
+    
                 </div>
                 
             </div>  
-    </div>   
+    </div>
+
     <div class="popup-overlay"></div>     
 
     <!-- footer -->
@@ -70,7 +127,8 @@
 			$('#close').on('click', function(){
 				$('#popup').fadeOut('slow');
 				$('.popup-overlay').fadeOut('slow');
-				location.reload();
+                //location.reload();
+                $("#carga_info").empty()
 				return false;
 			});
 
