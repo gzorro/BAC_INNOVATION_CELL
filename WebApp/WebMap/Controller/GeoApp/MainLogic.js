@@ -10,15 +10,15 @@
 /**
  * Agregar componente de coordenadas al objeto view
  * */
-function AddCoordsToView()
-{
-    let coordsWidget = document.createElement("div");
-    coordsWidget.id = "coordsWidget";
-    coordsWidget.className = "esri-widget esri-component";
-    coordsWidget.style.padding = "7px 15px 5px";
+// function AddCoordsToView()
+// {
+//     let coordsWidget = document.createElement("div");
+//     coordsWidget.id = "coordsWidget";
+//     coordsWidget.className = "esri-widget esri-component";
+//     coordsWidget.style.padding = "7px 15px 5px";
 
-    view.ui.add(coordsWidget, "bottom-right");
-}
+//     view.ui.add(coordsWidget, "bottom-right");
+// }
 
 /**
  * Agrega determinado elemento a la vista
@@ -46,13 +46,13 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
  * Mostrar las coordenadas en el DOM
  * @param {any} pt punto posición
  */
-function ShowCoordinates(pt)
-{
-    var coords = "Lat/Lon " + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) +
-        " | Scale 1:" + Math.round(view.scale * 1) / 1 +
-        " | Zoom " + view.zoom;
-    coordsWidget.innerHTML = coords;
-}
+// function ShowCoordinates(pt)
+// {
+//     var coords = "Lat/Lon " + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) +
+//         " | Scale 1:" + Math.round(view.scale * 1) / 1 +
+//         " | Zoom " + view.zoom;
+//     coordsWidget.innerHTML = coords;
+// }
 
 /**
  * Guardar coordenadas de polígono en .json

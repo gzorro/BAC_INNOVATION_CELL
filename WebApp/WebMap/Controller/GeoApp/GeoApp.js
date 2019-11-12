@@ -87,7 +87,7 @@ class GeoApp {
                 view.ui.add(sketch, "top-right");
 
                 //Agregar componente de coordenadas
-                AddCoordsToView();
+                // AddCoordsToView();
 
                 AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading, false);
                 AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopLeading);
@@ -100,18 +100,18 @@ class GeoApp {
                 });
 
                 //evento complementario que guarda posición en mapa
-                view.on("pointer-move", function (evt) {
-                    ShowCoordinates(
-                        view.toMap(
-                            { x: evt.x, y: evt.y }
-                        )
-                    );
-                });
+                // view.on("pointer-move", function (evt) {
+                //     ShowCoordinates(
+                //         view.toMap(
+                //             { x: evt.x, y: evt.y }
+                //         )
+                //     );
+                // });
 
                 //evento de asignación de coordenadas
-                view.watch("stationary", function (isStationary) {
-                    ShowCoordinates(view.center);
-                });
+                // view.watch("stationary", function (isStationary) {
+                //     ShowCoordinates(view.center);
+                // });
 
                 //evento de guardado de polígonos
                 $('#btnGuardar').on('click', function(evt) {
