@@ -90,3 +90,8 @@ E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI\obj\Debug\GeoWebAPI.csproj.CoreC
 E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI\obj\Debug\GeoWebAPI.csproj.CopyComplete
 E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI\obj\Debug\GeoWebAPI.dll
 E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI\obj\Debug\GeoWebAPI.pdb
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI\bin\ExcelDataReader.dll
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI\bin\GeoApp.Models.dll
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI\bin\GeoApp.Models.pdb
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI\bin\ExcelDataReader.pdb
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI\bin\ExcelDataReader.xml

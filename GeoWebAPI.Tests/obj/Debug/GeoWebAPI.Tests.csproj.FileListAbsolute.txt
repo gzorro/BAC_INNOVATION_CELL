@@ -52,3 +52,6 @@ E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI.Tests\obj\Debug\GeoWebAPI.Tests.
 E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI.Tests\obj\Debug\GeoWebAPI.Tests.csproj.CopyComplete
 E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI.Tests\obj\Debug\GeoWebAPI.Tests.dll
 E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI.Tests\obj\Debug\GeoWebAPI.Tests.pdb
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI.Tests\bin\Debug\ExcelDataReader.dll
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI.Tests\bin\Debug\ExcelDataReader.pdb
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoWebAPI.Tests\bin\Debug\ExcelDataReader.xml

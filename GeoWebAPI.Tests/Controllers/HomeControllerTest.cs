@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GeoWebAPI;
 using GeoWebAPI.Controllers;
+using System.Web;
+using System.IO;
 
 namespace GeoWebAPI.Tests.Controllers
 {
@@ -12,14 +14,17 @@ namespace GeoWebAPI.Tests.Controllers
         public void Index()
         {
             // Disponer
-            HomeController controller = new HomeController();
+            GeoController controller = new GeoController();
+
+            //variable 
+            var testFile = File.OpenRead("E:/Gzorro/BAC/Projects/GeoAppSolution/WebApp/WebMap/Content/Data/");//Open("");
 
             // Actuar
-            ViewResult result = controller.Index() as ViewResult;
+            var result = controller.LoadDataFromExcel(testFile);
 
             // Declarar
             Assert.IsNotNull(result);
-            Assert.AreEqual("Home Page", result.ViewBag.Title);
+            //Assert.AreEqual("Home Page", result.ViewBag.Title);
         }
     }
 }

@@ -15,7 +15,9 @@
 </head>
 <body>
     <div>
-        <div id="viewDiv"></div>
+        <div id="viewDiv">
+           Elegir archivo.. <input id="fileupd" type="file">
+        </div>
     </div>
            
     <!-- ventana emergente -->
@@ -23,7 +25,7 @@
 			<div class="content-popup">
 				<div class="close">
 				  <a href="#" id="close">
-					<img src="/GeoWebAPI/images/cerrar.png" alt="Botón cerrar" />
+					<img src="../Content/img/cerrar.png" alt="Botón cerrar" />
                   </a>                  
                 </div>
                 <div>
@@ -49,6 +51,7 @@
     <script src="../Controller/GeoApp/Global.js"></script>
     <script src="../Controller/GeoApp/GeoApp.js"></script>
     <script src="../Controller/GeoApp/MainLogic.js"></script>
+    <script src="../Controller/Request/CoreRequest.js"></script>
     <script src="../Controller/GeoApp/ArcGisCom-4.13.js"></script>
     
     <!-- Inicializaciòn de lógica de negocio-->

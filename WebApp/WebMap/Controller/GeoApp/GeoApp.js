@@ -76,11 +76,10 @@ class GeoApp {
                 });
         
                 //Fin buscador
-
                 sketch = new Sketch(
                     {
                         view: view,
-                        aviableCreateTools: ["polygon"],
+                        aviableCreateTools: ["polygon", "rectangle", "circle"],
                         layer: graphicsLayer
                     });
 
@@ -91,6 +90,8 @@ class GeoApp {
 
                 AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading, false);
                 AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopLeading);
+                AddElementToView("button", "btnCargarExcel", "Excel", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading);
+                
 
                 /**************************** Eventos Bind ****************************/
 
@@ -121,12 +122,11 @@ class GeoApp {
 
                 //evento de carga de polígonos
                 $('#btnCargar').on('click', function(evt) {
-                    // LoadJsonPolygon('_PolygonSaved_.json');
                     $.getJSON('_PolygonSaved_.json', function(json) {
                         json.forEach(x => {
                             if(x.length > 0)
                             {
-
+        
                             }
                             let polygon = {
                                 type: "polygon",
@@ -149,6 +149,25 @@ class GeoApp {
                             
                             graphicsLayer.add(polygonGraphic);
                         });
+                    });
+                });
+
+                $('#btnCargarExcel').on('click',function()
+                {
+                    debugger;
+                    if (fileupd.files.length === 1)
+                    {
+                        var $file = document.getElementById('fileupd');
+                        var fileData = new FormData();
+                        if ($file.files.length > 0) {
+                            for (var i = 0; i < $file.files.length; i++) {
+                                fileData.append($file.files[i].name, $file.files[i]);
+                            }
+                        }
+                    }
+                    CoreRequest.GetcontentExcel(fileData).done(function(d)
+                    {
+                        
                     });
                 });
             }

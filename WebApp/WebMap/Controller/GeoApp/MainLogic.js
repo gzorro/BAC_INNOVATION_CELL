@@ -54,6 +54,7 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
         $(elementHTML).hide();
 }
 
+
 /**
  * Guardar coordenadas de polígono en .json
  * @param {any} event

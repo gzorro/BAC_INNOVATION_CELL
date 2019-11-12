@@ -1,0 +1,6 @@
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoApp.Models\bin\Debug\GeoApp.Models.dll
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoApp.Models\bin\Debug\GeoApp.Models.pdb
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoApp.Models\obj\Debug\GeoApp.Models.csprojAssemblyReference.cache
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoApp.Models\obj\Debug\GeoApp.Models.csproj.CoreCompileInputs.cache
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoApp.Models\obj\Debug\GeoApp.Models.dll
+E:\Gzorro\BAC\Projects\GeoAppSolution\GeoApp.Models\obj\Debug\GeoApp.Models.pdb
