@@ -8,6 +8,21 @@ class GeoApp {
      * */
     constructor() {
         GeoApp.Init();
+        //Mostar ventana emergente con info de aptiitud
+        $('#open').on('click', function(){             
+            $('#popup').fadeIn('slow');
+            $('.popup-overlay').fadeIn('slow');
+            $('.popup-overlay').height($(window).height());
+                return false;
+            });
+
+            $('#close').on('click', function(){
+                $('#popup').fadeOut('slow');
+                $('.popup-overlay').fadeOut('slow');
+                //location.reload();
+                $("#carga_info").empty()
+                return false;
+            });
     }
 
     static Init() {
@@ -16,22 +31,16 @@ class GeoApp {
                 //Carga de la capa gráfica
                 graphicsLayer = new GraphicsLayer();
 
-
                 const viewSpatialReference = new SpatialReference({
                     //wkid: 54042 // winkel III
                     wkid:102100
                 });
 
-
-
                 const point = new Point({
                     x:-8230739.205745591, 
                     y:525886.7546018914,
-                     //x: 6832.430696818978,
-                     //y: -209082.39095501788,
                      spatialReference: viewSpatialReference
                 });
-
 
                 //Inicialización de componentes
                 map = new Map(
@@ -41,16 +50,6 @@ class GeoApp {
                         center: point,
                         scale: 15000000
                     });
-                // webMap = new WebMap(
-                //     {
-                //         portalItem: {
-                //             id: "e691172598f04ea8881cd2a4adaa45ba"
-                //         },
-                        
-                //   });
-
-                
-
                 view = new MapView(
                     {
                         container: "viewDiv", // Referencia al objeton DOM (div)
@@ -60,7 +59,6 @@ class GeoApp {
                         zoom: 8
                     }
                 );
-
 
                 //Buscador
                 searchWidget = new Search({
@@ -76,12 +74,12 @@ class GeoApp {
                     //console.log("The selected search result: ", event);        
                 });
 
-
-
                 searchWidget.on('search-complete', function(event){
+                    debugger;
                     if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
-                     // debugger;
-                     //   geom = event.results[0].results[0].feature.geometry;**
+                        
+                     let latitud;
+                     let longitud;
                       latitud = event.results[0].results[0].extent.xmax; 
                       longitud = event.results[0].results[0].extent.ymax;
                    
@@ -110,13 +108,14 @@ class GeoApp {
                 view.ui.add(sketch, "top-right");
 
                 //Agregar componente de coordenadas
-                // AddCoordsToView();
-
+                 AddCoordsToView();
+                
                 AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading, false);
                 AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopLeading);
-                // AddElementToView("button", "btnCargarExcel", "Excel", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading);
-                
-
+                debugger;
+                AddElementToView("button", "btnCargarExcel", "Excel", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading);
+                AddElementToView("input-file", "fileupd", "", ["form-control", "custom-file-input"], _enumTypePosition.BottomRight);
+                               
                 /**************************** Eventos Bind ****************************/
 
                 //Cuando se guarde el polígono se ejecuta este evento
@@ -125,18 +124,18 @@ class GeoApp {
                 });
 
                 //evento complementario que guarda posición en mapa
-                // view.on("pointer-move", function (evt) {
-                //     ShowCoordinates(
-                //         view.toMap(
-                //             { x: evt.x, y: evt.y }
-                //         )
-                //     );
-                // });
+                view.on("pointer-move", function (evt) {
+                    ShowCoordinates(
+                        view.toMap(
+                            { x: evt.x, y: evt.y }
+                        )
+                    );
+                });
 
                 //evento de asignación de coordenadas
-                // view.watch("stationary", function (isStationary) {
-                //     ShowCoordinates(view.center);
-                // });
+                view.watch("stationary", function (isStationary) {
+                    ShowCoordinates(view.center);
+                });
 
                 //evento de guardado de polígonos
                 $('#btnGuardar').on('click', function(evt) {
@@ -148,28 +147,10 @@ class GeoApp {
                 $('#btnCargar').on('click', function(evt) {
                     $.getJSON('_PolygonSaved_.json', function(json) {
                         json.forEach(x => {
-                            if(x.length > 0)
-                            {
-        
-                            }
-                            let polygon = {
-                                type: "polygon",
-                                rings: x,
-                                spatialReference: { wkid: 102100 }
-                              };
-                        
-                            let simpleFillSymbol = {
-                                type: "simple-fill",
-                                color: [227, 139, 79, 0.8],  // orange, opacity 80%
-                                outline: {
-                                    color: [255, 255, 255],
-                                    width: 1
-                                }
-                            };
-                            debugger;
+                            let _partialObj = SetPolygon(x);
                             let polygonGraphic = new Graphic({
-                                geometry: polygon,
-                                symbol: simpleFillSymbol
+                                geometry: _partialObj.polygon,
+                                symbol: _partialObj.simpleFillSymbol
                               });
                             
                             graphicsLayer.add(polygonGraphic);
@@ -179,21 +160,7 @@ class GeoApp {
 
                 $('#btnCargarExcel').on('click',function()
                 {
-                    debugger;
-                    if (fileupd.files.length === 1)
-                    {
-                        var $file = document.getElementById('fileupd');
-                        var fileData = new FormData();
-                        if ($file.files.length > 0) {
-                            for (var i = 0; i < $file.files.length; i++) {
-                                fileData.append($file.files[i].name, $file.files[i]);
-                            }
-                        }
-                    }
-                    CoreRequest.GetcontentExcel(fileData).done(function(d)
-                    {
-                        
-                    });
+                    LoadDataExcel();
                 });
             }
         );

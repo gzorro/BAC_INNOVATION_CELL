@@ -1,37 +1,35 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Sistema de Georeferenciación</title>
-    <!-- Styles -->
-    <link rel="stylesheet" href="../Content/esri/esri-main.css" >
-    <link rel="stylesheet" href="../Content/bootstrap.css" >
-    <link rel="stylesheet" href="../Content/Site.css" >
-    <link rel="stylesheet" href="../Content/esri/esri-arcGis-4.min.css" >
-    <!-- No se puede cargar de forma local-->
-    <link rel="stylesheet" href="https://js.arcgis.com/4.13/esri/themes/light/main.css">
+﻿    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>Sistema de Georeferenciación</title>
+        <!-- Styles -->
+        <link rel="stylesheet" href="../Content/esri/esri-main.css" >
+        <link rel="stylesheet" href="../Content/bootstrap.css" >
+        <link rel="stylesheet" href="../Content/Site.css" >
+        <link rel="stylesheet" href="../Content/esri/esri-arcGis-4.min.css" >
+        <!-- No se puede cargar de forma local-->
+        <link rel="stylesheet" href="https://js.arcgis.com/4.13/esri/themes/light/main.css">
 
-</head>
-<body>
-    <div>
-        <div id="viewDiv">
-           <!-- Elegir archivo.. <input id="fileupd" type="file"> -->
+    </head>
+    <body>
+        <div>
+            <div id="viewDiv">
+            <!-- Elegir archivo.. <input id="fileupd" type="file"> -->
+            </div>
         </div>
-    </div>
-           
-    <!-- ventana emergente -->
-    <div id="popup" style="display: none;">
-			<div class="content-popup">
-				<div class="close">
-				  <a href="#" id="close">
-                <!-- E:\GIT-Integracion\BAC_INNOVATION_CELL\WebApp\WebMap\Content\Images\cerrar.png -->
-					<img src="../Content/Images/cerrar.png" alt="Botón cerrar" />
-                  </a>                  
-                </div>
-
-                <div> 
-
+            
+        <!-- ventana emergente -->
+        <div id="popup" style="display: none;">
+                <div class="content-popup">
+                    <div class="close">
+                        <a href="#" id="close">
+                            <!-- E:\GIT-Integracion\BAC_INNOVATION_CELL\WebApp\WebMap\Content\Images\cerrar.png -->
+                            <img src="../Content/Images/cerrar.png" alt="Botón cerrar" />
+                        </a>                  
+                    </div>
+                    <div> 
                         <h1>Buscador</h1>					                                 
                         
                         <p id="archivo">Estamos consultado la UPRA a través del WSO2 BAC.</p>
@@ -41,100 +39,74 @@
                             <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">                    		                    		
                                 <span class="infoPrincipal">A traves de la siguiente interfaz se puede consultar el tipo de aptitud por cultivo de un determinado lugar en Colombia basado en la UPRA.</span>
                             </div>
-                         
-                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">   
+                        
+                            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">   
                             <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">  
-    
-                                  <p class="etiquetaBuscador">
-                                      <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Aptitud
-                                  </p>                            
-    
-                            </div> 
-    
-                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                <!--<div id="aptitud"></div> CREA EL SELECT Automatico desde el JSON pero con valores repetidos-->
-                                
-                                <select id="aptitud" name="aptitud" class="target"><!-- onchange="busquedaAvanzada(this.value)" -->
-                                   <option value="">Seleccione</option>
-                                   <option value="Aptitud alta">Aptitud alta</option>
-                                   <option value="Aptitud baja">Aptitud baja</option>
-                                   <option value="Aptitud media">Aptitud media</option>
-                                   <option value="Exclusión legal">Exclusión legal</option>
-                                   <option value="No apta">No apta</option>
-                                </select>
-                                
-                            </div>
-                            
-                        </div>	
-                        
-                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-                             <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">  
-    
-                                  <p class="etiquetaBuscador">
-                                      <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Tipo cultivo
-                                  </p>                            
-    
-                            </div> 
-    
-                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                <div id="tCultivos"></div>
-                            </div>
-                        </div>				
-                            
-                        </div>	
-                        
 
+                                <p class="etiquetaBuscador">
+                                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Aptitud
+                                </p>  
+                            </div> 
+                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                    <!--<div id="aptitud"></div> CREA EL SELECT Automatico desde el JSON pero con valores repetidos-->
+                                    
+                                    <select id="aptitud" name="aptitud" class="target"><!-- onchange="busquedaAvanzada(this.value)" -->
+                                    <option value="">Seleccione</option>
+                                    <option value="Aptitud alta">Aptitud alta</option>
+                                    <option value="Aptitud baja">Aptitud baja</option>
+                                    <option value="Aptitud media">Aptitud media</option>
+                                    <option value="Exclusión legal">Exclusión legal</option>
+                                    <option value="No apta">No apta</option>
+                                    </select>
+                                    
+                                </div>
+                                    
+                            </div>	
+                                
+                            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">  
+        
+                                    <p class="etiquetaBuscador">
+                                        <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Tipo cultivo
+                                    </p>                            
+        
+                                </div> 
+        
+                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                    <div id="tCultivos"></div>
+                                </div>
+                            </div>
+                        </div>	
                         <div id="carga_info"></div>
-    
-                </div>
-                
-            </div>  
-    </div>
+                    </div>
+                </div>  
+        </div>
 
-    <div class="popup-overlay"></div>     
+        <div class="popup-overlay"></div>     
 
-    <!-- footer -->
-    <hr />
-    <footer>
-        <center>
-            <p>&copy; 2019 - Banco Agrario de Colombia</p>
-        </center>
-    </footer>
+        <!-- footer -->
+        <hr />
+        <footer>
+            <center>
+                <p>&copy; 2019 - Banco Agrario de Colombia</p>
+            </center>
+        </footer>
 
-    <!--Scripts section -->
+        <!--Scripts section -->
 
-    <script src="../Controller/jquery-3.3.1.js"></script>
-    <script src="../Controller/bootstrap.js"></script>
-    <script src="../Controller/GeoApp/Global.js"></script>
-    <script src="../Controller/GeoApp/GeoApp.js"></script>
-    <script src="../Controller/GeoApp/MainLogic.js"></script>
-    <script src="../Controller/Request/CoreRequest.js"></script>
-    <script src="../Controller/GeoApp/ArcGisCom-4.13.js"></script>
-    
-    <!-- Inicializaciòn de lógica de negocio-->
-    <script>
-        $(document).ready(function() {
+        <script src="../Controller/jquery-3.3.1.js"></script>
+        <script src="../Controller/bootstrap.js"></script>
+        <script src="../Controller/GeoApp/Global.js"></script>
+        <script src="../Controller/GeoApp/GeoApp.js"></script>
+        <script src="../Controller/GeoApp/MainLogic.js"></script>
+        <script src="../Controller/Request/CoreRequest.js"></script>
+        <script src="../Controller/GeoApp/ArcGisCom-4.13.js"></script>
+        
+        <!-- Inicializaciòn de lógica de negocio-->
+        <script>
             new GeoApp();
+        </script>
+        <!--End section-->
 
-            //Mostar ventana emergente con info de aptiitud
-            $('#open').on('click', function(){             
-             $('#popup').fadeIn('slow');
-             $('.popup-overlay').fadeIn('slow');
-             $('.popup-overlay').height($(window).height());
-                return false;
-            });
-
-			$('#close').on('click', function(){
-				$('#popup').fadeOut('slow');
-				$('.popup-overlay').fadeOut('slow');
-                //location.reload();
-                $("#carga_info").empty()
-				return false;
-			});
-
-        });
-    </script>
-    <!--End section-->
-
-</body>
-</html>
+    </body>
+    </html>

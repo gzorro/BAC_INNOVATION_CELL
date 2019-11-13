@@ -10,31 +10,31 @@
 /**
  * Agregar componente de coordenadas al objeto view
  * */
-// function AddCoordsToView()
-// {
-//     let coordsWidget = document.createElement("div");
-//     coordsWidget.id = "coordsWidget";
-//     coordsWidget.className = "esri-widget esri-component";
-//     coordsWidget.style.padding = "7px 15px 5px";
+function AddCoordsToView()
+{
+    let coordsWidget = document.createElement("div");
+    coordsWidget.id = "coordsWidget";
+    coordsWidget.className = "esri-widget esri-component";
+    coordsWidget.style.padding = "7px 15px 5px";
 
-//     view.ui.add(coordsWidget, "bottom-right");
-// }
+    view.ui.add(coordsWidget, "bottom-right");
+}
 
 /**
  * Mostrar las coordenadas en el DOM
  * @param {any} pt punto posición
  */
-// function ShowCoordinates(pt)
-// {
-//     var coords = "Lat/Lon " + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) +
-//         " | Scale 1:" + Math.round(view.scale * 1) / 1 +
-//         " | Zoom " + view.zoom;
-//     coordsWidget.innerHTML = coords;
-// }
+function ShowCoordinates(pt)
+{
+    var coords = "Lat/Lon " + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) +
+        " | Scale 1:" + Math.round(view.scale * 1) / 1 +
+        " | Zoom " + view.zoom;
+    coordsWidget.innerHTML = coords;
+}
 
 /**
  * Agrega determinado elemento a la vista
- * @param {string} nameElement Nombre del elemento a agregar
+ * @param {string} nameElement Nombre del elemento a agregar, (<name>-<typeOf>: para incluir elemento y atributo type)
  * @param {string} idElement ID de elemento a agregar
  * @param {string} description descripción para el elemento ó innerText
  * @param {List<string>} classes lista de string con las clases a implementar para el elemento a agregar
@@ -42,9 +42,23 @@
  * @param {bool} isVisible determinado si el elemento debe de mostrarse inmediatamente
  */
 function AddElementToView(nameElement, idElement, description, classes, ubication, isVisible = true) {
-     let elementHTML = document.createElement(nameElement);
+    let elementHTML = "";
+    /* si {nameElement} tiene un guión, asumo que tiene una propiedad adicional de tipo {type}
+     * En este momento, este caso aplica solo para input */
+    if(nameElement.includes("-"))
+    {
+        let element = nameElement.split("-")[0];
+        let typeOfElement = nameElement.split("-")[1];
+        elementHTML = document.createElement(element);
+        elementHTML.setAttribute("type", typeOfElement);
+
+        //TODO: Validar multiples argumentos para propiedades del elemento
+    }else
+    {
+        elementHTML = document.createElement(nameElement);
+        elementHTML.innerText = description;
+    }
     elementHTML.id = idElement;
-    elementHTML.innerText = description;
     let classesToImplement = "";
     classes.forEach(x => classesToImplement += `${x} `);
     elementHTML.className = classesToImplement;
@@ -192,6 +206,37 @@ function SetFormatDecimal(divisibleBy, lengthFormat)
     return listPolygonsAssigned;
 }
 
+/**
+ * Establece los parámetros de definición del polígono
+ * @param {Array} polygonCoords Coordenadas del polígono
+ */
+function SetPolygon(polygonCoords)
+{
+    if(polygonCoords.length > 0)
+    {
+        let _polygon = {
+            type: "polygon",
+            rings: polygonCoords,
+            spatialReference: { wkid: 102100 }
+            };
+    
+        let _simpleFillSymbol = {
+            type: "simple-fill",
+            color: [227, 139, 79, 0.8],  // orange, opacity 80%
+            outline: {
+                color: [255, 255, 255],
+                width: 1
+            }
+        };
+        let objectPartial = {
+            polygon: _polygon,
+            simpleFillSymbol: _simpleFillSymbol
+        };
+
+        return objectPartial;
+    }
+}
+
 /** 
  * Buscar aptitud de cultivo a apartir de punto de referencia 
  * @param latitud valor latitud del punto georeferenciado desde la búsqueda
@@ -287,8 +332,6 @@ function searchPoint(latitud, longitud){
 
        });
 
-
-
        //$( "#aptitud").html(select);
        $( ".result" ).html( data );
          
@@ -308,7 +351,6 @@ function searchPoint(latitud, longitud){
     });
 }
 
-
 /**
  * abrir modal en donde se muestra la info correspondiente a la aptitud
  * 
@@ -326,7 +368,6 @@ function openModal(){
     $('.popup-overlay').height($(window).height());
 
 }
-
 
 /**
  * Función encargada de cargar el select con los tipos de cultivo cargados desde la UPRA
@@ -352,11 +393,37 @@ function buscarCultivo( latitud, longitud){
      
 }
 
-
 /**
  * 
  * 
  */
 function buscarUpra(){     
 
+}
+
+/**
+ * Función de carga de datos
+ */
+function LoadDataExcel()
+{
+    debugger;
+    if (fileupd.files.length === 1)
+    {
+        var $file = document.getElementById('fileupd');
+        var fileData = new FormData();
+        if ($file.files.length > 0) {
+            for (var i = 0; i < $file.files.length; i++) {
+                fileData.append($file.files[i].name, $file.files[i]);
+            }
+        }
+    }
+    
+    //Consumo Api REST para obtener data del excel
+    CoreRequest.GetcontentExcel(fileData).done(function(d)
+    {
+        
+    }).fail(function(ex)
+    {
+
+    });
 }

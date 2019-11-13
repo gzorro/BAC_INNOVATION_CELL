@@ -1,18 +1,16 @@
 /** Propiedaes globales */
 var map = {};
-var webMap 
+var webMap ;
 var view = {};
 var sketch = {};
 var graphicsLayer = {};
 var graphicInstance = null;
 var searchWidget = {};
-var latitud
-var longitud
-var geom
-var arregloJson
-var valorAptitud
-var valorCultivo
+var arregloJson;
+var valorAptitud;
+var valorCultivo;
 
+//TODO: Barrido de referencias pendiente
 //Referencias de esri
 var _listEsriReferences = 
 [
@@ -55,6 +53,8 @@ var _enumTypePosition =
 }
 //Lista de polígonos a guardar
 var _listPoligonToSave = [];
+//Lista de polígonos a borrar
 var _listGraphicsToDelete = [];
-
+//Lista de contenido de datos
+var _listDataContent=[];
 /** Métodos globales */

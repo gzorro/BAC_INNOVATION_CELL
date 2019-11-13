@@ -1,4 +1,4 @@
-let rootPath = '../../../http://localhost:54652/api/Geo/';
+let rootPath = 'http://localhost:54652/api/geo/';
 /**
  * Célula transversal de consumo
  */
@@ -8,14 +8,14 @@ class CoreRequest {
      * Obtiene información guardaba en un archivo excel
      * @returns {any} object Response
      */
-    static GetcontentExcel(data) {
+    static GetcontentExcel(path) {
         return $.ajax({
-            type: "POST",
-            contentType: false, // Not to set any content header  
-            processData: false, // Not to process data
-            url: rootPath + 'LoadExcelData',
-            //data: JSON.stringify({ example: data }),
-            data: data,
+             type: "GET",
+             // contentType: false, // Not to set any content header  
+             // processData: false, // Not to process data
+             url: rootPath + 'Load',
+             data: JSON.stringify({ pPath: path }),
+             data: data,
             dataType: 'json'
         });
     }
