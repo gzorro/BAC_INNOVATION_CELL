@@ -7,14 +7,16 @@ using System.Web.Mvc;
 
 namespace GeoWebAPI.Models
 {
-    public class ApiResult : ActionResult
+    public class ApiResult
     {
         public bool success { get; set; }
         public object data { get; set; }
 
         #region constructores
 
-        public ApiResult() { }
+        public ApiResult() {
+            success = false;
+        }
 
         public ApiResult(bool _success, object _data)
         {
@@ -22,24 +24,5 @@ namespace GeoWebAPI.Models
             data = _data;
         }
         #endregion
-
-        public override void ExecuteResult(ControllerContext context)
-        {
-            if (context == null)
-                throw new ArgumentNullException("context");
-            else
-            {
-                if (context.HttpContext.User != null) { }
-                if (context.HttpContext.Error != null) { }
-                HttpResponseBase Response = context.HttpContext.Response;
-                Response.Charset = "UTF-8";
-                Response.ContentType = "application/json";
-                context.HttpContext.Response.Write(JsonConvert.SerializeObject(this));
-                Response.TrySkipIisCustomErrors = true;
-
-                //Preference
-                Response.AppendCookie(new HttpCookie("HannibalDate", DateTime.Now.ToString()));
-            }
-        }
     }
 }

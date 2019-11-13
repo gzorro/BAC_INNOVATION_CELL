@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Routing;
 
 namespace GeoWebAPI
 {
@@ -14,11 +15,18 @@ namespace GeoWebAPI
             // Rutas de API web
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+            // define route
+            IHttpRoute defaultRoute = config.Routes.CreateRoute("api/{controller}/{id}",
+                                                new { id = RouteParameter.Optional }, null);
+            // Add route BY REST protocol
+            config.Routes.Add("DefaultApi", defaultRoute);
+
+            ////Old
+            //config.Routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "api/{controller}/{id}"
+            //    , defaults: new { id = RouteParameter.Optional }
+            //);
         }
     }
 }
