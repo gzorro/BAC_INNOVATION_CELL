@@ -247,51 +247,31 @@ function searchPoint(latitud, longitud){
     $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) {
         
         arregloJson = JSON.parse(data);
-       // console.log(arregloJson);
 
-
-
-
-          
-
-
-
-       $("#aptitud").on('change', function() {
+       $("select").on('change', function() {
            
           valorAptitud = $("#aptitud option:selected").text();            
-          console.log("Aptitud "+valorAptitud);       
-
 
           valorCultivo = $("#cultivos option:selected").text();
-          console.log("Cultivo  "+valorCultivo);
+          
 
-          $("#myDIV *").filter(function() {
-              
-            $("#myDIV *").each(function() { 
+          $("#myDIV *").filter(function() {              
 
-                text = $(this).text()
-                text = text.replace(".", "<br/><br/>")                         
-                $(this).text(text)
-                //$(this).html(text)
+              //Concatenar Variable  
+              let terminoBusqueda = valorCultivo+" - "+ valorAptitud;
 
-              });
-
-
-              let alt = $(this).html($(this).text())
-           
-              //$(this).toggle(alt.html().indexOf(valorAptitud) > -1).html()
-              //$(this).toggle($(this).text().indexOf(valorAptitud) > -1)
-              //$(this).toggle($(this).text().indexOf(valorCultivo) > -1)
-
-              $(this).toggle(alt.html().indexOf(valorAptitud) > -1)
-
-            /** 
-              if(alt.html().indexOf(valorAptitud) > -1 || alt.html().indexOf(valorCultivo) > -1){
-                   $(this).toggle(alt.html().indexOf(valorAptitud && valorCultivo) > -1)
+              if(valorCultivo != "Seleccione" && valorAptitud == "Seleccione"){
+                $(this).toggle($(this).text().indexOf(valorCultivo) > -1)  
+              }else if(valorCultivo == "Seleccione" && valorAptitud !== "Seleccione"){
+                $(this).toggle($(this).text().indexOf(valorAptitud) > -1)
+              }else if(valorCultivo !== "Seleccione" && valorAptitud !== "Seleccione"){
+                $(this).toggle($(this).text().indexOf(terminoBusqueda) > -1)
               }else{
-                console.log("Nada");
+                $(this).toggle($(this).text())
               }
-            **/
+
+              //$(this).toggle($(this).text().indexOf(terminoBusqueda) > -1)                                                                 
+
 
           });
         
@@ -302,28 +282,20 @@ function searchPoint(latitud, longitud){
        $.each(arreglo.aptitudes, function(i,item){
             
                let contenido = "<div class='list-group' id='myDIV'>"
-                +"<div class='list-group-item active'>"
-                + ""+ Object.keys(item)[0] +"  . <br/>______________________________________________________________________________<br/>"
-            // + "<div class='list-group-item'>"                        
-                + " Servicio : . "
-                + "                              "
-                + item[Object.getOwnPropertyNames(item)[0]].servicio +"<br/>"
-                //+ "<div class='list-group-item'>"
-                + " Nombre cientifico:  . "						
-                + item[Object.getOwnPropertyNames(item)[0]].nombre_cientifico +"<br/>"
-                //+ "   ______________________________________________________________________    "
-                //+ "<div class='list-group-item'>"
-                + " Aptitud: . "
-                + item[Object.getOwnPropertyNames(item)[0]].aptitud +" <br/>"
-                //+ "   ______________________________________________________________________     "
-                //+ "<div class='list-group-item'>"
-                + " Municipio: . "
-                //+ "   ______________________________________________________________________     "
-                + item[Object.getOwnPropertyNames(item)[0]].municipio+"<br/>"
-                //+ "<div class='list-group-item'>"
-                + " Departamento: . "						
-                + " "+item[Object.getOwnPropertyNames(item)[0]].departamen +" <br/> "                        
-                //+ "    ______________________________________________________________________   "
+                +"<div class='list-group-item active'>"               
+                + Object.keys(item)[0] +" - "+ item[Object.getOwnPropertyNames(item)[0]].aptitud+"   "
+                +  "______________________________________________________________________________"                    
+                + " Servicio :::: " 
+                + item[Object.getOwnPropertyNames(item)[0]].servicio +"   "
+                +  "______________________________________________________________________________"
+                + " Nombre cientifico ::::   "						
+                + item[Object.getOwnPropertyNames(item)[0]].nombre_cientifico +"   "
+                +  "______________________________________________________________________________"                
+                + " Municipio ::::  "
+                + item[Object.getOwnPropertyNames(item)[0]].municipio+"   "
+                +  "______________________________________________________________________________"
+                + " Departamento ::::  "						
+                + " "+item[Object.getOwnPropertyNames(item)[0]].departamen +"  "                        
                 +"</div>";  
 
             document.getElementById("carga_info").innerHTML += contenido; 
@@ -331,18 +303,10 @@ function searchPoint(latitud, longitud){
 
        });
 
-       //$( "#aptitud").html(select);
-       $( ".result" ).html( data );
-         
-       //console.log(data);
-
-       $('#popup').fadeIn('slow');
-
        var firstPart = data.substring(data.indexOf("<br/><br/>"),data.lastIndexOf("</body>"));
 
        $('#archivo').html(firstPart);
-       //debugger;
-       $('.popup-overlay').fadeIn('slow');
+
        $('.popup-overlay').height($(window).height());             
 
 
@@ -352,19 +316,88 @@ function searchPoint(latitud, longitud){
 
 /**
  * abrir modal en donde se muestra la info correspondiente a la aptitud
- * 
- * 
+ * @param
+ * @param 
  */
-function openModal(){
+function createModal(){ 
 
-    $('#popup').fadeIn('slow');
-    $('#archivo').html(
-      "<p id='archivo'>Estamos consultado la UPRA a través del WSO2 BAC.</p>"+
-      "<img src='../Content/Images//ajax-loader-2.gif'style='display: block;margin: 0 auto;' />"+
-      "<br/><br/><br/>"                      
-    );
-    $('.popup-overlay').fadeIn('show');
-    $('.popup-overlay').height($(window).height());
+    let titulo = "Consulta UPRA"; 
+    let nameModal = titulo.replace(/ /g, "");
+    
+    let modal = $("<div id='myModal"+nameModal+"' class='modal fade' role='dialog'>"+
+                   "<div class='modal-dialog>'"+
+                        "<!-- Modal content-->"+
+                        "<div class='modal-content'>"+
+                                "<div class='modal-header'>" + 
+                                    "<button type='button' class='close' data-dismiss='modal'>&times;</button>"+
+                                    "<h4 class='modal-title'>"+ titulo +"</h4>"+
+                                "</div>"+
+                                "<div class='modal-body' id='contenidoModal'>"+                                     
+                                //"<div class='' id='cargaSinResultados'></div>"+
+                                "<div class='row mensaje'>"+
+
+                                "<div class='col-lg-12 col-md-12 col-xs-12 col-sm-12'>   "+                 		                    		
+                                "<span class='infoPrincipal'>A traves de la siguiente interfaz se puede consultar el tipo de aptitud por cultivo de un determinado lugar en Colombia basado en la UPRA.</span>"    +
+                                "</div>"+
+                            
+                                "<div class='col-lg-12 col-md-12 col-xs-12 col-sm-12'>   "+
+                                    "<div class='col-lg-6 col-md-6 col-xs-12 col-sm-12'>  "+
+                                        "<p class='etiquetaBuscador'>"+
+                                            "<img src='../Content/Images/item-option-search.png' alt='Icon search'/> Aptitud"+
+                                        "</p>  "+
+                                    "</div> "+
+                            
+                                    "<div class='col-lg-6 col-md-6 col-xs-12 col-sm-12'>            "+
+                                      //"<div id='tAptitud'></div>"+   
+                                       "<select id='aptitud' name='aptitud' class='target'>"+
+                                         "<option value='Null'>Seleccione</option>"+
+                                         "<option value='Aptitud alta'>Aptitud alta</option>"+
+                                         "<option value='Aptitud baja'>Aptitud baja</option>"+
+                                         "<option value='Aptitud media'>Aptitud media</option>"+
+                                         "<option value='Exclusión legal'>Exclusión legal</option>"+
+                                         "<option value='No apta'>No apta</option>"+
+                                      "</select>"+
+                                 "</div>"+
+                             "</div>  "+
+                            
+                             "<div class='col-lg-12 col-md-12 col-xs-12 col-sm-12'>"+
+                                "<div class='col-lg-6 col-md-6 col-xs-12 col-sm-12'>  "+
+                            
+                                    "<p class='etiquetaBuscador'>"+
+                                        "<img src='../Content/Images/item-option-search.png' alt='Icon search'/>  Tipo cultivo"+
+                                    "</p>                            "+
+                            
+                                "</div> "+
+                            
+                                "<div class='col-lg-6 col-md-6 col-xs-12 col-sm-12'>"+
+                                    "<div id='tCultivos'></div>"+
+                                "</div>"+
+                            "</div>"+
+                            
+                            "<div class='col-lg-12 col-md-12 col-xs-12 col-sm-12'>"+
+                                "<div id='carga_info'></div>"+
+                            "</div>   "+
+                            "</div>"+
+
+
+
+                                "</div>" +
+                                    
+                                "<div class='modal-footer'>" +
+                                    "<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>"+
+                                "</div>"+
+                            "</div>"+
+                    "</div>"+
+                   "</div>");
+        
+        $("#ventanaEmergente").html(modal);         
+        $("#contenidoModal").append("<div class='alert alert-primary' role='alert' id='archivo'><p>Estamos consultado la UPRA a través del WSO2 BAC.</p>"+
+        "<img src='../Content/Images//ajax-loader-2.gif'style='display: block;margin: 0 auto;' />"+
+        "</div> <br/><br/><br/>"); 
+        $('.popup-overlay').height($(window).height());
+        
+        //activar modal
+        $("#myModal"+nameModal).modal('show');
 
 }
 
@@ -373,32 +406,60 @@ function openModal(){
  *  @param latitud
  *  @param longitud
  */
-function buscarCultivo( latitud, longitud){
+function searchCultivo( latitud, longitud){
+
+    $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) {                  
+       
+          arreglo = JSON.parse(data);           
+                
+          let select2 = $("<select></select>").attr("id", "cultivos").attr("name", "cultivos").addClass("target");
+          select2.append($("<option></option>").attr("value", "Null").text("Seleccione"))
+          $.each(arreglo.aptitudes,function(i,item){ 
+           select2.append($("<option></option>").attr("value", Object.keys(item)[0]).text(Object.keys(item)[0]));           
+          });     
+          $("#tCultivos").html(select2);
+    });         
+     
+}
+
+
+
+/**
+ * Función encargada de cargar el select con los tipos de cultivo cargados desde la UPRA
+ *  @param latitud
+ *  @param longitud
+ */
+function searchAptitup( latitud, longitud){
 
     $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) { 
          
-       //alert( latitud + " + " + longitud);
-       
-          arreglo = JSON.parse(data);           
-       
-          var select2 = $("<select></select>").attr("id", "cultivos").attr("name", "cultivos").addClass("target");
-          select2.append($("<option></option>").attr("value", " ").text("Seleccione"))
+          arreglo = JSON.parse(data);         
+          
+          let select = $("<select></select>").attr("id", "aptitud").attr("name", "aptitud").addClass("target");
+          select.append($("<option></option>").attr("value", "Null").text("Seleccione"))
           $.each(arreglo.aptitudes,function(i,item){
-              debugger;
-           select2.append($("<option></option>").attr("value", Object.keys(item)[0]).text(Object.keys(item)[0]));
+              select.append($("<option></option>").attr("value", i).text(item[Object.getOwnPropertyNames(item)[0]].aptitud));
           });     
-          $("#tCultivos").html(select2);
+          $("#tAptitud").html(select);
         
     });         
      
 }
 
-/**
- * 
- * 
- */
-function buscarUpra(){     
 
+
+/**
+ * Función hace llamado al servicio UPRA para traer u objeto con datos de un punto en especifico
+ * @param latitud
+ * @param longitud
+ */
+function searchPointUpra(latitud, longitud){           
+    $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) {
+
+        arreglo = JSON.parse(data);
+        return arreglo;
+
+    });  
 }
 
 /**
@@ -464,3 +525,11 @@ function AddDashBoardElement()
 // dom.byId("area").innerHTML = result.areas[0].toFixed(3) + " acres";
 // dom.byId("length").innerHTML = result.lengths[0].toFixed(3) + " feet";
 // }
+
+/**
+ * 
+ * 
+ */
+function viewMapNull(){
+       
+}

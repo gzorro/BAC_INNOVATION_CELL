@@ -66,6 +66,30 @@ class GeoApp {
                 view.ui.add(searchWidget, {
                     position: "top-left"
                     //index: 2                  
+                });                
+
+                searchWidget.on('search-complete', function(event){                
+                    if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
+                        
+                     let latitud;
+                     let longitud;
+                      latitud = event.results[0].results[0].extent.xmax; 
+                      longitud = event.results[0].results[0].extent.ymax;
+                   
+                      //Función crear modal
+                      createModal();
+                     
+                      //  Funcion cargar select desde UPRA
+                      //searchAptitup(latitud, longitud);   
+                      searchCultivo(latitud, longitud);  
+
+                      //Función según punto trae la info de aptitud de cultivo
+                      searchPoint( latitud, longitud);   
+                    
+                    }else{                          
+                        console.log("No hay resultados");
+                    }
+                 
                 });
         
                 //Fin buscador
