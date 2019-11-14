@@ -5,7 +5,7 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
         <title>Sistema de Georeferenciación</title>
         <!-- Styles -->
-        <link rel="stylesheet" href="../Content/esri/esri-main.css" >
+        <!-- <link rel="stylesheet" href="../Content/esri/esri-main.css" > -->
         <link rel="stylesheet" href="../Content/bootstrap.css" >
         <link rel="stylesheet" href="../Content/Site.css" >
         <link rel="stylesheet" href="../Content/esri/esri-arcGis-4.min.css" >
@@ -19,7 +19,14 @@
             <!-- Elegir archivo.. <input id="fileupd" type="file"> -->
             </div>
         </div>
-            
+        <!-- <div id="info" class="esriSimpleSlider">
+            Draw a polygon to be used as input to the geometryService's areasAndLengths() operation.
+            <br><br>
+            <span class="label">Area:</span> <span id="area"></span>
+            <br>
+            <span class="label">Length:</span> <span id="length"></span>
+        </div> -->
+
         <!-- ventana emergente -->
         <div id="popup" style="display: none;">
                 <div class="content-popup">
@@ -94,14 +101,15 @@
 
         <!--Scripts section -->
 
-        <script src="../Controller/jquery-3.3.1.js"></script>
-        <script src="../Controller/bootstrap.js"></script>
+        <script src="../Controller/base/jquery-3.3.1.js"></script>
+        <script src="../Controller/base/bootstrap.js"></script>
         <script src="../Controller/GeoApp/Global.js"></script>
         <script src="../Controller/GeoApp/GeoApp.js"></script>
         <script src="../Controller/GeoApp/MainLogic.js"></script>
         <script src="../Controller/Request/CoreRequest.js"></script>
         <script src="../Controller/Util/UtilsData.js"></script>
-        <script src="../Controller/GeoApp/ArcGisCom-4.13.js"></script>
+        <!-- <script src="../Controller/GeoApp/ArcGisCom-4.13.js"></script> -->
+        <script src="https://js.arcgis.com/4.13/"></script>
         
         <!-- Inicialización de lógica de negocio-->
         <script>

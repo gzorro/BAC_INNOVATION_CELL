@@ -440,3 +440,27 @@ function AddDashBoardElement()
 
     view.ui.add(elementHTML, _enumTypePosition.TopLeading);
 }
+
+// function getAreaAndLength(evtObj) {
+//     geometry = evtObj.geometry;
+//     map.graphics.clear();
+    
+//     var graphic = map.graphics.add(new Graphic(geometry, new SimpleFillSymbol()));
+
+//     //setup the parameters for the areas and lengths operation
+//     var areasAndLengthParams = new AreasAndLengthsParameters();
+//     areasAndLengthParams.lengthUnit = GeometryService.UNIT_FOOT;
+//     areasAndLengthParams.areaUnit = GeometryService.UNIT_ACRES;
+//     areasAndLengthParams.calculationType = "geodesic";
+//     geometryService.simplify([geometry], function(simplifiedGeometries) {
+//       areasAndLengthParams.polygons = simplifiedGeometries;
+//       geometryService.areasAndLengths(areasAndLengthParams);
+//     });
+// }
+
+// function outputAreaAndLength(evtObj) {
+// var result = evtObj.result;
+// console.log(json.stringify(result));
+// dom.byId("area").innerHTML = result.areas[0].toFixed(3) + " acres";
+// dom.byId("length").innerHTML = result.lengths[0].toFixed(3) + " feet";
+// }

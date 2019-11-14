@@ -12,21 +12,26 @@ class GeoApp {
 
     static Init() {
         require(_listEsriReferences,
-			function (Map
-				//, WebMap
-				, MapView
-				, Graphic
-				, GraphicsLayer
-				, Sketch
-				, Search
-				, SpatialReference
-				, Point) {
+			function (
+					Map
+					//, WebMap
+					, MapView
+					, Graphic
+					, GraphicsLayer
+					, Sketch
+					, Search
+					, SpatialReference
+					, Point
+					, Popup
+					, FeatureLayer
+					, GeometryService
+				){
                 //Carga de la capa gráfica
-                graphicsLayer = new GraphicsLayer();
+				graphicsLayer = new GraphicsLayer();
 
                 const viewSpatialReference = new SpatialReference({
                     //wkid: 54042 // winkel III
-                    //wkid: 3482 
+                    //wkid: 4326 //WGS84  
                     wkid:102100
                 });
 
@@ -34,8 +39,8 @@ class GeoApp {
                     x:-8230739.205745591, 
                     y:525886.7546018914,
                      spatialReference: viewSpatialReference
-                });
-
+				});
+				
                 //Inicialización de componentes
                 map = new Map(
                     {
@@ -43,7 +48,7 @@ class GeoApp {
                         layers: [graphicsLayer],                             
                         center: point,
                         scale: 15000000
-                    });
+				});
                 view = new MapView(
                     {
                         container: "viewDiv", // Referencia al objeton DOM (div)
@@ -64,15 +69,14 @@ class GeoApp {
                 });
         
                 //Fin buscador
-                sketch = new Sketch(
-                    {
-                        view: view,
-                        aviableCreateTools: ["polygon", "rectangle", "circle"],
-                        layer: graphicsLayer
-                    });
+                sketch = new Sketch({
+					//aviableCreateTools: ["polygon", "rectangle"],
+					view: view,
+					layer: graphicsLayer
+				});
 
-                view.ui.add(sketch, "top-right");
-
+				view.ui.add(sketch, "top-right");
+				
                 //Agregar componente de coordenadas
                  AddCoordsToView();
                 
@@ -84,7 +88,7 @@ class GeoApp {
                 // AddElementToView("input-file", "fileupd", "", ["form-control", "custom-file-input"], _enumTypePosition.BottomRight);
 				
 				//DashBoard
-				AddDashBoardElement();
+				// AddDashBoardElement();
                                
                 /**************************** Eventos Bind ****************************/
 				GeoApp.BindEvents();
@@ -101,12 +105,12 @@ class GeoApp {
 								geometry: _partialObj.polygon,
 								symbol: _partialObj.simpleFillSymbol
 							});
-							
 							graphicsLayer.add(polygonGraphic);
 						});
 					});
 				});
-            }
+			}
+			
         );
     }
 
@@ -115,8 +119,8 @@ class GeoApp {
 	 */
     static BindEvents()
     {
-        //Mostar ventana emergente con info de aptiitud
-        $('#open').on('click', function(){             
+        //Mostar ventana emergente con info de aptitud
+        $('#open').on('click', function(){
             $('#popup').fadeIn('slow');
             $('.popup-overlay').fadeIn('slow');
             $('.popup-overlay').height($(window).height());
@@ -162,6 +166,31 @@ class GeoApp {
             ShowCoordinates(view.center);
 		});
 
+		// Get the screen point from the view's click event
+		view.on("click", function (event) {
+			var screenPoint = {
+			x: event.x,
+			y: event.y
+			};
+			debugger;
+			// Search for graphics at the clicked location
+			view.hitTest(screenPoint).then(function (response) {
+			if (response.results.length) {
+				//Entra si hay un polígono seleccionado
+				debugger;
+				response.results[0].mapPoint.x;
+				response.results[0].mapPoint.y;
+				// var graphic = response.results.filter(function (result) {
+				// 	// check if the graphic belongs to the layer of interest
+				// 	debugger;
+				// 	return true;//result.graphic.layer === myLayer;
+				// })[0].graphic;
+				// do something with the result graphic
+				//console.log(graphic.attributes);
+			}
+			});
+   		});
+
 		searchWidget.on("select-result", function(event){
 		});
 
@@ -187,5 +216,5 @@ class GeoApp {
 			}
 		 
 		});
-    }
+	}
 }

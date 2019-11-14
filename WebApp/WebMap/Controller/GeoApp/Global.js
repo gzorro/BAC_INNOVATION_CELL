@@ -6,23 +6,26 @@ var sketch = {};
 var graphicsLayer = {};
 var graphicInstance = null;
 var searchWidget = {};
+var geometryService = {};
 var arregloJson;
 var valorAptitud;
 var valorCultivo;
 
-//TODO: Barrido de referencias pendiente
 //Referencias de esri
 var _listEsriReferences = 
 [
     "esri/Map"
     //, "esri/WebMap"
-    ,"esri/views/MapView"
-    ,"esri/Graphic"
-    ,"esri/layers/GraphicsLayer"
-    ,"esri/widgets/Sketch"
-    ,"esri/widgets/Search"
-    ,"esri/geometry/SpatialReference"
-    ,"esri/geometry/Point"
+    , "esri/views/MapView"
+    , "esri/Graphic"
+    , "esri/layers/GraphicsLayer"
+    , "esri/widgets/Sketch"
+    , "esri/widgets/Search"
+    , "esri/geometry/SpatialReference"
+    , "esri/geometry/Point"
+    , "esri/widgets/Popup"
+    , "esri/layers/FeatureLayer"
+    , "esri/tasks/GeometryService"
 ]
 
 //Tipos de mapas a implementar(for Map)
@@ -37,6 +40,7 @@ var _enumTypeMaps =
     , Osm:"osm"
     , NationalGeographic:"national-geographic"
     , StreetsReliefVector: "streets-relief-vector"
+    , StreetsNavogationVector: "streets-navigation-vector"
 }
 //Posiciones permitidas para objeto view
 var _enumTypePosition =
@@ -57,4 +61,7 @@ var _listPoligonToSave = [];
 var _listGraphicsToDelete = [];
 //Lista de contenido de datos
 var _listDataContent=[];
+
+
+
 /** Métodos globales */
