@@ -5,7 +5,7 @@ let rootPath = 'http://localhost:54652/api/geo/';
 class CoreRequest {
 
     /**
-     * Obtiene información guardaba en un archivo excel
+     * Obtiene información guardada en un archivo excel
      * @returns {any} object Response
      */
     static GetcontentExcel(path) {

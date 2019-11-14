@@ -197,7 +197,6 @@ function SetFormatDecimal(divisibleBy, lengthFormat)
             let latitude = parseFloat((y[0]/divisibleBy).toFixed(lengthFormat))+9;
             let longitude = parseFloat((y[1]/divisibleBy).toFixed(lengthFormat))-1; 
             let obj = [latitude,longitude];
-            // let obj = [parseFloat((y[1]/divisibleBy).toFixed(lengthFormat)), parseFloat((y[0]/divisibleBy).toFixed(lengthFormat))]
             
             listCoordsPolygon.push(obj);
         });
@@ -385,6 +384,7 @@ function buscarCultivo( latitud, longitud){
           var select2 = $("<select></select>").attr("id", "cultivos").attr("name", "cultivos").addClass("target");
           select2.append($("<option></option>").attr("value", " ").text("Seleccione"))
           $.each(arreglo.aptitudes,function(i,item){
+              debugger;
            select2.append($("<option></option>").attr("value", Object.keys(item)[0]).text(Object.keys(item)[0]));
           });     
           $("#tCultivos").html(select2);
@@ -426,4 +426,17 @@ function LoadDataExcel()
     {
 
     });
+}
+
+/**
+ * Grafica un div o tabla de contenido de datos
+ */
+function AddDashBoardElement()
+{
+    debugger;
+    let elementHTML = document.createElement("div");
+    elementHTML.id = "div-dashboard";
+    elementHTML.innerHTML = dashboardHTML;
+
+    view.ui.add(elementHTML, _enumTypePosition.TopLeading);
 }
