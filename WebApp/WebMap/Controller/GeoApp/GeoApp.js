@@ -68,29 +68,7 @@ class GeoApp {
                     //index: 2                  
                 });                
 
-                searchWidget.on('search-complete', function(event){                
-                    if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
-                        
-                     let latitud;
-                     let longitud;
-                      latitud = event.results[0].results[0].extent.xmax; 
-                      longitud = event.results[0].results[0].extent.ymax;
-                   
-                      //Función crear modal
-                      createModal();
-                     
-                      //  Funcion cargar select desde UPRA
-                      //searchAptitup(latitud, longitud);   
-                      searchCultivo(latitud, longitud);  
 
-                      //Función según punto trae la info de aptitud de cultivo
-                      searchPoint( latitud, longitud);   
-                    
-                    }else{                          
-                        console.log("No hay resultados");
-                    }
-                 
-                });
         
                 //Fin buscador
                 sketch = new Sketch({
@@ -143,22 +121,6 @@ class GeoApp {
 	 */
     static BindEvents()
     {
-        //Mostar ventana emergente con info de aptitud
-        $('#open').on('click', function(){
-            $('#popup').fadeIn('slow');
-            $('.popup-overlay').fadeIn('slow');
-            $('.popup-overlay').height($(window).height());
-                return false;
-		});
-
-		$('#close').on('click', function(){
-			$('#popup').fadeOut('slow');
-			$('.popup-overlay').fadeOut('slow');
-			//location.reload();
-			$("#carga_info").empty()
-			return false;
-		});
-
 		//evento de guardado de polígonos
         $('#btnGuardar').on('click', function(evt) {
             let namefile = `_PolygonSaved_.json`
@@ -215,30 +177,32 @@ class GeoApp {
 			});
    		});
 
-		searchWidget.on("select-result", function(event){
-		});
 
-		searchWidget.on('search-complete', function(event){
-			debugger;
-			if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
-				
-			 let latitud;
-			 let longitud;
-			  latitud = event.results[0].results[0].extent.xmax; 
-			  longitud = event.results[0].results[0].extent.ymax;
-		   
-			  openModal();
-			 
-			  //  Funcion cargar cultivo       
-			  buscarCultivo(latitud, longitud);  
+        //Busqueda
+        searchWidget.on('search-complete', function(event){                
+            if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
+                
+             let latitud;
+             let longitud;
+              latitud = event.results[0].results[0].extent.xmax; 
+              longitud = event.results[0].results[0].extent.ymax;
+           
+              //Función crear modal
+              createModal();
+             
+              //  Funcion cargar select desde UPRA
+              //searchAptitup(latitud, longitud);   
+              searchCultivo(latitud, longitud);  
 
-			  //Función según punto trae la info de aptitud de cultivo
-			  searchPoint( latitud, longitud);   
-			
-			}else{                      
-			  console.log("No hay resultados");
-			}
-		 
-		});
+              //Función según punto trae la info de aptitud de cultivo
+              searchPoint( latitud, longitud);   
+            
+            }else{                          
+                console.log("No hay resultados");
+            }
+         
+        });
+
+
 	}
 }
