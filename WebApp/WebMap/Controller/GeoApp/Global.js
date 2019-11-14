@@ -15,7 +15,7 @@ var valorCultivo;
 var _listEsriReferences = 
 [
     "esri/Map"
-    , "esri/WebMap"
+    //, "esri/WebMap"
     ,"esri/views/MapView"
     ,"esri/Graphic"
     ,"esri/layers/GraphicsLayer"

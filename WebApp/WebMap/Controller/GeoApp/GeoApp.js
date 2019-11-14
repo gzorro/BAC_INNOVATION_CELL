@@ -12,12 +12,21 @@ class GeoApp {
 
     static Init() {
         require(_listEsriReferences,
-            function (Map, WebMap, MapView, Graphic, GraphicsLayer, Sketch,Search,SpatialReference,Point) {
+			function (Map
+				//, WebMap
+				, MapView
+				, Graphic
+				, GraphicsLayer
+				, Sketch
+				, Search
+				, SpatialReference
+				, Point) {
                 //Carga de la capa gráfica
                 graphicsLayer = new GraphicsLayer();
 
                 const viewSpatialReference = new SpatialReference({
                     //wkid: 54042 // winkel III
+                    //wkid: 3482 
                     wkid:102100
                 });
 
@@ -76,7 +85,6 @@ class GeoApp {
 				
 				//DashBoard
 				AddDashBoardElement();
-				//  AddElementToView("div", "dashBoard", "", ["form-control", "custom-file-input"], _enumTypePosition.BottomRight);
                                
                 /**************************** Eventos Bind ****************************/
 				GeoApp.BindEvents();
