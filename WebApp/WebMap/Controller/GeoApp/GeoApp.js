@@ -159,7 +159,6 @@ class GeoApp {
 
         //Busqueda
         searchWidget.on('search-complete', function(event){  
-			debugger;
 			SearchAndShowData(event);
         });
 	}
