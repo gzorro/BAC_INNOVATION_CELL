@@ -1,3 +1,8 @@
+/**
+ * Célula transversal de persistencia
+ * @Authors {Germán F. Grimaldi}, {Javier Becerra}
+ * 
+ * */
 /** Propiedaes globales */
 var map = {};
 var webMap ;

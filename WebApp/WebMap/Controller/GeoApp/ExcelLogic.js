@@ -1,4 +1,10 @@
 /**
+ * Célula de funcionalidad de carga de excel
+ * @Author {Germán F. Grimaldi}
+ * 
+ * */
+
+/**
  * Función de carga de datos
  */
 function LoadDataExcel()

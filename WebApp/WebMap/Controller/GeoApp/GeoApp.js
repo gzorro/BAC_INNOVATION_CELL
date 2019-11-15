@@ -1,6 +1,7 @@
-﻿
-/**
- * Clase parental de funcionalidad del mapa esri
+﻿/**
+ * Core parental de aplicación
+ * @Authors {Germán F. Grimaldi}, {Javier Becerra}
+ * 
  * */
 class GeoApp {
     /**
@@ -26,13 +27,14 @@ class GeoApp {
 					, FeatureLayer
 					, GeometryService
 				){
+				//Instancia de elementos base de aplicación
                 //Carga de la capa gráfica
 				graphicsLayer = new GraphicsLayer();
 
                 const viewSpatialReference = new SpatialReference({
                     //wkid: 54042 // winkel III
-                    //wkid: 4326 //WGS84  
-                    wkid:102100
+                    //wkid: 4326 // WGS84  
+                    wkid:102100 //flat coords 
                 });
 
                 const point = new Point({
@@ -56,28 +58,22 @@ class GeoApp {
                         center: [-74.2973328, 4.570868], // longitude, latitude //Centro de Colombia                                                
                         zoom: 8
                     }
-                );
-
-                //Buscador
-                searchWidget = new Search({
-                    view: view                                      
-                });                  
-
-                view.ui.add(searchWidget, {
-                    position: _enumTypePosition.TopLeft
-                    //index: 2                  
-                });                
-
-
-        
-                //Fin buscador
+				);
+				
                 sketch = new Sketch({
-					//aviableCreateTools: ["polygon", "rectangle"],
 					view: view,
 					layer: graphicsLayer
 				});
 
+                searchWidget = new Search({
+                    view: view                                      
+                });                  
+
 				view.ui.add(sketch, _enumTypePosition.TopRight);
+                view.ui.add(searchWidget, {
+                    position: _enumTypePosition.TopLeft
+                    //index: 2                  
+                });
 				
                 //Agregar componente de coordenadas
                  AddCoordsToView();
