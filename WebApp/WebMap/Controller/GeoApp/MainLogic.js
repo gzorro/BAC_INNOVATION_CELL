@@ -242,12 +242,10 @@ function SetPolygon(polygonCoords)
  * @param longitud valor longitud del punto georeferenciado desde la búsqueda
  **/
 function searchPoint(latitud, longitud){
-          
-   
     $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) {
-        
+        debugger;
         arregloJson = JSON.parse(data);
-
+debugger;
        $("select").on('change', function() {
            
           valorAptitud = $("#aptitud option:selected").text();            
@@ -269,14 +267,8 @@ function searchPoint(latitud, longitud){
               }else{
                 $(this).toggle($(this).text())
               }
-
-              //$(this).toggle($(this).text().indexOf(terminoBusqueda) > -1)                                                                 
-
-
           });
-        
        });
-
 
        //Al realizar la busqueda general de punto se visualiza esta información inicial
        $.each(arreglo.aptitudes, function(i,item){
@@ -299,18 +291,11 @@ function searchPoint(latitud, longitud){
                 +"</div>";  
 
             document.getElementById("carga_info").innerHTML += contenido; 
-                
-
        });
 
        var firstPart = data.substring(data.indexOf("<br/><br/>"),data.lastIndexOf("</body>"));
-
        $('#archivo').html(firstPart);
-
-       $('.popup-overlay').height($(window).height());             
-
-
-
+       $('.popup-overlay').height($(window).height());
     });
 }
 
@@ -320,75 +305,8 @@ function searchPoint(latitud, longitud){
  * @param 
  */
 function createModal(){ 
-
-    let titulo = "Consulta UPRA"; 
-    let nameModal = titulo.replace(/ /g, "");
-    
-    let modal = $("<div id='myModal"+nameModal+"' class='modal fade' role='dialog'>"+
-                   "<div class='modal-dialog>'"+
-                        "<!-- Modal content-->"+
-                        "<div class='modal-content'>"+
-                                "<div class='modal-header'>" + 
-                                    "<button type='button' class='close' data-dismiss='modal'>&times;</button>"+
-                                    "<h4 class='modal-title'>"+ titulo +"</h4>"+
-                                "</div>"+
-                                "<div class='modal-body' id='contenidoModal'>"+                                     
-                                //"<div class='' id='cargaSinResultados'></div>"+
-                                "<div class='row mensaje'>"+
-
-                                "<div class='col-lg-12 col-md-12 col-xs-12 col-sm-12'>   "+                 		                    		
-                                "<span class='infoPrincipal'>A traves de la siguiente interfaz se puede consultar el tipo de aptitud por cultivo de un determinado lugar en Colombia basado en la UPRA.</span>"    +
-                                "</div>"+
-                            
-                                "<div class='col-lg-12 col-md-12 col-xs-12 col-sm-12'>   "+
-                                    "<div class='col-lg-6 col-md-6 col-xs-12 col-sm-12'>  "+
-                                        "<p class='etiquetaBuscador'>"+
-                                            "<img src='../Content/Images/item-option-search.png' alt='Icon search'/> Aptitud"+
-                                        "</p>  "+
-                                    "</div> "+
-                            
-                                    "<div class='col-lg-6 col-md-6 col-xs-12 col-sm-12'>            "+
-                                      //"<div id='tAptitud'></div>"+   
-                                       "<select id='aptitud' name='aptitud' class='target'>"+
-                                         "<option value='Null'>Seleccione</option>"+
-                                         "<option value='Aptitud alta'>Aptitud alta</option>"+
-                                         "<option value='Aptitud baja'>Aptitud baja</option>"+
-                                         "<option value='Aptitud media'>Aptitud media</option>"+
-                                         "<option value='Exclusión legal'>Exclusión legal</option>"+
-                                         "<option value='No apta'>No apta</option>"+
-                                      "</select>"+
-                                 "</div>"+
-                             "</div>  "+
-                            
-                             "<div class='col-lg-12 col-md-12 col-xs-12 col-sm-12'>"+
-                                "<div class='col-lg-6 col-md-6 col-xs-12 col-sm-12'>  "+
-                            
-                                    "<p class='etiquetaBuscador'>"+
-                                        "<img src='../Content/Images/item-option-search.png' alt='Icon search'/>  Tipo cultivo"+
-                                    "</p>                            "+
-                            
-                                "</div> "+
-                            
-                                "<div class='col-lg-6 col-md-6 col-xs-12 col-sm-12'>"+
-                                    "<div id='tCultivos'></div>"+
-                                "</div>"+
-                            "</div>"+
-                            
-                            "<div class='col-lg-12 col-md-12 col-xs-12 col-sm-12'>"+
-                                "<div id='carga_info'></div>"+
-                            "</div>   "+
-                            "</div>"+
-
-
-
-                                "</div>" +
-                                    
-                                "<div class='modal-footer'>" +
-                                    "<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>"+
-                                "</div>"+
-                            "</div>"+
-                    "</div>"+
-                   "</div>");
+    debugger;
+    let modal = $(modalHTML);
         
         $("#ventanaEmergente").html(modal);         
         $("#contenidoModal").append("<div class='alert alert-primary' role='alert' id='archivo'><p>Estamos consultado la UPRA a través del WSO2 BAC.</p>"+
@@ -422,8 +340,6 @@ function searchCultivo( latitud, longitud){
      
 }
 
-
-
 /**
  * Función encargada de cargar el select con los tipos de cultivo cargados desde la UPRA
  *  @param latitud
@@ -445,8 +361,6 @@ function searchAptitup( latitud, longitud){
     });         
      
 }
-
-
 
 /**
  * Función hace llamado al servicio UPRA para traer u objeto con datos de un punto en especifico
@@ -502,6 +416,85 @@ function AddDashBoardElement()
     view.ui.add(elementHTML, _enumTypePosition.TopLeading);
 }
 
+/**
+ * Busca puntos y muestra información en cuadro modal
+ * @param event evento que llama la función
+ */
+function SearchAndShowData(event)
+{
+    if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
+                
+        let latitud;
+        let longitud;
+        latitud = event.results[0].results[0].extent.xmax; 
+        longitud = event.results[0].results[0].extent.ymax;
+    
+        //Función crear modal
+        createModal();
+    
+        //  Funcion cargar select desde UPRA
+        //searchAptitup(latitud, longitud);   
+        searchCultivo(latitud, longitud);  
+
+        //Función según punto trae la info de aptitud de cultivo
+        searchPoint( latitud, longitud);   
+       
+    }else{
+        console.log("No hay resultados");
+    }
+}
+
+
+/**
+ * Muestra modal
+ * @param {*} pPosX 
+ * @param {*} pPosY 
+ */
+function SearchAndShowDataByPos(pPosX, pPosY)
+{
+    debugger;
+    let lat = pPosX;
+    let lon = pPosY;
+
+    //Función crear modal
+    createModal();
+
+    //  Funcion cargar select desde UPRA
+    searchCultivo(lat,lon);
+
+    //Función según pulon la info de aptitud de cultivo
+    searchPoint(lat, lon);   
+}
+
+/**
+ * Muestra respectiva información en cuanto a un polígono
+ */
+function ShowPolygonGeographic(event)
+{
+    let screenPoint = {
+        x: event.x,
+        y: event.y
+        };
+        debugger;
+        // Search for graphics at the clicked location
+        view.hitTest(screenPoint).then(function (response) {
+        if (response.results.length) {
+            //Entra si hay un polígono seleccionado
+            debugger;
+            SearchAndShowDataByPos(response.results[0].mapPoint.x, response.results[0].mapPoint.y);
+
+            // var graphic = response.results.filter(function (result) {
+            // 	// check if the graphic belongs to the layer of interest
+            // 	debugger;
+            // 	return true;//result.graphic.layer === myLayer;
+            // })[0].graphic;
+            // do something with the result graphic
+            //console.log(graphic.attributes);
+        }
+        });
+}
+
+
 // function getAreaAndLength(evtObj) {
 //     geometry = evtObj.geometry;
 //     map.graphics.clear();
@@ -526,65 +519,3 @@ function AddDashBoardElement()
 // dom.byId("length").innerHTML = result.lengths[0].toFixed(3) + " feet";
 // }
 
-/**
- * 
- * 
- */
-function viewMapNull(){
-       
-}
-
-/**
- * Busca puntos y muestra información en cuadro modal
- */
-function SearchAndShowData()
-{
-    if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
-                
-        let latitud;
-        let longitud;
-        latitud = event.results[0].results[0].extent.xmax; 
-        longitud = event.results[0].results[0].extent.ymax;
-    
-        //Función crear modal
-        createModal();
-    
-        //  Funcion cargar select desde UPRA
-        //searchAptitup(latitud, longitud);   
-        searchCultivo(latitud, longitud);  
-
-        //Función según punto trae la info de aptitud de cultivo
-        searchPoint( latitud, longitud);   
-       
-    }else{
-        console.log("No hay resultados");
-    }
-}
-
-/**
- * Muestra respectiva información en cuanto a un polígono
- */
-function ShowPolygonGeographic()
-{
-    let screenPoint = {
-        x: event.x,
-        y: event.y
-        };
-        debugger;
-        // Search for graphics at the clicked location
-        view.hitTest(screenPoint).then(function (response) {
-        if (response.results.length) {
-            //Entra si hay un polígono seleccionado
-            debugger;
-            response.results[0].mapPoint.x;
-            response.results[0].mapPoint.y;
-            // var graphic = response.results.filter(function (result) {
-            // 	// check if the graphic belongs to the layer of interest
-            // 	debugger;
-            // 	return true;//result.graphic.layer === myLayer;
-            // })[0].graphic;
-            // do something with the result graphic
-            //console.log(graphic.attributes);
-        }
-        });
-}

@@ -64,7 +64,7 @@ class GeoApp {
                 });                  
 
                 view.ui.add(searchWidget, {
-                    position: "top-left"
+                    position: _enumTypePosition.TopLeft
                     //index: 2                  
                 });                
 
@@ -77,7 +77,7 @@ class GeoApp {
 					layer: graphicsLayer
 				});
 
-				view.ui.add(sketch, "top-right");
+				view.ui.add(sketch, _enumTypePosition.TopRight);
 				
                 //Agregar componente de coordenadas
                  AddCoordsToView();
@@ -154,12 +154,13 @@ class GeoApp {
 
 		// Get the screen point from the view's click event
 		view.on("click", function (event) {
-			ShowPolygonGeographic();
+			ShowPolygonGeographic(event);
    		});
 
         //Busqueda
         searchWidget.on('search-complete', function(event){  
-			SearchAndShowData();
+			debugger;
+			SearchAndShowData(event);
         });
 	}
 }

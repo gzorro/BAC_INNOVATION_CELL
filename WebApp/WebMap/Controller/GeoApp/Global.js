@@ -40,7 +40,7 @@ var _enumTypeMaps =
     , Osm:"osm"
     , NationalGeographic:"national-geographic"
     , StreetsReliefVector: "streets-relief-vector"
-    , StreetsNavogationVector: "streets-navigation-vector"
+    , StreetsNavigationVector: "streets-navigation-vector"
 }
 //Posiciones permitidas para objeto view
 var _enumTypePosition =
