@@ -1,6 +1,6 @@
 ﻿
 /**
- * Clase parental de Instancia del mapa esri
+ * Clase parental de funcionalidad del mapa esri
  * */
 class GeoApp {
     /**

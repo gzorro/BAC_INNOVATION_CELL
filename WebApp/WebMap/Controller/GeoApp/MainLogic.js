@@ -1,6 +1,6 @@
 ﻿/**
  * Core principal de funcionalidad del mapa geográfico
- * @Authors {Germán f. Grimaldi}, {Javier Becerra}
+ * @Authors {Germán F. Grimaldi}, {Javier Becerra}
  * 
  * */
 
@@ -66,174 +66,6 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
     view.ui.add(elementHTML, ubication);
     if(!isVisible)
         $(elementHTML).hide();
-}
-
-
-/**
- * Guardar coordenadas de polígono en .json
- * @param {any} event
- */
-function SavePolygon (event) {
-    if (event.state === "complete") {
-        debugger;
-        let polygonCoordinate = event.graphic.geometry.rings;
-        _listPoligonToSave.push(polygonCoordinate[0]); 
-        if(_listPoligonToSave.length === 1)
-            $('#btnGuardar').show('slow');
-        _listGraphicsToDelete.push(event);
-    }
-}
-
-/**
- * Guardar la lista de polígonos registrada en un archivo de tipo
- * @param {string} nameFile nombre del archivo
- * @param {string} fileType tipo de archivo (xml, json, txt)
- */
-function SavePolygonList(nameFile, fileType)
-{
-    if(_listPoligonToSave.length > 0)
-    {
-        // let listFormatted = SetFormatDecimal(100000,9);
-        let jsonData = JSON.stringify(_listPoligonToSave);
-        // let jsonData = JSON.stringify(listFormatted);
-        Download(jsonData, nameFile, fileType);
-        PolygonsRemove();
-        $('#btnGuardar').hide('slow');
-    }else{
-        alert('No se ha registrado ningún polígono aún. A continuación registra un polígono e intenta de nuevo');
-    }
-}
-
-/**
- * Eliminar los polígonos que ya se han guardado en el archivo plano
- */
-function PolygonsRemove()
-{
-    _listGraphicsToDelete.forEach(x => graphicsLayer.remove(x.graphic))    
-}
-
-/**
- * Cargar los polígonos desde un archivo json
- * * El archivo se carga de forma fija y no tiene ninguna validación
- * @param {string} fileName nombre del archivo
- */
-function LoadJsonPolygon(fileName)
-{
-    try{
-        $.getJSON(fileName, function(json) {
-            DrawPolygonsSaved(json);
-        });
-    }catch{
-        alert('Ups!, algo salió mal, vuelve a intentar');
-    }
-}
-/**
- * Dibuja en el objeto view los polígonos guardados
- * @param {any} jsonObject 
- */
-function DrawPolygonsSaved(jsonObject)
-{
-    jsonObject.forEach(x => {
-        if(x.length > 0)
-            DrawPolygon(x);
-    });
-}
-
-/**
- * Grafica y dibuja en el objeto view, un polígono
- * @param {Array} polygonCoordinates coordenadas del polígono(latitud y longitud) 
- */
-function DrawPolygon(polygonCoordinates)
-{
-    let polygon = {
-        type: "polygon",
-        rings: polygonCoordinates
-      };
-
-    let simpleFillSymbol = {
-        type: "simple-fill",
-        color: [227, 139, 79, 0.5],  // orange, opacity 80%
-        outline: {
-            color: [255, 255, 255],
-            width: 1
-        }
-    };
-    let instance = graphicInstance; 
-    instance.geometry = polygon;
-    instance.symbol = simpleFillSymbol;
-
-    let polygonGraphic = instance;
-    
-    graphicsLayer.add(polygonGraphic);
-}
-
-/**
- * Ejecuta guardado de archivo a través de una simulación de evento
- * @param {string} content Contenido en formato determinado (.json, .xml)
- * @param {string} fileName Nombre del archivo que se va a agurdar incluyendo formato (.json, .xml, .txt) 
- * @param {string} contentType Typo de contenido // Default value: 'text/json'
- */
-function Download(content, fileName, contentType = 'text/json') {
-    var a = document.createElement("a");
-    var file = new Blob([content], { type: contentType });
-    a.href = URL.createObjectURL(file);
-    a.download = fileName;
-    a.click();
-    a.remove();
-}
-
-/**
- * Configura el formato para georeferenciación espacial en determinados valores
- * @param {int} divisibleBy valor numérico que dividira el valor espacial
- * @param {int} lengthFormat Longitud de valores numéricos
- */
-function SetFormatDecimal(divisibleBy, lengthFormat)
-{
-    let listPolygonsAssigned = [];
-    _listPoligonToSave.forEach(x => {
-        let listCoordsPolygon = [];
-        x.forEach(y => {
-            debugger;
-            let latitude = parseFloat((y[0]/divisibleBy).toFixed(lengthFormat))+9;
-            let longitude = parseFloat((y[1]/divisibleBy).toFixed(lengthFormat))-1; 
-            let obj = [latitude,longitude];
-            
-            listCoordsPolygon.push(obj);
-        });
-        listPolygonsAssigned.push(listCoordsPolygon);
-    });
-    return listPolygonsAssigned;
-}
-
-/**
- * Establece los parámetros de definición del polígono
- * @param {Array} polygonCoords Coordenadas del polígono
- */
-function SetPolygon(polygonCoords)
-{
-    if(polygonCoords.length > 0)
-    {
-        let _polygon = {
-            type: "polygon",
-            rings: polygonCoords,
-            spatialReference: { wkid: 102100 }
-            };
-    
-        let _simpleFillSymbol = {
-            type: "simple-fill",
-            color: [227, 139, 79, 0.8],  // orange, opacity 80%
-            outline: {
-                color: [255, 255, 255],
-                width: 1
-            }
-        };
-        let objectPartial = {
-            polygon: _polygon,
-            simpleFillSymbol: _simpleFillSymbol
-        };
-
-        return objectPartial;
-    }
 }
 
 /** 
@@ -367,53 +199,13 @@ function searchAptitup( latitud, longitud){
  * @param latitud
  * @param longitud
  */
-function searchPointUpra(latitud, longitud){           
+function searchPointUpra(latitud, longitud){
     $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) {
 
         arreglo = JSON.parse(data);
         return arreglo;
 
     });  
-}
-
-/**
- * Función de carga de datos
- */
-function LoadDataExcel()
-{
-    debugger;
-    if (fileupd.files.length === 1)
-    {
-        var $file = document.getElementById('fileupd');
-        var fileData = new FormData();
-        if ($file.files.length > 0) {
-            for (var i = 0; i < $file.files.length; i++) {
-                fileData.append($file.files[i].name, $file.files[i]);
-            }
-        }
-    }
-    
-    //Consumo Api REST para obtener data del excel
-    CoreRequest.GetcontentExcel(fileData).done(function(d)
-    {
-        
-    }).fail(function(ex)
-    {
-
-    });
-}
-
-/**
- * Grafica un div o tabla de contenido de datos
- */
-function AddDashBoardElement()
-{
-    debugger;
-    let elementHTML = document.createElement("div");
-    elementHTML.id = "div-dashboard";
-    elementHTML.innerHTML = dashboardHTML;
-
-    view.ui.add(elementHTML, _enumTypePosition.TopLeading);
 }
 
 /**
@@ -444,7 +236,6 @@ function SearchAndShowData(event)
     }
 }
 
-
 /**
  * Muestra modal
  * @param {*} pPosX 
@@ -465,35 +256,6 @@ function SearchAndShowDataByPos(pPosX, pPosY)
     //Función según pulon la info de aptitud de cultivo
     searchPoint(lat, lon);   
 }
-
-/**
- * Muestra respectiva información en cuanto a un polígono
- */
-function ShowPolygonGeographic(event)
-{
-    let screenPoint = {
-        x: event.x,
-        y: event.y
-        };
-        debugger;
-        // Search for graphics at the clicked location
-        view.hitTest(screenPoint).then(function (response) {
-        if (response.results.length) {
-            //Entra si hay un polígono seleccionado
-            debugger;
-            SearchAndShowDataByPos(response.results[0].mapPoint.x, response.results[0].mapPoint.y);
-
-            // var graphic = response.results.filter(function (result) {
-            // 	// check if the graphic belongs to the layer of interest
-            // 	debugger;
-            // 	return true;//result.graphic.layer === myLayer;
-            // })[0].graphic;
-            // do something with the result graphic
-            //console.log(graphic.attributes);
-        }
-        });
-}
-
 
 // function getAreaAndLength(evtObj) {
 //     geometry = evtObj.geometry;
