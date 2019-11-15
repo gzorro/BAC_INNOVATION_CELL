@@ -536,8 +536,9 @@ function viewMapNull(){
 
 /**
  * Busca puntos y muestra información en cuadro modal
+ * @param event
  */
-function SearchAndShowData()
+function SearchAndShowData(event)
 {
     if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
                 
