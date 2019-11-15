@@ -1,5 +1,5 @@
 ﻿/**
- * Core parental de aplicación
+ * Célula parental de aplicación
  * @Authors {Germán F. Grimaldi}, {Javier Becerra}
  * 
  * */
@@ -27,14 +27,14 @@ class GeoApp {
 					, FeatureLayer
 					, GeometryService
 				){
-				//Instancia de elementos base de aplicación
-                //Carga de la capa gráfica
+
+				/* Instancia de elementos base de aplicación */
 				graphicsLayer = new GraphicsLayer();
 
                 const viewSpatialReference = new SpatialReference({
                     //wkid: 54042 // winkel III
-                    //wkid: 4326 // WGS84  
-                    wkid:102100 //flat coords 
+                    //wkid: 4326  // WGS84  
+                    wkid:102100   //flat coords 
                 });
 
                 const point = new Point({
@@ -43,7 +43,6 @@ class GeoApp {
                      spatialReference: viewSpatialReference
 				});
 				
-                //Inicialización de componentes
                 map = new Map(
                     {
                         basemap: _enumTypeMaps.Hybrid,
@@ -81,19 +80,12 @@ class GeoApp {
                 AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading, false);
                 AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopLeading);
 				
-				//Excel
-                // AddElementToView("button", "btnCargarExcel", "Excel", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading);
-                // AddElementToView("input-file", "fileupd", "", ["form-control", "custom-file-input"], _enumTypePosition.BottomRight);
-				
-				//DashBoard
-				// AddDashBoardElement();
-                               
+
                 /**************************** Eventos Bind ****************************/
 				GeoApp.BindEvents();
 
 				/* Otros eventos bind que solo pueden ser instanciados dentro del contexto de aplicación esri */
 				
-				//evento de carga de polígonos
 				$('#btnCargar').on('click', function(evt) {
 					$.getJSON('_PolygonSaved_.json', function(json) {
 						json.forEach(x => {
@@ -108,7 +100,6 @@ class GeoApp {
 					});
 				});
 			}
-			
         );
     }
 

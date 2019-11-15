@@ -1,13 +1,11 @@
 /**
  * 
  *  Funcionalidad busqueda dados un punto geográfico (Latitud y longitud)
- * 
+ * @Authors {Germán F. Grimaldi}, {Javier Becerra}
  */
 
-
 /* ******************************************************************************************************* */
 /* ******************************************************************************************************* */
-
 
 /**
  * Busca puntos y muestra información en cuadro modal
@@ -36,7 +34,6 @@ function SearchAndShowData(event)
         console.log("No hay resultados");
     }
 }
-
 
 /** 
  * Buscar aptitud de cultivo a apartir de punto de referencia 
@@ -101,9 +98,6 @@ debugger;
     });
 }
 
-
-
-
 /**
  * abrir modal en donde se muestra la info correspondiente a la aptitud
  * 
@@ -121,9 +115,6 @@ function createModal(){
         $("#myModal"+nameModal).modal('show');
 
 }
-
-
-
 
 /**
  * Función encargada de cargar el select con los tipos de cultivo cargados desde la UPRA
@@ -145,9 +136,6 @@ function searchCultivo( latitud, longitud){
     });         
      
 }
-
-
-
 
 /**
  * Función encargada de cargar el select con los tipos de cultivo cargados desde la UPRA
@@ -171,9 +159,6 @@ function searchAptitup( latitud, longitud){
      
 }
 
-
-
-
 /**
  * Función hace llamado al servicio UPRA para traer u objeto con datos de un punto en especifico
  * @param latitud
@@ -187,8 +172,6 @@ function searchPointUpra(latitud, longitud){
 
     });  
 }
-
-
 
 /**
  * Muestra modal

@@ -1,5 +1,5 @@
 /**
- * Célula de funcionalidad de polìgonos
+ * Célula de funcionalidad de polígonos
  * @Author {Germán F. Grimaldi}
  * 
  * */
