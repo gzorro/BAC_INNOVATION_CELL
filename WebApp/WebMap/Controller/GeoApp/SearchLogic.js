@@ -1,14 +1,41 @@
 /**
  * 
- * 
  *  Funcionalidad busqueda dados un punto geográfico (Latitud y longitud)
- * 
  * 
  */
 
 
 /* ******************************************************************************************************* */
 /* ******************************************************************************************************* */
+
+
+/**
+ * Busca puntos y muestra información en cuadro modal
+ * @param event evento que llama la función
+ */
+function SearchAndShowData(event)
+{
+    if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
+                
+        let latitud;
+        let longitud;
+        latitud = event.results[0].results[0].extent.xmax; 
+        longitud = event.results[0].results[0].extent.ymax;
+    
+        //Función crear modal
+        createModal();
+    
+        //  Funcion cargar select desde UPRA
+        //searchAptitup(latitud, longitud);   
+        searchCultivo(latitud, longitud);  
+
+        //Función según punto trae la info de aptitud de cultivo
+        searchPoint( latitud, longitud);   
+       
+    }else{
+        console.log("No hay resultados");
+    }
+}
 
 
 /** 
@@ -19,7 +46,6 @@
 
 function searchPoint(latitud, longitud){
     $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) {
-        debugger;
         arregloJson = JSON.parse(data);
 debugger;
        $("select").on('change', function() {
@@ -83,7 +109,6 @@ debugger;
  * 
  */
 function createModal(){ 
-    debugger;
     let modal = $(modalHTML);
         
         $("#ventanaEmergente").html(modal);         
@@ -161,4 +186,26 @@ function searchPointUpra(latitud, longitud){
         return arreglo;
 
     });  
+}
+
+
+
+/**
+ * Muestra modal
+ * @param {*} pPosX 
+ * @param {*} pPosY 
+ */
+function SearchAndShowDataByPos(pPosX, pPosY)
+{
+    let lat = pPosX;
+    let lon = pPosY;
+
+    //Función crear modal
+    createModal();
+
+    //  Funcion cargar select desde UPRA
+    searchCultivo(lat,lon);
+
+    //Función según pulon la info de aptitud de cultivo
+    searchPoint(lat, lon);   
 }

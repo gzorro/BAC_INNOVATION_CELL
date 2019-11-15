@@ -68,54 +68,6 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
         $(elementHTML).hide();
 }
 
-/**
- * Busca puntos y muestra información en cuadro modal
- * @param event evento que llama la función
- */
-function SearchAndShowData(event)
-{
-    if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
-                
-        let latitud;
-        let longitud;
-        latitud = event.results[0].results[0].extent.xmax; 
-        longitud = event.results[0].results[0].extent.ymax;
-    
-        //Función crear modal
-        createModal();
-    
-        //  Funcion cargar select desde UPRA
-        //searchAptitup(latitud, longitud);   
-        searchCultivo(latitud, longitud);  
-
-        //Función según punto trae la info de aptitud de cultivo
-        searchPoint( latitud, longitud);   
-       
-    }else{
-        console.log("No hay resultados");
-    }
-}
-
-/**
- * Muestra modal
- * @param {*} pPosX 
- * @param {*} pPosY 
- */
-function SearchAndShowDataByPos(pPosX, pPosY)
-{
-    debugger;
-    let lat = pPosX;
-    let lon = pPosY;
-
-    //Función crear modal
-    createModal();
-
-    //  Funcion cargar select desde UPRA
-    searchCultivo(lat,lon);
-
-    //Función según pulon la info de aptitud de cultivo
-    searchPoint(lat, lon);   
-}
 
 // function getAreaAndLength(evtObj) {
 //     geometry = evtObj.geometry;
