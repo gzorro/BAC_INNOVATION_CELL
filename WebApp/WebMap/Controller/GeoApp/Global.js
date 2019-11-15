@@ -49,6 +49,7 @@ var _enumTypePosition =
    , TopLeft: "top-left"
    , TopLeading: "top-leading"
    , TopTrailing: "top-trailing"
+   , TopCenter: "top-center"
    , BottomRight: "bottom-right"
    , BottomLeft: "bottom-left"
    , BottomLeading: "bottom-leading"

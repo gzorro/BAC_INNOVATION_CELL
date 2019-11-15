@@ -154,55 +154,12 @@ class GeoApp {
 
 		// Get the screen point from the view's click event
 		view.on("click", function (event) {
-			var screenPoint = {
-			x: event.x,
-			y: event.y
-			};
-			debugger;
-			// Search for graphics at the clicked location
-			view.hitTest(screenPoint).then(function (response) {
-			if (response.results.length) {
-				//Entra si hay un polígono seleccionado
-				debugger;
-				response.results[0].mapPoint.x;
-				response.results[0].mapPoint.y;
-				// var graphic = response.results.filter(function (result) {
-				// 	// check if the graphic belongs to the layer of interest
-				// 	debugger;
-				// 	return true;//result.graphic.layer === myLayer;
-				// })[0].graphic;
-				// do something with the result graphic
-				//console.log(graphic.attributes);
-			}
-			});
+			ShowPolygonGeographic();
    		});
 
-
         //Busqueda
-        searchWidget.on('search-complete', function(event){                
-            if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
-                
-             let latitud;
-             let longitud;
-              latitud = event.results[0].results[0].extent.xmax; 
-              longitud = event.results[0].results[0].extent.ymax;
-           
-              //Función crear modal
-              createModal();
-             
-              //  Funcion cargar select desde UPRA
-              //searchAptitup(latitud, longitud);   
-              searchCultivo(latitud, longitud);  
-
-              //Función según punto trae la info de aptitud de cultivo
-              searchPoint( latitud, longitud);   
-            
-            }else{                          
-                console.log("No hay resultados");
-            }
-         
+        searchWidget.on('search-complete', function(event){  
+			SearchAndShowData();
         });
-
-
 	}
 }

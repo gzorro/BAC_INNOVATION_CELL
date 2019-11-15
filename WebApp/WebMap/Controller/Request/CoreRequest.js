@@ -1,6 +1,7 @@
 let rootPath = 'http://localhost:54652/api/geo/';
 /**
  * Célula transversal de consumo
+ * @author {German F. Grimaldi}
  */
 class CoreRequest {
 
