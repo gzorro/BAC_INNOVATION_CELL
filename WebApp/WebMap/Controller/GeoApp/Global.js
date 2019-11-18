@@ -1,8 +1,8 @@
 /**
  * Célula transversal de persistencia
  * @Authors {Germán F. Grimaldi}, {Javier Becerra}
- * 
  * */
+
 /** Propiedaes globales */
 var map = {};
 var webMap ;
@@ -11,7 +11,8 @@ var sketch = {};
 var graphicsLayer = {};
 var graphicInstance = null;
 var searchWidget = {};
-var geometryService = {};
+var geometryService;
+var _listPolygonsGeometry = [];
 var arregloJson;
 var valorAptitud;
 var valorCultivo;
@@ -31,6 +32,7 @@ var _listEsriReferences =
     , "esri/widgets/Popup"
     , "esri/layers/FeatureLayer"
     , "esri/tasks/GeometryService"
+    , "esri/tasks/support/AreasAndLengthsParameters"
 ]
 
 //Tipos de mapas a implementar(for Map)

@@ -1,5 +1,4 @@
 /**
- * 
  *  Funcionalidad busqueda dados un punto geográfico (Latitud y longitud)
  * @Authors {Germán F. Grimaldi}, {Javier Becerra}
  */
@@ -44,7 +43,6 @@ function SearchAndShowData(event)
 function searchPoint(latitud, longitud){
     $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) {
         arregloJson = JSON.parse(data);
-debugger;
        $("select").on('change', function() {
            
           valorAptitud = $("#aptitud option:selected").text();            
@@ -191,4 +189,6 @@ function SearchAndShowDataByPos(pPosX, pPosY)
 
     //Función según pulon la info de aptitud de cultivo
     searchPoint(lat, lon);   
+
+    showAreaAndLengthInfo();
 }

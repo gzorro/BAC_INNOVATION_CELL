@@ -1,7 +1,6 @@
 ﻿/**
  * Core principal de funcionalidad del mapa geográfico
  * @Authors {Germán F. Grimaldi}, {Javier Becerra}
- * 
  * */
 
 /* ******************************************************************************************************* */
@@ -92,4 +91,3 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
 // dom.byId("area").innerHTML = result.areas[0].toFixed(3) + " acres";
 // dom.byId("length").innerHTML = result.lengths[0].toFixed(3) + " feet";
 // }
-

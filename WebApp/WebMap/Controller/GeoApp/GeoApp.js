@@ -1,7 +1,6 @@
 ﻿/**
  * Célula parental de aplicación
  * @Authors {Germán F. Grimaldi}, {Javier Becerra}
- * 
  * */
 class GeoApp {
     /**
@@ -25,11 +24,13 @@ class GeoApp {
 					, Point
 					, Popup
 					, FeatureLayer
-					, GeometryService
+                    , GeometryService
+                    , AreasAndLengthsParameters
 				){
 
 				/* Instancia de elementos base de aplicación */
 				graphicsLayer = new GraphicsLayer();
+                geometryService = new GeometryService("https://sampleserver6.arcgisonline.com/ArcGIS/rest/services/Utilities/Geometry/GeometryServer");
 
                 const viewSpatialReference = new SpatialReference({
                     //wkid: 54042 // winkel III
@@ -40,7 +41,7 @@ class GeoApp {
                 const point = new Point({
                     x:-8230739.205745591, 
                     y:525886.7546018914,
-                     spatialReference: viewSpatialReference
+                    spatialReference: viewSpatialReference
 				});
 				
                 map = new Map(
@@ -79,26 +80,9 @@ class GeoApp {
                 
                 AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading, false);
                 AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopLeading);
-				
 
                 /**************************** Eventos Bind ****************************/
-				GeoApp.BindEvents();
-
-				/* Otros eventos bind que solo pueden ser instanciados dentro del contexto de aplicación esri */
-				
-				$('#btnCargar').on('click', function(evt) {
-					$.getJSON('_PolygonSaved_.json', function(json) {
-						json.forEach(x => {
-							let _partialObj = SetPolygon(x);
-							
-							let polygonGraphic = new Graphic({
-								geometry: _partialObj.polygon,
-								symbol: _partialObj.simpleFillSymbol
-							});
-							graphicsLayer.add(polygonGraphic);
-						});
-					});
-				});
+				GeoApp.BindEvents(Graphic, AreasAndLengthsParameters);
 			}
         );
     }
@@ -106,23 +90,38 @@ class GeoApp {
 	/**
 	 * Eventos sobre elementos de la aplicación
 	 */
-    static BindEvents()
+    static BindEvents(Graphic,AreasAndLengthsParameters)
     {
 		//evento de guardado de polígonos
         $('#btnGuardar').on('click', function(evt) {
-            let namefile = `_PolygonSaved_.json`
+            let namefile = `_PolygonSaved_.json`;
             SavePolygonList(namefile);
         });
 
+        //evento de carga y graficación de polígonos guardados
+        $('#btnCargar').on('click', function(evt) {
+            $.getJSON('_PolygonSaved_.json', function(json) {
+                json.forEach(x => {
+                    debugger;
+                    let _partialObj = SetPolygon(x.rings);
+                    
+                    let polygonGraphic = new Graphic({
+                        geometry: _partialObj.polygon,
+                        symbol: _partialObj.simpleFillSymbol
+                    });
+                    graphicsLayer.add(polygonGraphic);
+                });
+            });
+        });
+
         //Cargar datos de excel
-        $('#btnCargarExcel').on('click',function()
-        {
+        $('#btnCargarExcel').on('click',function(){
             LoadDataExcel();
         });
 		
         //Cuando se guarde el polígono se ejecuta este evento
         sketch.on("create", function (event) {
-            SavePolygon(event);
+            SavePolygon(event, AreasAndLengthsParameters);
         });
 
         //evento complementario que guarda posición en mapa

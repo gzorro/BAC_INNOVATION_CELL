@@ -1,11 +1,11 @@
 /**
  * Célula de funcionalidad de polígonos
  * @Author {Germán F. Grimaldi}
- * 
  * */
 
 /* ******************************************************************************************************* */
 /* ******************************************************************************************************* */
+
 /**
  * Establece los parámetros de definición del polígono
  * @param {Array} polygonCoords Coordenadas del polígono
@@ -40,14 +40,29 @@ function SetPolygon(polygonCoords)
 /**
  * Guardar coordenadas de polígono en .json
  * @param {any} event
+ * @param {any} AreasAndLengthsParameters instancia del servicio
  */
-function SavePolygon (event) {
+function SavePolygon (event, AreasAndLengthsParameters) {
     if (event.state === "complete") {
-        debugger;
         let polygonCoordinate = event.graphic.geometry.rings;
-        _listPoligonToSave.push(polygonCoordinate[0]); 
-        if(_listPoligonToSave.length === 1)
-            $('#btnGuardar').show('slow');
+        let polygonObject = SetPolygon(polygonCoordinate).polygon;
+        debugger;
+        let areasAndLengthParams = new AreasAndLengthsParameters({
+            areaUnit: "square-kilometers",
+            lengthUnit: "kilometers",
+            polygons: polygonObject
+        });
+        geometryService.areasAndLengths(areasAndLengthParams).then(function(results){
+            polygonObject.area = results.areas[0];
+            polygonObject.length = results.lengths[0];
+            //Agregar a lista global de polígonos
+            _listPoligonToSave.push(polygonObject); 
+
+            if(_listPoligonToSave.length === 1)
+                $('#btnGuardar').show('slow');
+            
+        });
+        
         _listGraphicsToDelete.push(event);
     }
 }
@@ -61,9 +76,7 @@ function SavePolygonList(nameFile, fileType)
 {
     if(_listPoligonToSave.length > 0)
     {
-        // let listFormatted = SetFormatDecimal(100000,9);
         let jsonData = JSON.stringify(_listPoligonToSave);
-        // let jsonData = JSON.stringify(listFormatted);
         DownloadPolygon(jsonData, nameFile, fileType);
         RemovePolygon();
         $('#btnGuardar').hide('slow');
@@ -82,7 +95,7 @@ function RemovePolygon()
 
 /**
  * Cargar los polígonos desde un archivo json
- * * El archivo se carga de forma fija y no tiene ninguna validación
+ * El archivo se carga de forma fija y no tiene ninguna validación
  * @param {string} fileName nombre del archivo
  */
 function LoadJsonPolygon(fileName)
@@ -150,7 +163,6 @@ function ShowPolygonGeographic(event)
             //Entra si hay un polígono seleccionado
             debugger;
             SearchAndShowDataByPos(response.results[0].mapPoint.x, response.results[0].mapPoint.y);
-
         }
     });
 }
@@ -192,4 +204,27 @@ function SetFormatDecimal(divisibleBy, lengthFormat)
     });
     return listPolygonsAssigned;
 }
+
+
+/**
+ * Calcula el áare y longitud de determinado polígono
+ * @param {Polygon} polygon 
+ */
+function CalculateAreaAndLength(polygon)
+{
+    debugger;
+    geometryService.simplify(polygon).then(function(simplifiedGeometries){
+        let areasAndLengthParams = new AreasAndLengthsParameters({
+          areaUnit: "square-kilometers",
+          lengthUnit: "kilometers",
+          polygons: simplifiedGeometries
+        });
+        geometryService.areasAndLengths(areasAndLengthParams).then(function(results){
+          console.log("area: ", results.areas[0]);
+          console.log("length: ", results.lengths[0]);
+        });
+      });
+}
+
+
 
