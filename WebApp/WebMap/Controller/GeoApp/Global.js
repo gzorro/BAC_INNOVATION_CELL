@@ -11,6 +11,7 @@ var sketch = {};
 var graphicsLayer = {};
 var graphicInstance = null;
 var searchWidget = {};
+var _listPolygonWithArea = {};
 var geometryService;
 var _listPolygonsGeometry = [];
 var arregloJson;

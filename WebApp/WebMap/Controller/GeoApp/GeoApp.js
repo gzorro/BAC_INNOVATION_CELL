@@ -109,6 +109,12 @@ class GeoApp {
                         geometry: _partialObj.polygon,
                         symbol: _partialObj.simpleFillSymbol
                     });
+                    let dfgh = {
+                        polygon: _partialObj.polygon,
+                        area: x.area,
+                        length: x.length
+                    }
+                    _listPolygonWithArea.push(dfgh);
                     graphicsLayer.add(polygonGraphic);
                 });
             });

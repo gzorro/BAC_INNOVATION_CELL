@@ -100,8 +100,23 @@ function searchPoint(latitud, longitud){
  * abrir modal en donde se muestra la info correspondiente a la aptitud
  * 
  */
-function createModal(){ 
+function createModal(area = "", length = ""){
     let modal = $(modalHTML);
+
+     if(area == "" && length == "")
+     {
+        $("#ventanaEmergente").html(modal);         
+        $("#contenidoModal").append("<div class='alert alert-primary' role='alert' id='archivo'><p>Estamos consultado la UPRA a través del WSO2 BAC.</p>"+
+        "<img src='../Content/Images//ajax-loader-2.gif'style='display: block;margin: 0 auto;' />"+
+        "</div> <br/><br/><br/>"); 
+        $('.popup-overlay').height($(window).height());
+        
+        //activar modal
+        $("#myModal"+nameModal).modal('show');
+     }else{
+        let modal = $(`
+            hola ${area} que mas
+        `);
         
         $("#ventanaEmergente").html(modal);         
         $("#contenidoModal").append("<div class='alert alert-primary' role='alert' id='archivo'><p>Estamos consultado la UPRA a través del WSO2 BAC.</p>"+
@@ -111,6 +126,8 @@ function createModal(){
         
         //activar modal
         $("#myModal"+nameModal).modal('show');
+     }
+    
 
 }
 
@@ -178,6 +195,19 @@ function searchPointUpra(latitud, longitud){
  */
 function SearchAndShowDataByPos(pPosX, pPosY)
 {
+    var area = "";
+    var length = "";
+    _listPolygonWithArea.forEach(x => {
+        if(x.centroid.x == pPosX) 
+        {
+            if(x.centroid.y == pPosY)
+            {
+                area = x.area;
+                length = x.length;
+            }
+        }
+    })
+    
     let lat = pPosX;
     let lon = pPosY;
 
@@ -189,6 +219,4 @@ function SearchAndShowDataByPos(pPosX, pPosY)
 
     //Función según pulon la info de aptitud de cultivo
     searchPoint(lat, lon);   
-
-    showAreaAndLengthInfo();
 }
