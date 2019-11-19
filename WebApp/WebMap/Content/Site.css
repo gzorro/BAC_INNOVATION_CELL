@@ -203,8 +203,20 @@ footer {
 }
 
 .mensaje .infoPrincipal{
-  display: block;
-  padding: 20px;
+  /*display: block;*/
+  display: flex;
+  margin: 0.4em;
+  /* padding: 15px; */
+}
+
+.spanSecondary {
+    /* display: flex;
+    padding: 15px;
+    margin: 0.4em; */
+    display: block;
+    margin: 1.4em;
+    /* position: relative; */
+    bottom: 4em;
 }
 
 .close #close img{
@@ -212,15 +224,33 @@ footer {
 }
 
 div#myModalConsultaUPRA {
-    float: right;
-    height: 300px;
-    width: 45%;
+    /* float: right;
+    height: 100%;
+    width: 43%;
     display: block;
     position: relative;
-    top: 121px;
-    margin: 20em 0 0 auto;
+    top: 5px;
+    margin: 20em 0 0 auto; */
+
+    /*2*/
+    float: right;
+    height: 30em;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    margin-top: 22em;
+
 }
 
 #myModalConsultaUPRA .etiquetaBuscador img{
     width: 18px;
+}
+
+.modal-fixed {
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+    position: fixed;
+    width: 41em;
+    z-index: 999;
+    background-color: white;
 }

@@ -60,7 +60,9 @@ function SavePolygon (event, AreasAndLengthsParameters) {
 
             if(_listPoligonToSave.length === 1)
                 $('#btnGuardar').show('slow');
+            
         });
+        
         _listGraphicsToDelete.push(event);
     }
 }
@@ -89,6 +91,60 @@ function SavePolygonList(nameFile, fileType)
 function RemovePolygon()
 {
     _listGraphicsToDelete.forEach(x => graphicsLayer.remove(x.graphic))    
+}
+
+/**
+ * Cargar los polígonos desde un archivo json
+ * El archivo se carga de forma fija y no tiene ninguna validación
+ * @param {string} fileName nombre del archivo
+ */
+function LoadJsonPolygon(fileName)
+{
+    try{
+        $.getJSON(fileName, function(json) {
+            DrawPolygonsSaved(json);
+        });
+    }catch{
+        alert('Ups!, algo salió mal, vuelve a intentar');
+    }
+}
+
+/**
+ * Grafica y dibuja en el objeto view, un polígono
+ * @param {Array} polygonCoordinates coordenadas del polígono(latitud y longitud) 
+ */
+function DrawPolygon(polygonCoordinates)
+{
+    let polygon = {
+        type: "polygon",
+        rings: polygonCoordinates
+      };
+
+    let simpleFillSymbol = {
+        type: "simple-fill",
+        color: [227, 139, 79, 0.5],  // orange, opacity 80%
+        outline: {
+            color: [255, 255, 255],
+            width: 1
+        }
+    };
+    let instance = graphicInstance; 
+    instance.geometry = polygon;
+    instance.symbol = simpleFillSymbol;
+    let polygonGraphic = instance;
+    graphicsLayer.add(polygonGraphic);
+}
+
+/**
+ * Dibuja en el objeto view los polígonos guardados
+ * @param {any} jsonObject 
+ */
+function DrawPolygonsSaved(jsonObject)
+{
+    jsonObject.forEach(x => {
+        if(x.length > 0)
+            DrawPolygon(x);
+    });
 }
 
 /**

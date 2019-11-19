@@ -6,34 +6,6 @@
 /* ******************************************************************************************************* */
 /* ******************************************************************************************************* */
 
-/**
- * Busca puntos y muestra información en cuadro modal
- * @param event evento que llama la función
- */
-function SearchAndShowData(event)
-{
-    if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
-                
-        let latitud;
-        let longitud;
-        latitud = event.results[0].results[0].extent.xmax; 
-        longitud = event.results[0].results[0].extent.ymax;
-    
-        //Función crear modal
-        createModal();
-    
-        //  Funcion cargar select desde UPRA
-        //searchAptitup(latitud, longitud);   
-        searchCultivo(latitud, longitud);  
-
-        //Función según punto trae la info de aptitud de cultivo
-        searchPoint( latitud, longitud);   
-       
-    }else{
-        console.log("No hay resultados");
-    }
-}
-
 /** 
  * Buscar aptitud de cultivo a apartir de punto de referencia 
  * @param latitud valor latitud del punto georeferenciado desde la búsqueda
@@ -69,25 +41,27 @@ function searchPoint(latitud, longitud){
 
        //Al realizar la busqueda general de punto se visualiza esta información inicial
        $.each(arreglo.aptitudes, function(i,item){
-            
-               let contenido = "<div class='list-group' id='myDIV'>"
-                +"<div class='list-group-item active'>"               
-                + Object.keys(item)[0] +" - "+ item[Object.getOwnPropertyNames(item)[0]].aptitud+"   "
-                +  "______________________________________________________________________________"                    
-                + " Servicio :::: " 
-                + item[Object.getOwnPropertyNames(item)[0]].servicio +"   "
-                +  "______________________________________________________________________________"
-                + " Nombre cientifico ::::   "						
-                + item[Object.getOwnPropertyNames(item)[0]].nombre_cientifico +"   "
-                +  "______________________________________________________________________________"                
-                + " Municipio ::::  "
-                + item[Object.getOwnPropertyNames(item)[0]].municipio+"   "
-                +  "______________________________________________________________________________"
-                + " Departamento ::::  "						
-                + " "+item[Object.getOwnPropertyNames(item)[0]].departamen +"  "                        
-                +"</div>";  
-
-            document.getElementById("carga_info").innerHTML += contenido; 
+            if(item != null)
+            {
+                let contenido = "<div class='list-group' id='myDIV'>"
+                 +"<div class='list-group-item active'>"               
+                 + Object.keys(item)[0] +" - "+ item[Object.getOwnPropertyNames(item)[0]].aptitud+"   "
+                 +  "______________________________________________________________________________"                    
+                 + " Servicio :::: " 
+                 + item[Object.getOwnPropertyNames(item)[0]].servicio +"   "
+                 +  "______________________________________________________________________________"
+                 + " Nombre cientifico ::::   "						
+                 + item[Object.getOwnPropertyNames(item)[0]].nombre_cientifico +"   "
+                 +  "______________________________________________________________________________"                
+                 + " Municipio ::::  "
+                 + item[Object.getOwnPropertyNames(item)[0]].municipio+"   "
+                 +  "______________________________________________________________________________"
+                 + " Departamento ::::  "						
+                 + " "+item[Object.getOwnPropertyNames(item)[0]].departamen +"  "                        
+                 +"</div>";  
+ 
+                document.getElementById("carga_info").innerHTML += contenido;
+            }
        });
 
        var firstPart = data.substring(data.indexOf("<br/><br/>"),data.lastIndexOf("</body>"));
@@ -100,35 +74,21 @@ function searchPoint(latitud, longitud){
  * abrir modal en donde se muestra la info correspondiente a la aptitud
  * 
  */
-function createModal(area = "", length = ""){
-    let modal = $(modalHTML);
-
-     if(area == "" && length == "")
-     {
-        $("#ventanaEmergente").html(modal);         
-        $("#contenidoModal").append("<div class='alert alert-primary' role='alert' id='archivo'><p>Estamos consultado la UPRA a través del WSO2 BAC.</p>"+
-        "<img src='../Content/Images//ajax-loader-2.gif'style='display: block;margin: 0 auto;' />"+
-        "</div> <br/><br/><br/>"); 
-        $('.popup-overlay').height($(window).height());
+function createModal(area = 0, length = 0){
+    // valueArea = 0;
+    // valueLength = 0;
+    // let modal = $(modalHTML);
+    if(area == 0 && length == 0)
+        $("#ventanaEmergente").html($(modalHTML));  
+    else{
+        debugger;
+        $("#ventanaEmergente").html($(WriteHTMLModal(area, length)));  
+    }
+    $("#contenidoModal").append(loadingPopUpHTML);
+    $('.popup-overlay').height($(window).height());
         
-        //activar modal
-        $("#myModal"+nameModal).modal('show');
-     }else{
-        let modal = $(`
-            hola ${area} que mas
-        `);
-        
-        $("#ventanaEmergente").html(modal);         
-        $("#contenidoModal").append("<div class='alert alert-primary' role='alert' id='archivo'><p>Estamos consultado la UPRA a través del WSO2 BAC.</p>"+
-        "<img src='../Content/Images//ajax-loader-2.gif'style='display: block;margin: 0 auto;' />"+
-        "</div> <br/><br/><br/>"); 
-        $('.popup-overlay').height($(window).height());
-        
-        //activar modal
-        $("#myModal"+nameModal).modal('show');
-     }
-    
-
+    //activar modal
+    $("#myModal"+nameModal).modal('show');
 }
 
 /**
@@ -140,13 +100,21 @@ function searchCultivo( latitud, longitud){
 
     $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) {                  
        
-          arreglo = JSON.parse(data);           
+        arreglo = JSON.parse(data);           
                 
-          let select2 = $("<select></select>").attr("id", "cultivos").attr("name", "cultivos").addClass("target");
-          select2.append($("<option></option>").attr("value", "Null").text("Seleccione"))
-          $.each(arreglo.aptitudes,function(i,item){ 
-           select2.append($("<option></option>").attr("value", Object.keys(item)[0]).text(Object.keys(item)[0]));           
-          });     
+        let select2 = $("<select></select>").attr("id", "cultivos").attr("name", "cultivos").addClass("target");
+        select2.append($("<option></option>").attr("value", "Null").text("Seleccione"))
+        
+        // arreglo.aptitudes.forEach(x => 
+        //     {
+        //         debugger;
+        //         select2.append($("<option></option>").attr("value", Object.keys(x)[0]).text(Object.keys(x)[0]));
+        //     })
+        debugger;
+        $.each(arreglo.aptitudes,function(i,item){ 
+            if(item != null)
+                select2.append($("<option></option>").attr("value", Object.keys(item)[0]).text(Object.keys(item)[0]));           
+        });
           $("#tCultivos").html(select2);
     });         
      
@@ -189,34 +157,61 @@ function searchPointUpra(latitud, longitud){
 }
 
 /**
+ * Busca puntos y muestra información en cuadro modal
+ * @param event evento que llama la función
+ */
+function SearchAndShowData(event)
+{
+    if(event.results && event.results.length > 0 && event.results[0].results && event.results[0].results.length > 0){
+                
+        let latitud;
+        let longitud;
+        latitud = event.results[0].results[0].extent.xmax; 
+        longitud = event.results[0].results[0].extent.ymax;
+    
+        //Función crear modal
+        createModal();
+    
+        //  Funcion cargar select desde UPRA
+        //searchAptitup(latitud, longitud);   
+        searchCultivo(latitud, longitud);  
+
+        //Función según punto trae la info de aptitud de cultivo
+        searchPoint( latitud, longitud);   
+       
+    }else{
+        console.log("No hay resultados");
+    }
+}
+
+/**
  * Muestra modal
  * @param {*} pPosX 
  * @param {*} pPosY 
  */
 function SearchAndShowDataByPos(pPosX, pPosY)
 {
-    var area = "";
-    var length = "";
+    debugger;
+    let area = "";
+    let length = "";
+
+    //Se recorre la lista de polígonos con el fin de encontrar el polígono seleccionado
     _listPolygonWithArea.forEach(x => {
-        if(x.centroid.x == pPosX) 
-        {
-            if(x.centroid.y == pPosY)
+        //Se realiza comparación a través de los centroides del polígono
+        if(x.polygon.centroid.x == pPosX)
+            if(x.polygon.centroid.y == pPosY)
             {
                 area = x.area;
                 length = x.length;
             }
-        }
-    })
-    
-    let lat = pPosX;
-    let lon = pPosY;
+    });
 
-    //Función crear modal
-    createModal();
+    //Función crear modal, teniendo el áre y períemtro del polígono, solo resta mostrarlos en el modal
+    createModal(area, length);
 
-    //  Funcion cargar select desde UPRA
-    searchCultivo(lat,lon);
+    //Funcion cargar select desde UPRA
+    searchCultivo(pPosX,pPosY);
 
     //Función según pulon la info de aptitud de cultivo
-    searchPoint(lat, lon);   
+    searchPoint(pPosX, pPosY);   
 }

@@ -2,6 +2,7 @@
  * Célula parental de aplicación
  * @Authors {Germán F. Grimaldi}, {Javier Becerra}
  * */
+
 class GeoApp {
     /**
      * Constructor de clase
@@ -22,8 +23,8 @@ class GeoApp {
 					, Search
 					, SpatialReference
 					, Point
-					, Popup
-					, FeatureLayer
+					// , Popup
+					// , FeatureLayer
                     , GeometryService
                     , AreasAndLengthsParameters
 				){
@@ -76,7 +77,7 @@ class GeoApp {
                 });
 				
                 //Agregar componente de coordenadas
-                 AddCoordsToView();
+                AddCoordsToView();
                 
                 AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading, false);
                 AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopLeading);
@@ -94,12 +95,13 @@ class GeoApp {
     {
 		//evento de guardado de polígonos
         $('#btnGuardar').on('click', function(evt) {
-            let namefile = `_PolygonSaved_.json`;
+            let namefile = '_PolygonSaved_.json';
             SavePolygonList(namefile);
         });
 
         //evento de carga y graficación de polígonos guardados
         $('#btnCargar').on('click', function(evt) {
+            debugger;
             $.getJSON('_PolygonSaved_.json', function(json) {
                 json.forEach(x => {
                     debugger;
@@ -109,15 +111,18 @@ class GeoApp {
                         geometry: _partialObj.polygon,
                         symbol: _partialObj.simpleFillSymbol
                     });
-                    let dfgh = {
-                        polygon: _partialObj.polygon,
+                    let fullObject = {
+                        polygon: polygonGraphic.geometry,
                         area: x.area,
                         length: x.length
                     }
-                    _listPolygonWithArea.push(dfgh);
+                    _listPolygonWithArea.push(fullObject);
                     graphicsLayer.add(polygonGraphic);
                 });
             });
+            // MapJsonData('_PolygonSaved_.json').then(function(obj) {
+            //     DrawJsonPolygon(obj, Graphic)
+            // });
         });
 
         //Cargar datos de excel
@@ -132,11 +137,7 @@ class GeoApp {
 
         //evento complementario que guarda posición en mapa
         view.on("pointer-move", function (evt) {
-            ShowCoordinates(
-                view.toMap(
-                    { x: evt.x, y: evt.y }
-                )
-            );
+            ShowCoordinates(view.toMap({ x: evt.x, y: evt.y }));
         });
 
         //evento de asignación de coordenadas

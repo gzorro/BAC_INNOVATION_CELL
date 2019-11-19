@@ -67,27 +67,24 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
         $(elementHTML).hide();
 }
 
+/**
+ * Toma un nombre de archivo con extensión y lo carga como objeto, este archivo debe existir en la raíz.
+ * @param {string} nameFile Nombre de archivo, incluir formato 
+ */
+function MapJsonData(nameFile) 
+{
+    let dfd = $.Deferred();
+    if(nameFile.includes(".json"))
+    {
+        $.getJSON('_PolygonSaved_.json', function(json) {
+            dfd.resolve(json);
+        });
+        return dfd.promise();
+    }else
+    {
+        console.error('No se cargó ningún archivo');
+        dfd.reject();
+        return dfd.promise();
+    }
+}
 
-// function getAreaAndLength(evtObj) {
-//     geometry = evtObj.geometry;
-//     map.graphics.clear();
-    
-//     var graphic = map.graphics.add(new Graphic(geometry, new SimpleFillSymbol()));
-
-//     //setup the parameters for the areas and lengths operation
-//     var areasAndLengthParams = new AreasAndLengthsParameters();
-//     areasAndLengthParams.lengthUnit = GeometryService.UNIT_FOOT;
-//     areasAndLengthParams.areaUnit = GeometryService.UNIT_ACRES;
-//     areasAndLengthParams.calculationType = "geodesic";
-//     geometryService.simplify([geometry], function(simplifiedGeometries) {
-//       areasAndLengthParams.polygons = simplifiedGeometries;
-//       geometryService.areasAndLengths(areasAndLengthParams);
-//     });
-// }
-
-// function outputAreaAndLength(evtObj) {
-// var result = evtObj.result;
-// console.log(json.stringify(result));
-// dom.byId("area").innerHTML = result.areas[0].toFixed(3) + " acres";
-// dom.byId("length").innerHTML = result.lengths[0].toFixed(3) + " feet";
-// }

@@ -11,9 +11,15 @@ var sketch = {};
 var graphicsLayer = {};
 var graphicInstance = null;
 var searchWidget = {};
-var _listPolygonWithArea = {};
+var _listPolygonWithArea = [];
 var geometryService;
-var _listPolygonsGeometry = [];
+//var _listPolygonsGeometry = [];
+//Lista de polígonos a guardar
+var _listPoligonToSave = [];
+//Lista de polígonos a borrar
+var _listGraphicsToDelete = [];
+//Lista de contenido de datos
+//var _listDataContent=[];
 var arregloJson;
 var valorAptitud;
 var valorCultivo;
@@ -30,8 +36,8 @@ var _listEsriReferences =
     , "esri/widgets/Search"
     , "esri/geometry/SpatialReference"
     , "esri/geometry/Point"
-    , "esri/widgets/Popup"
-    , "esri/layers/FeatureLayer"
+    // , "esri/widgets/Popup"
+    // , "esri/layers/FeatureLayer"
     , "esri/tasks/GeometryService"
     , "esri/tasks/support/AreasAndLengthsParameters"
 ]
@@ -64,13 +70,6 @@ var _enumTypePosition =
    , BottomTrailing: "bottom-trailing"
    , Manual: "manual"
 }
-//Lista de polígonos a guardar
-var _listPoligonToSave = [];
-//Lista de polígonos a borrar
-var _listGraphicsToDelete = [];
-//Lista de contenido de datos
-var _listDataContent=[];
-
 
 
 /** Métodos globales */
