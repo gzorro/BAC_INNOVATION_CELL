@@ -81,6 +81,9 @@ class GeoApp {
                 
                 AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading, false);
                 AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopLeading);
+                AddTestToView();
+
+                LoadBDData();
 
                 /**************************** Eventos Bind ****************************/
 				GeoApp.BindEvents(Graphic, AreasAndLengthsParameters);
@@ -102,27 +105,9 @@ class GeoApp {
         //evento de carga y graficación de polígonos guardados
         $('#btnCargar').on('click', function(evt) {
             debugger;
-            $.getJSON('_PolygonSaved_.json', function(json) {
-                json.forEach(x => {
-                    debugger;
-                    let _partialObj = SetPolygon(x.rings);
-                    
-                    let polygonGraphic = new Graphic({
-                        geometry: _partialObj.polygon,
-                        symbol: _partialObj.simpleFillSymbol
-                    });
-                    let fullObject = {
-                        polygon: polygonGraphic.geometry,
-                        area: x.area,
-                        length: x.length
-                    }
-                    _listPolygonWithArea.push(fullObject);
-                    graphicsLayer.add(polygonGraphic);
-                });
+            MapJsonData('_PolygonSaved_.json').then(function(obj) {
+                DrawJsonPolygon(obj, Graphic)
             });
-            // MapJsonData('_PolygonSaved_.json').then(function(obj) {
-            //     DrawJsonPolygon(obj, Graphic)
-            // });
         });
 
         //Cargar datos de excel

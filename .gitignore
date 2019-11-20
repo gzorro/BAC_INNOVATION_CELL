@@ -3,5 +3,7 @@
 ################################################################################
 
 # Se excluyen carpetas de ámbito local
+
 /.vs
-/obj/Debug
+/WebApp/WebMap/.vs
+/WebApp/WebMap/.vscode

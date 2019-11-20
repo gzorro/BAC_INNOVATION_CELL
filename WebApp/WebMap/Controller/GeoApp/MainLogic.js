@@ -68,6 +68,29 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
 }
 
 /**
+ * Agrega determinado elemento a la vista
+ * @param {string} idElement ID de elemento a agregar
+ * @param {string} ubication Ubicación del elemento a agregar según librería de esri
+ * @param {bool} isVisible determinado si el elemento debe de mostrarse inmediatamente
+ */
+function AddDivToView(idElement, ubication, isVisible = true) {
+    let elementHTML = "";
+    elementHTML = document.createElement(nameElement);
+    elementHTML.innerText = description;
+    elementHTML.id = idElement;
+
+    //Se agregan clases específicas
+    elementHTML.className = '';
+    elementHTML.style.padding = "11px";
+
+    //Agregar elemento a la vista
+    view.ui.add(elementHTML, ubication);
+
+    if(!isVisible)
+        $(elementHTML).hide();
+}
+
+/**
  * Toma un nombre de archivo con extensión y lo carga como objeto, este archivo debe existir en la raíz.
  * @param {string} nameFile Nombre de archivo, incluir formato 
  */
@@ -76,7 +99,7 @@ function MapJsonData(nameFile)
     let dfd = $.Deferred();
     if(nameFile.includes(".json"))
     {
-        $.getJSON('_PolygonSaved_.json', function(json) {
+        $.getJSON(nameFile, function(json) {
             dfd.resolve(json);
         });
         return dfd.promise();
@@ -87,4 +110,20 @@ function MapJsonData(nameFile)
         return dfd.promise();
     }
 }
+
+/**
+ * Cargar datos del json al sistema
+ */
+function LoadBDData()
+{
+    debugger;
+    MapJsonData('JsonBD.json').then(function(obj) {
+        obj.Hoja1.forEach(x => 
+            {
+                debugger;
+                let object = x;
+            })
+    });
+}
+
 
