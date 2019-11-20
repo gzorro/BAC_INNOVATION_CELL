@@ -141,3 +141,15 @@ let modalWithAreaHTML =
 var loadingPopUpHTML = `<div class='alert alert-primary' role='alert' id='archivo'><p>Estamos consultado la UPRA a través del WSO2 BAC.</p>
                             <img src='../Content/Images//ajax-loader-2.gif'style='display: block;margin: 0 auto;' />
                             </div>`
+
+
+
+var DashBoardHTML = 
+`
+<div class="panel panel-default">
+    <div class="panel-body">
+        
+    </div>
+</div>
+
+`

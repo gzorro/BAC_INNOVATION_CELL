@@ -12,13 +12,14 @@ var graphicsLayer = {};
 var graphicInstance = null;
 var searchWidget = {};
 var _listPolygonWithArea = [];
-var geometryService;
-//var _listPolygonsGeometry = [];
 //Lista de polígonos a guardar
 var _listPoligonToSave = [];
 //Lista de polígonos a borrar
 var _listGraphicsToDelete = [];
-//Lista de contenido de datos
+var listBD;
+var geometryService;
+
+//var _listPolygonsGeometry = [];
 //var _listDataContent=[];
 var arregloJson;
 var valorAptitud;
@@ -69,6 +70,34 @@ var _enumTypePosition =
    , BottomLeading: "bottom-leading"
    , BottomTrailing: "bottom-trailing"
    , Manual: "manual"
+}
+
+var _enumAreaUnits =
+{
+    Acres: "acres"
+   , Hectares: "hectares"
+   , SquareMiles: "square-miles"
+   , SquareKilometer: "square-kilometers"
+   , SquareMeter: "square-meters"
+   , SquareFeet: "square-feet"
+   , SquareYard: "square-yards"
+}
+
+var _enumCalculationType =
+{
+    Planar: "planar"
+   , Geodesic: "geodesic"
+   , PreserveShape: "preserve-shape"
+}
+
+var _enumLengthUnit =
+{
+    Feet: "feet"
+   , Kilometer: "kilometers"
+   , Meter: "meters"
+   , Miles: "miles"
+   , NauticalMiles: "nautical-miles"
+   , Yards: "yards"
 }
 
 
