@@ -35,7 +35,7 @@ class GeoApp {
 
                 const viewSpatialReference = new SpatialReference({
                     //wkid: 54042 // winkel III
-                    //wkid: 4326  // WGS84  
+                    // wkid: 4326  // WGS84  
                     wkid:102100   //flat coords 
                 });
 
@@ -47,7 +47,7 @@ class GeoApp {
 				
                 map = new Map(
                     {
-                        basemap: _enumTypeMaps.Hybrid,
+                        basemap: _enumTypeMaps.StreetsReliefVector,
                         layers: [graphicsLayer],                             
                         center: point,
                         scale: 15000000
@@ -80,10 +80,11 @@ class GeoApp {
                 AddCoordsToView();
                 
                 AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading, false);
+                AddElementToView("input-file", "btnCargar2", "Cargar2", ["btn", "btn-primary", "form-control-file"], _enumTypePosition.TopLeading);
                 AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopLeading);
-                AddTestToView();
+                
 
-                LoadBDData();
+                // LoadBDData();
 
                 /**************************** Eventos Bind ****************************/
 				GeoApp.BindEvents(Graphic, AreasAndLengthsParameters);
@@ -100,14 +101,32 @@ class GeoApp {
         $('#btnGuardar').on('click', function(evt) {
             let namefile = '_PolygonSaved_.json';
             SavePolygonList(namefile);
+            
         });
 
         //evento de carga y graficación de polígonos guardados
         $('#btnCargar').on('click', function(evt) {
             debugger;
-            MapJsonData('_PolygonSaved_.json').then(function(obj) {
-                DrawJsonPolygon(obj, Graphic)
-            });
+            let dataJson;
+            if(btnCargar2.files.length == 1)
+            {
+                let reader = new FileReader();
+                reader.onload = function(e) { 
+                    let contents = e.target.result;
+                    dataJson = JSON.parse(contents);
+                    DrawJsonPolygon(dataJson, Graphic, AreasAndLengthsParameters)
+
+                };
+                reader.readAsText(btnCargar2.files[0]);
+
+                //Old
+                // MapJsonData('_PolygonSaved_.json').then(function(obj) {
+                //     DrawJsonPolygon(obj, Graphic)
+                // });
+            }
+            else
+                alert('Debe seleccionar primero un archivo y solo puede seleccionar un archivo');
+
         });
 
         //Cargar datos de excel

@@ -74,14 +74,13 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
  * @param {bool} isVisible determinado si el elemento debe de mostrarse inmediatamente
  */
 function AddDivToView(idElement, ubication, isVisible = true) {
-    let elementHTML = "";
+    let elementHTML;
     elementHTML = document.createElement(nameElement);
     elementHTML.innerText = description;
     elementHTML.id = idElement;
 
     //Se agregan clases específicas
     elementHTML.className = '';
-    elementHTML.style.padding = "11px";
 
     //Agregar elemento a la vista
     view.ui.add(elementHTML, ubication);
@@ -112,12 +111,31 @@ function MapJsonData(nameFile)
 }
 
 /**
+ * Carga información de una o varias personas dependiendo del criterio de búsqueda
+ * @param {string} typeSearch 
+ * @param {string} value 
+ */
+function SearchPersonsByCriteria(typeSearch, value)
+{
+    debugger;
+    switch(typeSearch){
+        case 'CC':
+
+            break;
+        
+        default:
+            break;
+    }
+}
+/**
  * Cargar datos del json al sistema
  */
 function LoadBDData()
 {
     debugger;
     MapJsonData('JsonBD.json').then(function(obj) {
+        debugger;
+        listBD = obj;
         obj.Hoja1.forEach(x => 
             {
                 debugger;

@@ -48,34 +48,38 @@ function SavePolygon (event, AreasAndLengthsParameters) {
         let polygonObject = SetPolygon(polygonCoordinate).polygon;
         debugger;
         let areasAndLengthParams = new AreasAndLengthsParameters({
-            areaUnit: "square-kilometers",
-            lengthUnit: "kilometers",
+            // areaUnit: 9036,
+            calculationType: _enumCalculationType.Planar,
+            areaUnit: _enumAreaUnits.SquareKilometer,
+            // geodesic: true,
+            lengthUnit: _enumLengthUnit.Kilometer,
             polygons: polygonObject
         });
         geometryService.areasAndLengths(areasAndLengthParams).then(function(results){
+            debugger;
             polygonObject.area = results.areas[0];
             polygonObject.length = results.lengths[0];
             //Agregar a lista global de polígonos
             _listPoligonToSave.push(polygonObject); 
-
-            if(_listPoligonToSave.length === 1)
+    
+            if(_listPoligonToSave.length > 0)
                 $('#btnGuardar').show('slow');
+            _listGraphicsToDelete.push(event);
         });
-        _listGraphicsToDelete.push(event);
     }
 }
 
 /**
  * Guardar la lista de polígonos registrada en un archivo de tipo
  * @param {string} nameFile nombre del archivo
- * @param {string} fileType tipo de archivo (xml, json, txt)
  */
-function SavePolygonList(nameFile, fileType)
+function SavePolygonList(nameFile)
 {
+    debugger;
     if(_listPoligonToSave.length > 0)
     {
         let jsonData = JSON.stringify(_listPoligonToSave);
-        DownloadPolygon(jsonData, nameFile, fileType);
+        DownloadPolygon(jsonData, nameFile);
         RemovePolygon();
         $('#btnGuardar').hide('slow');
     }else{
@@ -127,58 +131,13 @@ function DownloadPolygon(content, fileName, contentType = 'text/json') {
 }
 
 /**
- * Configura el formato para georeferenciación espacial en determinados valores
- * @param {int} divisibleBy valor numérico que dividira el valor espacial
- * @param {int} lengthFormat Longitud de valores numéricos
- */
-function SetFormatDecimal(divisibleBy, lengthFormat)
-{
-    let listPolygonsAssigned = [];
-    _listPoligonToSave.forEach(x => {
-        let listCoordsPolygon = [];
-        x.forEach(y => {
-            debugger;
-            let latitude = parseFloat((y[0]/divisibleBy).toFixed(lengthFormat))+9;
-            let longitude = parseFloat((y[1]/divisibleBy).toFixed(lengthFormat))-1; 
-            let obj = [latitude,longitude];
-            
-            listCoordsPolygon.push(obj);
-        });
-        listPolygonsAssigned.push(listCoordsPolygon);
-    });
-    return listPolygonsAssigned;
-}
-
-
-/**
- * Calcula el áare y longitud de determinado polígono
- * @param {Polygon} polygon 
- */
-function CalculateAreaAndLength(polygon)
-{
-    debugger;
-    geometryService.simplify(polygon).then(function(simplifiedGeometries){
-        let areasAndLengthParams = new AreasAndLengthsParameters({
-          areaUnit: "square-kilometers",
-          lengthUnit: "kilometers",
-          polygons: simplifiedGeometries
-        });
-        geometryService.areasAndLengths(areasAndLengthParams).then(function(results){
-          console.log("area: ", results.areas[0]);
-          console.log("length: ", results.lengths[0]);
-        });
-      });
-}
-
-/**
  * Carga la lista de polígonos en el mapa
  * @param {any} jsonList lista de polígonos
  * @param {any} Graphic instancia del servicio esri 
  */
-function DrawJsonPolygon(jsonList, Graphic)
+function DrawJsonPolygon(jsonList, Graphic, AreasAndLengthsParameters)
 {
     jsonList.forEach(x => {
-        debugger;
         let _partialObj = SetPolygon(x.rings);
         
         let polygonGraphic = new Graphic({
@@ -191,7 +150,29 @@ function DrawJsonPolygon(jsonList, Graphic)
             length: x.length
         }
         _listPolygonWithArea.push(fullObject);
+        
         graphicsLayer.add(polygonGraphic);
+
+        // let areasAndLengthParams = new AreasAndLengthsParameters({
+        //     // areaUnit: 9036,
+        //     calculationType: _enumCalculationType.Planar,
+        //     areaUnit: _enumAreaUnits.Hectares,
+        //     // geodesic: true,
+        //     lengthUnit: _enumLengthUnit.Kilometer,
+        //     polygons: fullObject.polygon
+        // });
+        // geometryService.areasAndLengths(areasAndLengthParams).then(function(results){
+        //     debugger;
+        //     let area = results.areas[0];
+        //     let length = results.lengths[0];
+        //     //Agregar a lista global de polígonos
+        //     _listPoligonToSave.push(polygonObject); 
+    
+        //     if(_listPoligonToSave.length > 0)
+        //         $('#btnGuardar').show('slow');
+        //     _listGraphicsToDelete.push(event);
+        // });
+
     });
 }
 
