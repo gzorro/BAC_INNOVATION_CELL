@@ -75,6 +75,7 @@ function SavePolygon (event, AreasAndLengthsParameters) {
  */
 function SavePolygonList(nameFile)
 {
+    debugger;
     if(_listPoligonToSave.length > 0)
     {
         let jsonData = JSON.stringify(_listPoligonToSave);
@@ -134,10 +135,9 @@ function DownloadPolygon(content, fileName, contentType = 'text/json') {
  * @param {any} jsonList lista de polígonos
  * @param {any} Graphic instancia del servicio esri 
  */
-function DrawJsonPolygon(jsonList, Graphic)
+function DrawJsonPolygon(jsonList, Graphic, AreasAndLengthsParameters)
 {
     jsonList.forEach(x => {
-        debugger;
         let _partialObj = SetPolygon(x.rings);
         
         let polygonGraphic = new Graphic({
@@ -150,7 +150,29 @@ function DrawJsonPolygon(jsonList, Graphic)
             length: x.length
         }
         _listPolygonWithArea.push(fullObject);
+        
         graphicsLayer.add(polygonGraphic);
+
+        // let areasAndLengthParams = new AreasAndLengthsParameters({
+        //     // areaUnit: 9036,
+        //     calculationType: _enumCalculationType.Planar,
+        //     areaUnit: _enumAreaUnits.Hectares,
+        //     // geodesic: true,
+        //     lengthUnit: _enumLengthUnit.Kilometer,
+        //     polygons: fullObject.polygon
+        // });
+        // geometryService.areasAndLengths(areasAndLengthParams).then(function(results){
+        //     debugger;
+        //     let area = results.areas[0];
+        //     let length = results.lengths[0];
+        //     //Agregar a lista global de polígonos
+        //     _listPoligonToSave.push(polygonObject); 
+    
+        //     if(_listPoligonToSave.length > 0)
+        //         $('#btnGuardar').show('slow');
+        //     _listGraphicsToDelete.push(event);
+        // });
+
     });
 }
 

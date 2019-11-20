@@ -35,7 +35,7 @@ class GeoApp {
 
                 const viewSpatialReference = new SpatialReference({
                     //wkid: 54042 // winkel III
-                    //wkid: 4326  // WGS84  
+                    // wkid: 4326  // WGS84  
                     wkid:102100   //flat coords 
                 });
 
@@ -114,7 +114,7 @@ class GeoApp {
                 reader.onload = function(e) { 
                     let contents = e.target.result;
                     dataJson = JSON.parse(contents);
-                    DrawJsonPolygon(dataJson, Graphic)
+                    DrawJsonPolygon(dataJson, Graphic, AreasAndLengthsParameters)
 
                 };
                 reader.readAsText(btnCargar2.files[0]);
