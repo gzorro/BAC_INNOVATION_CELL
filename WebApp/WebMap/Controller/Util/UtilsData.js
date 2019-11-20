@@ -29,7 +29,7 @@ var modalHTML =
 `<div id='myModal${nameModal}' class='modal fade' role='dialog'>
     <div class='modal-dialog'>
         <!-- Modal content-->
-        <div class='modal-content' style='overflow-y:scroll;max-height: 30em;'>
+        <div class='modal-content' style='overflow-y:scroll;max-height: 32em;'>
             <div class='modal-header modal-fixed'>
                     <button type='button' class='close' data-dismiss='modal'>&times;</button>
                     <h4 class='modal-title'>Consulta UPRA</h4>
@@ -86,7 +86,7 @@ let modalWithAreaHTML =
     `<div id='myModal${nameModal}' class='modal fade' role='dialog'>
         <div class='modal-dialog'>
             <!-- Modal content-->
-            <div class='modal-content' style='overflow-y:scroll;max-height: 29em;'>
+            <div class='modal-content' style='overflow-y:scroll;max-height: 32em;'>
                 <div class='modal-header modal-fixed'>
                         <button type='button' class='close' data-dismiss='modal'>&times;</button>
                         <h4 class='modal-title'>Consulta UPRA</h4>

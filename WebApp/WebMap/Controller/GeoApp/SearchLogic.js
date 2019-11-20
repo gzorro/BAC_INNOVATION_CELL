@@ -46,18 +46,18 @@ function searchPoint(latitud, longitud){
                 let contenido = "<div class='list-group' id='myDIV'>"
                  +"<div class='list-group-item active'>"               
                  + Object.keys(item)[0] +" - "+ item[Object.getOwnPropertyNames(item)[0]].aptitud+"   "
-                 +  "______________________________________________________________________________"                    
-                 + " Servicio :::: " 
-                 + item[Object.getOwnPropertyNames(item)[0]].servicio +"   "
-                 +  "______________________________________________________________________________"
-                 + " Nombre cientifico ::::   "						
-                 + item[Object.getOwnPropertyNames(item)[0]].nombre_cientifico +"   "
+                 // +  "______________________________________________________________________________"                    
+                // + " Servicio :::: " 
+                 //+ item[Object.getOwnPropertyNames(item)[0]].servicio +"   "
+                 //+  "______________________________________________________________________________"
+                 //+ " Nombre cientifico ::::   "						
+                 //+ item[Object.getOwnPropertyNames(item)[0]].nombre_cientifico +"   "
                  +  "______________________________________________________________________________"                
                  + " Municipio ::::  "
-                 + item[Object.getOwnPropertyNames(item)[0]].municipio+"   "
+                 + item[Object.getOwnPropertyNames(item)[0]].municipio +"   "
                  +  "______________________________________________________________________________"
                  + " Departamento ::::  "						
-                 + " "+item[Object.getOwnPropertyNames(item)[0]].departamen +"  "                        
+                 + " "+item[Object.getOwnPropertyNames(item)[0]].departamen.toUpperCase() +"  "                        
                  +"</div>";  
  
                 document.getElementById("carga_info").innerHTML += contenido;
@@ -80,8 +80,7 @@ function createModal(area = 0, length = 0){
     // let modal = $(modalHTML);
     if(area == 0 && length == 0)
         $("#ventanaEmergente").html($(modalHTML));  
-    else{
-        debugger;
+    else{        
         $("#ventanaEmergente").html($(WriteHTMLModal(area, length)));  
     }
     $("#contenidoModal").append(loadingPopUpHTML);
@@ -105,12 +104,6 @@ function searchCultivo( latitud, longitud){
         let select2 = $("<select></select>").attr("id", "cultivos").attr("name", "cultivos").addClass("target");
         select2.append($("<option></option>").attr("value", "Null").text("Seleccione"))
         
-        // arreglo.aptitudes.forEach(x => 
-        //     {
-        //         debugger;
-        //         select2.append($("<option></option>").attr("value", Object.keys(x)[0]).text(Object.keys(x)[0]));
-        //     })
-        debugger;
         $.each(arreglo.aptitudes,function(i,item){ 
             if(item != null)
                 select2.append($("<option></option>").attr("value", Object.keys(item)[0]).text(Object.keys(item)[0]));           
@@ -191,7 +184,7 @@ function SearchAndShowData(event)
  */
 function SearchAndShowDataByPos(pPosX, pPosY)
 {
-    debugger;
+    //debugger;
     let area = "";
     let length = "";
 
