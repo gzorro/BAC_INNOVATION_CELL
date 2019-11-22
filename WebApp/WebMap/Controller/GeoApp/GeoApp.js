@@ -129,12 +129,19 @@ class GeoApp {
             SavePolygon(event);
         });
 
-        //Cuando se boore un polígono selecciondo
+        //Cuando se borre un polígono selecciondo
         sketch.on("delete", function (event) {
             let polygonCoordinate = event.graphics[0].geometry.rings;
             let polygonObject = SetPolygon(polygonCoordinate).polygon;
-            _listGraphicsToDelete.pop(event);
-            _listPoligonToSave.pop(polygonObject);
+            _listGraphicsToDelete.pop(event.graphics[0]);
+            debugger;
+            if(_listPolygonWithArea.length > 0)
+            {
+                let objectP = _listPolygonWithArea.find(x => x.polygon.rings == polygonObject.rings);
+                _listPolygonWithArea.pop(objectP);
+            }
+            else
+                _listPoligonToSave.pop(polygonObject);
             //graphicsLayer.remove(event.graphic)
         });
 

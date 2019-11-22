@@ -47,7 +47,7 @@ function SavePolygon (event) {
         let polygonObject = SetPolygon(polygonCoordinate).polygon;
         debugger;
         _listPoligonToSave.push(polygonObject); 
-        _listGraphicsToDelete.push(event);
+        _listGraphicsToDelete.push(event.graphic);
         if(_listPoligonToSave.length == 1)
         {
             $('#btnGuardar').show('slow');
@@ -63,15 +63,13 @@ function SavePolygon (event) {
 function SavePolygonList(nameFile, AreasAndLengthsParameters)
 {
     debugger;
+    //Validar si se guarda por primera vez o si se realizó una modificación
     if(_listPoligonToSave.length > 0)
     {
         //Antes de guardar el json es necesario realizar los cálculos de área y longitud
-        _listPolygonWithArea = [];
-        PushAreasAndLengths(_listPoligonToSave, AreasAndLengthsParameters, nameFile);
-        // _listPoligonToSave.forEach(x => 
-        //     {
-        //     });
-        
+        PushAreasAndLengths(true, _listPoligonToSave, AreasAndLengthsParameters, nameFile);
+    }else if(_listPolygonWithArea.length > 0){
+        PushAreasAndLengths(false, _listPolygonWithArea, AreasAndLengthsParameters, nameFile);
     }else{
         alert('No se ha registrado ningún polígono aún. A continuación registra un polígono e intenta de nuevo');
     }
@@ -82,7 +80,7 @@ function SavePolygonList(nameFile, AreasAndLengthsParameters)
  */
 function RemovePolygon()
 {
-    _listGraphicsToDelete.forEach(x => graphicsLayer.remove(x.graphic))    
+    _listGraphicsToDelete.forEach(x => graphicsLayer.remove(x))    
 }
 
 /**
@@ -139,10 +137,10 @@ function DrawJsonPolygon(jsonList, Graphic)
             length: x.length
         }
         _listPolygonWithArea.push(fullObject);
-        
+        _listGraphicsToDelete.push(polygonGraphic);
         graphicsLayer.add(polygonGraphic);
-
     });
+    $('#btnGuardar').show('slow');
 }
 
 /**
@@ -171,9 +169,17 @@ function LoadAndDrawPolygonFromJson (Graphic, AreasAndLengthsParameters)
  * @param {*} pAreaUnit unidad de medida para el área (square-kilometer)
  * @param {*} pLengthUnit unidad de medida para el perímetro (kilometers)
  */
-function PushAreasAndLengths(pPolygonList,AreasAndLengthsParameters, pNameFile, pCalculationType = _enumCalculationType.Planar, 
+function PushAreasAndLengths(isNew, pPolygonList,AreasAndLengthsParameters, pNameFile, pCalculationType = _enumCalculationType.Planar, 
     pAreaUnit = _enumAreaUnits.SquareKilometer, pLengthUnit = _enumLengthUnit.Kilometer)
 {
+    debugger;
+    let tempList = []
+    _listPolygonWithArea = [];
+    if(!isNew)
+    {
+        pPolygonList.forEach(x => tempList.push(x.polygon));
+        pPolygonList = tempList;
+    }
     let areasAndLengthParams = new AreasAndLengthsParameters({
         // areaUnit: 9036,
         calculationType: pCalculationType,
@@ -198,5 +204,8 @@ function PushAreasAndLengths(pPolygonList,AreasAndLengthsParameters, pNameFile, 
         DownloadPolygon(jsonData, pNameFile);
         RemovePolygon();
         $('#btnGuardar').hide('slow');
+        _listGraphicsToDelete = [];
+        _listPoligonToSave = [];
+        _listPolygonWithArea = [];
     });
 }
