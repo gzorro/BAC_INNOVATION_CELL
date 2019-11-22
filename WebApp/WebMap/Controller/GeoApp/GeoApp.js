@@ -59,12 +59,13 @@ class GeoApp {
                         center: [-74.2973328, 4.570868], // longitude, latitude //Centro de Colombia                                                
                         zoom: 8
                     }
-				);
-				
+                );
+                //Create function
                 sketch = new Sketch({
 					view: view,
-					layer: graphicsLayer
-				});
+                    layer: graphicsLayer,
+                    availableCreateTools: ["polygon", "rectangle", "circle"]
+                });
 
                 searchWidget = new Search({
                     view: view                                      
@@ -100,33 +101,22 @@ class GeoApp {
 		//evento de guardado de polígonos
         $('#btnGuardar').on('click', function(evt) {
             let namefile = '_PolygonSaved_.json';
-            SavePolygonList(namefile);
+            SavePolygonList(namefile, AreasAndLengthsParameters);
             
         });
 
         //evento de carga y graficación de polígonos guardados
         $('#btnCargar').on('click', function(evt) {
-            debugger;
-            let dataJson;
             if(btnCargar2.files.length == 1)
             {
-                let reader = new FileReader();
-                reader.onload = function(e) { 
-                    let contents = e.target.result;
-                    dataJson = JSON.parse(contents);
-                    DrawJsonPolygon(dataJson, Graphic, AreasAndLengthsParameters)
-
-                };
-                reader.readAsText(btnCargar2.files[0]);
-
-                //Old
-                // MapJsonData('_PolygonSaved_.json').then(function(obj) {
-                //     DrawJsonPolygon(obj, Graphic)
-                // });
+                debugger;
+                if(btnCargar2.files[0].name.includes(".json"))
+                    LoadAndDrawPolygonFromJson(Graphic, AreasAndLengthsParameters);
+                else
+                alert('El formato del archivo debe ser json (.json)');
             }
             else
-                alert('Debe seleccionar primero un archivo y solo puede seleccionar un archivo');
-
+                alert('Debe seleccionar primero un archivo');
         });
 
         //Cargar datos de excel
@@ -134,9 +124,18 @@ class GeoApp {
             LoadDataExcel();
         });
 		
-        //Cuando se guarde el polígono se ejecuta este evento
+        //Cuando se guarde un polígono seleccionado
         sketch.on("create", function (event) {
-            SavePolygon(event, AreasAndLengthsParameters);
+            SavePolygon(event);
+        });
+
+        //Cuando se boore un polígono selecciondo
+        sketch.on("delete", function (event) {
+            let polygonCoordinate = event.graphics[0].geometry.rings;
+            let polygonObject = SetPolygon(polygonCoordinate).polygon;
+            _listGraphicsToDelete.pop(event);
+            _listPoligonToSave.pop(polygonObject);
+            //graphicsLayer.remove(event.graphic)
         });
 
         //evento complementario que guarda posición en mapa

@@ -11,6 +11,7 @@ var sketch = {};
 var graphicsLayer = {};
 var graphicInstance = null;
 var searchWidget = {};
+//Una vez cargado el archivo json con los polígonos, se guardan en esta lista
 var _listPolygonWithArea = [];
 //Lista de polígonos a guardar
 var _listPoligonToSave = [];
