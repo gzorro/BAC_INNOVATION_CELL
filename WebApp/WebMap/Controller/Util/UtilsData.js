@@ -153,3 +153,45 @@ var DashBoardHTML =
 </div>
 
 `
+
+
+/**
+ * Función encargada de visualizar la información general de un cliente BancoAgrario
+ * @param person Objeto cargado con l ainformación de usuario especifoco de la búsqueda
+ */
+
+ function modalUser(person){
+    var modalInfoUser = 
+    `
+    <div id="modalUser" class="modal fade" role="dialog">
+      <div class="modal-dialog">    
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Información usuario</h4>
+          </div>
+    
+          <div class="modal-body">
+               <ul class="list-group">
+                    <li class="list-group-item active"> Cliente Banco Agrario </li>
+                    ${ $.each( JSON.parse(person), function( index, item ){ 
+                        `<li class="list-group-item">Nombre: ${ item[Object.getOwnPropertyNames(item)[0]]["NOMBRE CLIENTE"] }</li> `
+                        `<li class="list-group-item">Tipo identificación: ${ item[Object.getOwnPropertyNames(item)[0]]["TIPO IDENTIFICACION"] }</li>`
+                        `<li class="list-group-item">Identificación: ${ item[Object.getOwnPropertyNames(item)[0]]["NUMERO IDENTIFICACION"] }</li>`
+                        `<li class="list-group-item">Departamento: ${ item[Object.getOwnPropertyNames(item)[0]]["DEPARTAMENTO"] } </li>`
+                        `<li class="list-group-item">Municipio: ${ item[Object.getOwnPropertyNames(item)[0]]["MUNICIPIO"] }</li>`
+                        `<li class="list-group-item">Vereda: ${ item[Object.getOwnPropertyNames(item)[0]]["VEREDA"] }</li>`
+                        `<li class="list-group-item">Oficina: ${ item[Object.getOwnPropertyNames(item)[0]]["OFICINA"] }</li>`
+                        `<li class="list-group-item">Rubro: ${ item[Object.getOwnPropertyNames(item)[0]]["RUBRO"] }</li>`
+                    }) }  
+               </ul>
+          </div>
+    
+        </div>
+    
+      </div>
+    </div>
+    `
+ }
+

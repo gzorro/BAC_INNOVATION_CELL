@@ -16,8 +16,11 @@
 
 function ViewProfileUser(person){
 
-     //Función crear modal
-     createModal();
+     //Función crear modal 
+     $("#infoUsuario").html(modalUser(person));
+
+     //activar visualización modal
+     $("#modalUser").modal('show');
      
 
 }
