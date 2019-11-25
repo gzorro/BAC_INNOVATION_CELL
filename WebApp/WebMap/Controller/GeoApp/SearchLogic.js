@@ -185,8 +185,8 @@ function SearchAndShowDataByPos(pPosX, pPosY)
     //Se recorre la lista de polígonos con el fin de encontrar el polígono seleccionado
     _listPolygonWithArea.forEach(x => {
         //Se realiza comparación a través de los centroides del polígono
-        if(x.polygon.centroid.x == pPosX)
-            if(x.polygon.centroid.y == pPosY)
+        if(x.centroid.x == pPosX)
+            if(x.centroid.y == pPosY)
             {
                 area = x.area;
                 length = x.length;

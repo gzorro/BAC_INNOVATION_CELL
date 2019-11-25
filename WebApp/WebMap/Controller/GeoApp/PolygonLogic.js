@@ -9,15 +9,21 @@
 /**
  * Establece los parámetros de definición del polígono
  * @param {Array} pPolygonCoords Coordenadas del polígono
+ * @param {Array} pCentroid Centroide del polígono (x,y)
  */
-function SetPolygon(pPolygonCoords, pWkid = 102100)
+function SetPolygon(pPolygonCoords, pCentroid, pWkid = 102100)
 {
     if(pPolygonCoords.length > 0)
     {
         let _polygon = {
             type: "polygon",
             rings: pPolygonCoords,
-            spatialReference: { wkid: pWkid }
+            spatialReference: { wkid: pWkid },
+            centroid: {
+                x: pCentroid.x,
+                y: pCentroid.y
+            }
+
             };
     
         let _simpleFillSymbol = {
@@ -43,9 +49,10 @@ function SetPolygon(pPolygonCoords, pWkid = 102100)
  */
 function SavePolygon (event) {
     if (event.state === "complete") {
-        let polygonCoordinate = event.graphic.geometry.rings;
-        let polygonObject = SetPolygon(polygonCoordinate).polygon;
         debugger;
+        let polygonCoordinate = event.graphic.geometry.rings;
+        let polygonObject = SetPolygon(polygonCoordinate, event.graphic.geometry.centroid).polygon;
+        // let polygonObject = SetPolygon(polygonCoordinate);
         _listPoligonToSave.push(polygonObject); 
         _listGraphicsToDelete.push(event.graphic);
         if(_listPoligonToSave.length == 1)
@@ -92,7 +99,6 @@ function ShowPolygonGeographic(event)
         x: event.x,
         y: event.y
     };
-    debugger;
     // Search for graphics at the clicked location
     view.hitTest(screenPoint).then(function (response) {
         if (response.results.length) {
@@ -125,14 +131,19 @@ function DownloadPolygon(content, fileName = '_PolygonSavedTest_.json', contentT
 function DrawJsonPolygon(jsonList, Graphic)
 {
     jsonList.forEach(x => {
-        let _partialObj = SetPolygon(x.rings);
+        debugger;
+        let _partialObj = SetPolygon(x.rings, x.centroid);
         
         let polygonGraphic = new Graphic({
             geometry: _partialObj.polygon,
             symbol: _partialObj.simpleFillSymbol
         });
         let fullObject = {
-            polygon: polygonGraphic.geometry,
+            type: "polygon",
+            rings: _partialObj.polygon.rings,
+            spatialReference: _partialObj.polygon.spatialReference,
+            centroid: x.centroid,
+            // polygon: polygonGraphic.geometry,
             area: x.area,
             length: x.length
         }
@@ -170,7 +181,7 @@ function LoadAndDrawPolygonFromJson (Graphic, AreasAndLengthsParameters)
  * @param {*} pLengthUnit unidad de medida para el perímetro (kilometers)
  */
 function PushAreasAndLengths(isNew, pPolygonList,AreasAndLengthsParameters, pNameFile, pCalculationType = _enumCalculationType.Planar, 
-    pAreaUnit = _enumAreaUnits.SquareKilometer, pLengthUnit = _enumLengthUnit.Kilometer)
+    pAreaUnit = _enumAreaUnits.SquareMeter, pLengthUnit = _enumLengthUnit.Meter)
 {
     debugger;
     let tempList = []
@@ -198,8 +209,6 @@ function PushAreasAndLengths(isNew, pPolygonList,AreasAndLengthsParameters, pNam
                 //Agregar a lista global de polígonos con área
                 _listPolygonWithArea.push(x);
             });
-
-        debugger;
         let jsonData = JSON.stringify(_listPolygonWithArea);
         DownloadPolygon(jsonData, pNameFile);
         RemovePolygon();

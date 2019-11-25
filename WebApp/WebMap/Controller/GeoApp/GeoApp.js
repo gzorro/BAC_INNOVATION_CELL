@@ -47,7 +47,7 @@ class GeoApp {
 				
                 map = new Map(
                     {
-                        basemap: _enumTypeMaps.StreetsReliefVector,
+                        basemap: _enumTypeMaps.Hybrid,
                         layers: [graphicsLayer],                             
                         center: point,
                         scale: 15000000
@@ -113,7 +113,8 @@ class GeoApp {
                 if(btnCargar2.files[0].name.includes(".json"))
                     LoadAndDrawPolygonFromJson(Graphic, AreasAndLengthsParameters);
                 else
-                alert('El formato del archivo debe ser json (.json)');
+                    alert('El formato del archivo debe ser json (.json)');
+                btnCargar2.value = ""
             }
             else
                 alert('Debe seleccionar primero un archivo');
@@ -132,12 +133,12 @@ class GeoApp {
         //Cuando se borre un polígono selecciondo
         sketch.on("delete", function (event) {
             let polygonCoordinate = event.graphics[0].geometry.rings;
-            let polygonObject = SetPolygon(polygonCoordinate).polygon;
+            let polygonObject = SetPolygon(polygonCoordinate, event.graphics[0].geometry.centroid).polygon;
             _listGraphicsToDelete.pop(event.graphics[0]);
             debugger;
             if(_listPolygonWithArea.length > 0)
             {
-                let objectP = _listPolygonWithArea.find(x => x.polygon.rings == polygonObject.rings);
+                let objectP = _listPolygonWithArea.find(x => x.rings == polygonObject.rings);
                 _listPolygonWithArea.pop(objectP);
             }
             else
@@ -157,6 +158,7 @@ class GeoApp {
 
 		// Get the screen point from the view's click event
 		view.on("click", function (event) {
+            debugger;
 			ShowPolygonGeographic(event);
    		});
 

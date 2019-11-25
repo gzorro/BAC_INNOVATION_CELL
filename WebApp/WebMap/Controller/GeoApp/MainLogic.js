@@ -50,8 +50,6 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
         let typeOfElement = nameElement.split("-")[1];
         elementHTML = document.createElement(element);
         elementHTML.setAttribute("type", typeOfElement);
-
-        //TODO: Validar multiples argumentos para propiedades del elemento
     }else
     {
         elementHTML = document.createElement(nameElement);
@@ -61,7 +59,10 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
     let classesToImplement = "";
     classes.forEach(x => classesToImplement += `${x} `);
     elementHTML.className = classesToImplement;
+
+    //Esta propieda se deja fija por cuestiones estéticas.
     elementHTML.style.padding = "11px";
+    
     view.ui.add(elementHTML, ubication);
     if(!isVisible)
         $(elementHTML).hide();
@@ -117,10 +118,9 @@ function MapJsonData(nameFile)
  */
 function SearchPersonsByCriteria(typeSearch, value)
 {
-    debugger;
     switch(typeSearch){
         case 'CC':
-
+        
             break;
         
         default:
@@ -128,11 +128,10 @@ function SearchPersonsByCriteria(typeSearch, value)
     }
 }
 /**
- * Cargar datos del json al sistema
+ * Cargar datos del json al mapa
  */
 function LoadBDData()
 {
-    debugger;
     MapJsonData('JsonBD.json').then(function(obj) {
         debugger;
         listBD = obj;
