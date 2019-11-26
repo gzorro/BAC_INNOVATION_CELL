@@ -176,14 +176,14 @@ var DashBoardHTML =
                <ul class="list-group">
                     <li class="list-group-item active"> Cliente Banco Agrario </li>
                     ${ $.each( JSON.parse(person), function( index, item ){ 
-                        `<li class="list-group-item">Nombre: ${ item[Object.getOwnPropertyNames(item)[0]]["NOMBRE CLIENTE"] }</li> `
-                        `<li class="list-group-item">Tipo identificación: ${ item[Object.getOwnPropertyNames(item)[0]]["TIPO IDENTIFICACION"] }</li>`
-                        `<li class="list-group-item">Identificación: ${ item[Object.getOwnPropertyNames(item)[0]]["NUMERO IDENTIFICACION"] }</li>`
-                        `<li class="list-group-item">Departamento: ${ item[Object.getOwnPropertyNames(item)[0]]["DEPARTAMENTO"] } </li>`
-                        `<li class="list-group-item">Municipio: ${ item[Object.getOwnPropertyNames(item)[0]]["MUNICIPIO"] }</li>`
-                        `<li class="list-group-item">Vereda: ${ item[Object.getOwnPropertyNames(item)[0]]["VEREDA"] }</li>`
-                        `<li class="list-group-item">Oficina: ${ item[Object.getOwnPropertyNames(item)[0]]["OFICINA"] }</li>`
-                        `<li class="list-group-item">Rubro: ${ item[Object.getOwnPropertyNames(item)[0]]["RUBRO"] }</li>`
+                        `<li class="list-group-item">Nombre: ${ item["NOMBRE CLIENTE"] }</li> `
+                        `<li class="list-group-item">Tipo identificación: ${ item["TIPO IDENTIFICACION"] }</li>`
+                        `<li class="list-group-item">Identificación: ${ item["NUMERO IDENTIFICACION"] }</li>`
+                        `<li class="list-group-item">Departamento: ${ item["DEPARTAMENTO"] } </li>`
+                        `<li class="list-group-item">Municipio: ${ item["MUNICIPIO"] }</li>`
+                        `<li class="list-group-item">Vereda: ${ item["VEREDA"] }</li>`
+                        `<li class="list-group-item">Oficina: ${ item["OFICINA"] }</li>`
+                        `<li class="list-group-item">Rubro: ${ item["RUBRO"] }</li>`
                     }) }  
                </ul>
           </div>
