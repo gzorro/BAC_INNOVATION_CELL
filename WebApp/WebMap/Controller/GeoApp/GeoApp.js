@@ -83,9 +83,10 @@ class GeoApp {
                 AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading, false);
                 AddElementToView("input-file", "btnCargar2", "Cargar2", ["btn", "btn-primary", "form-control-file"], _enumTypePosition.TopLeading);
                 AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopLeading);
-                
+                //Dashboard
+                AddDivToView("dvDashBoard", _enumTypePosition.TopLeading);
 
-                // LoadBDData();
+                LoadBDData();
 
                 /**************************** Eventos Bind ****************************/
 				GeoApp.BindEvents(Graphic, AreasAndLengthsParameters);

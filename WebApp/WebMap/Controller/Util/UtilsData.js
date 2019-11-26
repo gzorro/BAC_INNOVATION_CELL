@@ -145,14 +145,54 @@ var loadingPopUpHTML = `<div class='alert alert-primary' role='alert' id='archiv
 
 
 var DashBoardHTML = 
-`
-<div class="panel panel-default">
-    <div class="panel-body">
-        
-    </div>
+/*`
+<div class="card bg-light mb-3" style="max-width: 18rem;">
+  <div class="card-header">Header</div>
+  <div class="card-body">
+    <h5 class="card-title">Light card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
 </div>
+`*/
 
-`
+`<div class="card text-center" style="background-color: azure; border-radius: 15px 15px 0px 0px;">
+  <div class="card-header"> 
+    Contenido
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">DashBoard</h5>
+    <div class="row">
+        <div class="col-sm-5">
+            <h6 class="card-subtitle mb-2 text-muted">Concepto</h6>
+            <select id="slcType" class="selectpicker" data-width="8em">
+                <option value="0">Seleccione</option>
+                <option value="N">Nombre</option>
+                <option value="C">Cédula</option>
+                <option value="D">Dpto</option>
+                <option value="M">Municipio</option>
+                <option value="V">Vereda</option>
+                <option value="R">Referencia Rubro</option>
+            </select>
+        </div>
+        <div class="col-sm-7">
+            <h6 class="card-subtitle mb-2 text-muted">Escoja</h6>
+            <select id="slcValue" class="selectpicker" data-width="9em"> </select>
+        </div>
+    </div><br /><br />
+    <div class="row">
+            <div class="col">
+                <div id="divMain" style="border: 1px solid black; width:95%;"></div>
+            </div>
+        </div>
+    <p class="card-text">Panel principal de consulta de clientes.</p>
+    <a href="#" class="btn btn-primary">Buscar</a>
+  </div>
+  <div class="card-footer text-muted">
+    2 days ago
+  </div>
+</div>
+`;
+
 
 
 /**

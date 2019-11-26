@@ -69,25 +69,228 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
 }
 
 /**
- * Agrega determinado elemento a la vista
+ * Agrega un elemento html especìfico al mapa
  * @param {string} idElement ID de elemento a agregar
  * @param {string} ubication Ubicación del elemento a agregar según librería de esri
  * @param {bool} isVisible determinado si el elemento debe de mostrarse inmediatamente
  */
 function AddDivToView(idElement, ubication, isVisible = true) {
     let elementHTML;
-    elementHTML = document.createElement(nameElement);
-    elementHTML.innerText = description;
+    elementHTML = document.createElement("div");
     elementHTML.id = idElement;
-
-    //Se agregan clases específicas
-    elementHTML.className = '';
-
+    elementHTML.innerHTML = DashBoardHTML;
+    $('.selectpicker').selectpicker('refresh');
     //Agregar elemento a la vista
     view.ui.add(elementHTML, ubication);
 
     if(!isVisible)
         $(elementHTML).hide();
+    debugger;
+    BindEventsToSelect();
+}
+
+/**
+ * Vincula eventos sobre los elementos select creados dinámicamente
+ */
+function BindEventsToSelect()
+{
+    $('#slcType').on('change', function()
+    {
+        EventToTypeSelect();
+    });
+    
+    $('#slcValue').on('change',function()
+    {
+        EventToSelectValue();
+    });
+}
+
+function EventToTypeSelect ()
+{
+    debugger;
+    let valueSelected = $('#slcType').val();
+    $('#slcValue').empty().selectpicker('refresh');
+    if(valueSelected == "0")
+    {
+        alert('Debe seleccionar una opción válida');
+    }else{
+        let list = $('#slcValue');
+        let listImplicit = [];
+        let uniqueItems;
+        //Llenar la otra lista según criterio
+        switch(valueSelected)
+        {
+            case 'C':
+                    listBD.forEach(x => listImplicit.push(x["NUMERO IDENTIFICACION"]))
+                    uniqueItems = Array.from(new Set(listImplicit));
+                    $.each(uniqueItems, function (id, item) {
+                        if (id === 0) {
+                            let element = document.createElement("option");
+                            element.value = "0";
+                            element.textContent = "Seleccione";
+                            list.append(element);
+                        }
+                        let element = document.createElement("option");
+                        element.value = item;//["NUMERO IDENTIFICACION"];
+                        element.textContent = item;//["NUMERO IDENTIFICACION"];
+                        list.append(element);
+                    });
+                    
+                break;
+            case 'N':
+                    listBD.forEach(x => listImplicit.push(x["NOMBRE CLIENTE"]))
+                    uniqueItems = Array.from(new Set(listImplicit));
+                    $.each(uniqueItems, function (id, item) {
+                        if (id === 0) {
+                            let element = document.createElement("option");
+                            element.value = "0";
+                            element.textContent = "Seleccione";
+                            list.append(element);
+                        }
+                        let element = document.createElement("option");
+                        element.value = item;
+                        element.textContent = item;
+                        list.append(element);
+                    });
+                    
+                break;
+            case 'D':
+                    listBD.forEach(x => listImplicit.push(x["DEPARTAMENTO"]))
+                    uniqueItems = Array.from(new Set(listImplicit));
+                    $.each(uniqueItems, function (id, item) {
+                        if (id === 0) {
+                            let element = document.createElement("option");
+                            element.value = "0";
+                            element.textContent = "Seleccione";
+                            list.append(element);
+                        }
+                        let element = document.createElement("option");
+                        element.value = item;
+                        element.textContent = item;
+                        list.append(element);
+                    });
+                    
+                break;
+            case 'M':
+                    listBD.forEach(x => listImplicit.push(x["MUNICIPIO"]))
+                    uniqueItems = Array.from(new Set(listImplicit));
+                    $.each(uniqueItems, function (id, item) {
+                        if (id === 0) {
+                            let element = document.createElement("option");
+                            element.value = "0";
+                            element.textContent = "Seleccione";
+                            list.append(element);
+                        }
+                        let element = document.createElement("option");
+                        element.value = item;
+                        element.textContent = item;
+                        list.append(element);
+                    });
+                    
+                break;
+            case 'V':
+                    listBD.forEach(x => listImplicit.push(x["VEREDA"]))
+                    uniqueItems = Array.from(new Set(listImplicit));
+                    $.each(uniqueItems, function (id, item) {
+                        if (id === 0) {
+                            let element = document.createElement("option");
+                            element.value = "0";
+                            element.textContent = "Seleccione";
+                            list.append(element);
+                        }
+                        let element = document.createElement("option");
+                        element.value = item;
+                        element.textContent = item;
+                        list.append(element);
+                    });
+                    
+                break;
+            case 'R':
+                listBD.forEach(x => listImplicit.push(x["PUNTO REFERENCIA VISITA"]))
+                uniqueItems = Array.from(new Set(listImplicit));
+                $.each(uniqueItems, function (id, item) {
+                    if (id === 0) {
+                        let element = document.createElement("option");
+                        element.value = "0";
+                        element.textContent = "Seleccione";
+                        list.append(element);
+                    }
+                    let element = document.createElement("option");
+                    element.value = item;
+                    element.textContent = item;
+                    list.append(element);
+                });
+                break;
+            default:
+                break;
+        }
+        list.val("0");
+        $(list).selectpicker('refresh');
+    }
+}
+
+function EventToSelectValue ()
+{
+    debugger;
+    let valueSelected = $('#slcValue').val();
+    if(valueSelected == "0")
+    {
+        alert('Debe seleccionar una opción válida');
+    }else{
+        let listElements = listBD;
+        
+        var divToAddTable = $("#divMain");
+        var table = $("<table />"),
+            thead,
+            tfoot,
+            rows = [],
+            row,
+            i,
+            j,
+            defaults = {
+                th: true, 
+                thead: false,
+                tfoot: false,
+                attrs: {} 
+            };
+        var options = {
+            thead: true,
+            attrs: { class: 'table' }
+        };
+        options = $.extend(defaults, options);
+
+        table.attr(options.attrs);
+        row = $('<tr />');
+        row.append($('<th colspan=4 />').html(`<center><b>Resultado consulta</b></center>`));
+        rows.push(row);
+
+        row = $('<tr />');
+        row.append($("<td />").html("<b>Nombre</b>"));
+        row.append($('<td />').html(`<center><b>Cédula</b></center>`));
+        row.append($('<td />').html(`<center><b>Rubro</b></center>`));
+        row.append($('<td />').html(`<center><b>Monto</b></center>`));
+        rows.push(row);
+
+        $.each(listElements, function (value, obj) {
+            row = $('<tr />');
+
+                row.append($("<td align='center' style='white-space:pre;'/>").html(`${obj.scheduleContext[0].details[z].hInicio}`));
+                
+                row.append($("<td align='center' style='white-space:pre;'/>").html(
+                    `${obj["NOMBRE CLIENTE"]} `));
+                row.append($("<td align='center' style='white-space:pre;'/>").html(
+                    `${obj["NUMERO IDENTIFICACION"]}`));
+                row.append($("<td align='center' style='white-space:pre;'/>").html(
+                    `${obj["PUNTO REFERENCIA VISITA"]}`));
+
+                rows.push(row);
+            table.append(rows);
+
+            divToAddTable.append(table);
+            divToAddTable.append(`<br /> <br />`);
+
+        });
+    }
 }
 
 /**
@@ -134,12 +337,12 @@ function LoadBDData()
 {
     MapJsonData('JsonBD.json').then(function(obj) {
         debugger;
-        listBD = obj;
-        obj.Hoja1.forEach(x => 
-            {
-                debugger;
-                let object = x;
-            })
+        listBD = obj.Hoja1;
+        // obj.Hoja1.forEach(x => 
+        //     {
+        //         debugger;
+        //         let object = x;
+        //     })
     });
 }
 
