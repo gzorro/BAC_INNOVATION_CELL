@@ -62,7 +62,7 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
 
     //Esta propieda se deja fija por cuestiones estéticas.
     elementHTML.style.padding = "11px";
-    
+
     view.ui.add(elementHTML, ubication);
     if(!isVisible)
         $(elementHTML).hide();
@@ -97,7 +97,7 @@ function BindEventsToSelect(webMercator)
     {
         EventToTypeSelect();
     });
-    
+
     $('#slcValue').on('change',function()
     {
         EventToSelectValue(webMercator);
@@ -133,7 +133,7 @@ function EventToTypeSelect ()
                         element.textContent = item;//["NUMERO IDENTIFICACION"];
                         list.append(element);
                     });
-                    
+
                 break;
             case 'N':
                     listBD.forEach(x => listImplicit.push(x["NOMBRE CLIENTE"]))
@@ -150,7 +150,7 @@ function EventToTypeSelect ()
                         element.textContent = item;
                         list.append(element);
                     });
-                    
+
                 break;
             case 'D':
                     listBD.forEach(x => listImplicit.push(x["DEPARTAMENTO"]))
@@ -167,7 +167,7 @@ function EventToTypeSelect ()
                         element.textContent = item;
                         list.append(element);
                     });
-                    
+
                 break;
             case 'M':
                     listBD.forEach(x => listImplicit.push(x["MUNICIPIO"]))
@@ -184,7 +184,7 @@ function EventToTypeSelect ()
                         element.textContent = item;
                         list.append(element);
                     });
-                    
+
                 break;
             case 'V':
                     listBD.forEach(x => listImplicit.push(x["VEREDA"]))
@@ -201,7 +201,7 @@ function EventToTypeSelect ()
                         element.textContent = item;
                         list.append(element);
                     });
-                    
+
                 break;
             case 'R':
                 listBD.forEach(x => listImplicit.push(x["RUBRO"]))
@@ -235,15 +235,15 @@ function EventToSelectValue (webMercator)
     {
         alert('Debe seleccionar una opción válida');
     }else{
-        let listElements = []; 
-        listBD.forEach(x => 
+        let listElements = [];
+        listBD.forEach(x =>
             {
                 if(x[textSelected] == valueSelected)
                 {
                     listElements.push(x);
                 }
             });//.find(x => x[textSelected] == valueSelected);
-        
+
         var divToAddTable = $('#divMain');
         var table = $('<table />'),
             thead,
@@ -253,10 +253,10 @@ function EventToSelectValue (webMercator)
             i,
             j,
             defaults = {
-                th: true, 
+                th: true,
                 thead: false,
                 tfoot: false,
-                attrs: {} 
+                attrs: {}
             };
         var options = {
             thead: true,
@@ -299,12 +299,32 @@ function EventToSelectValue (webMercator)
                 let objLat = arrPosition[0].trim();
                 let objLon = arrPosition[1].trim();
                 let result = webMercator.lngLatToXY(objLon, objLat);
-                objLat = result[0];
-                objLon = result[1];
-
+                let objLatF = result[0];
+                let objLonF = result[1];
+                // var point = {
+                //     type: "point",  // autocasts as new Point()
+                //     longitude: -71.2643,
+                //     latitude: 42.0909
+                // };
+                // var markerSymbol = {
+                //     type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+                //     color: [226, 119, 40]
+                // };
+                // var pointGraphic = new Graphic({
+                //     geometry: point,
+                //     symbol: markerSymbol
+                // });
+                // let pt = new Point({
+                //     latitude: objLat,
+                //     longitude: objLon
+                //   });
+                view.goTo({
+                    center: [objLon, objLat],
+                    zoom: 15
+                  });
                 createModal();
-                searchCultivo(objLat, objLon);
-                searchPoint(objLat, objLon);
+                searchCultivo(objLatF, objLonF);
+                searchPoint(objLatF, objLonF);
             });
             row.append($("<td align='center' style='white-space:pre;'/>").html(
                 $(imgViewMap)));
@@ -333,9 +353,9 @@ function EventToSelectValue (webMercator)
 
 /**
  * Toma un nombre de archivo con extensión y lo carga como objeto, este archivo debe existir en la raíz.
- * @param {string} nameFile Nombre de archivo, incluir formato 
+ * @param {string} nameFile Nombre de archivo, incluir formato
  */
-function MapJsonData(nameFile) 
+function MapJsonData(nameFile)
 {
     let dfd = $.Deferred();
     if(nameFile.includes(".json"))
@@ -354,16 +374,16 @@ function MapJsonData(nameFile)
 
 /**
  * Carga información de una o varias personas dependiendo del criterio de búsqueda
- * @param {string} typeSearch 
- * @param {string} value 
+ * @param {string} typeSearch
+ * @param {string} value
  */
 function SearchPersonsByCriteria(typeSearch, value)
 {
     switch(typeSearch){
         case 'CC':
-        
+
             break;
-        
+
         default:
             break;
     }
