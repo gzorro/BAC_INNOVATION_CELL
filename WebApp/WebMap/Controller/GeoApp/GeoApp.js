@@ -85,7 +85,7 @@ class GeoApp {
                 AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopTrailing);
                 AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopTrailing, false);
                 //Dashboard
-                AddDivToView("dvDashBoard", _enumTypePosition.TopLeading, true, webMercatorUtils);
+                AddDivToView("dvDashBoard", _enumTypePosition.TopLeading, true, Point, webMercatorUtils);
 
                 LoadBDData();
 

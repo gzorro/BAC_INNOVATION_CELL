@@ -74,7 +74,7 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
  * @param {string} ubication Ubicación del elemento a agregar según librería de esri
  * @param {bool} isVisible determinado si el elemento debe de mostrarse inmediatamente
  */
-function AddDivToView(idElement, ubication, isVisible = true, webMercator) {
+function AddDivToView(idElement, ubication, isVisible = true, Point, webMercator) {
     let elementHTML;
     elementHTML = document.createElement("div");
     elementHTML.id = idElement;
@@ -85,13 +85,13 @@ function AddDivToView(idElement, ubication, isVisible = true, webMercator) {
 
     if(!isVisible)
         $(elementHTML).hide();
-    BindEventsToSelect(webMercator);
+    BindEventsToSelect(Point, webMercator);
 }
 
 /**
  * Vincula eventos sobre los elementos select creados dinámicamente
  */
-function BindEventsToSelect(webMercator)
+function BindEventsToSelect(Point, webMercator)
 {
     $('#slcType').on('change', function()
     {
@@ -100,7 +100,7 @@ function BindEventsToSelect(webMercator)
 
     $('#slcValue').on('change',function()
     {
-        EventToSelectValue(webMercator);
+        EventToSelectValue(Point, webMercator);
     });
 }
 
@@ -227,7 +227,7 @@ function EventToTypeSelect ()
     }
 }
 
-function EventToSelectValue (webMercator)
+function EventToSelectValue (Point, webMercator)
 {
     let textSelected = $('#slcType option:selected').text();
     let valueSelected = $('#slcValue').val();
@@ -295,7 +295,8 @@ function EventToSelectValue (webMercator)
             imgViewMap.src = "../Content/Images/find-map.png";
             $(imgViewMap).prop('cursor', 'pointer');
             $(imgViewMap).on('click', function () {
-                let arrPosition = obj["PTO REFERENCIADO"].split(',');
+                let objSelected = listBD.find(x => x["NUMERO IDENTIFICACION"] == imgViewMap.id);
+                let arrPosition = objSelected["PTO REFERENCIADO"].split(',');
                 let objLat = arrPosition[0].trim();
                 let objLon = arrPosition[1].trim();
                 let result = webMercator.lngLatToXY(objLon, objLat);
@@ -314,14 +315,18 @@ function EventToSelectValue (webMercator)
                 //     geometry: point,
                 //     symbol: markerSymbol
                 // });
-                // let pt = new Point({
-                //     latitude: objLat,
-                //     longitude: objLon
-                //   });
-                view.goTo({
-                    center: [objLon, objLat],
-                    zoom: 17
+                var opts = {
+                    duration: 1000  // Duration of animation will be 5 seconds
+                  };
+                  debugger;
+                let pt = new Point({
+                    latitude: objLat,
+                    longitude: objLon
                   });
+                view.goTo({
+                    target: pt,//center: [objLon, objLat],
+                    zoom: 17
+                  }, opts);
                 createModal();
                 searchCultivo(objLatF, objLonF);
                 searchPoint(objLatF, objLonF);
