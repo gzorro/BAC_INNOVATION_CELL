@@ -320,7 +320,7 @@ function EventToSelectValue (webMercator)
                 //   });
                 view.goTo({
                     center: [objLon, objLat],
-                    zoom: 15
+                    zoom: 17
                   });
                 createModal();
                 searchCultivo(objLatF, objLonF);
