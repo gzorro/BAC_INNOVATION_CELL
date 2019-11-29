@@ -10,9 +10,11 @@
  * Buscar aptitud de cultivo a apartir de punto de referencia 
  * @param latitud valor latitud del punto georeferenciado desde la búsqueda
  * @param longitud valor longitud del punto georeferenciado desde la búsqueda
+ * @param isLatLon si las coordenadas vienen en formato wkid: 4326s
  **/
 
 function searchPoint(latitud, longitud){
+    debugger;
     $.get("https://geoservicios.upra.gov.co/arcgis/rest/services/SOE/soe/MapServer/exts/Upra_Operations/consultasAptitudes?Opcion=1&Punto=point(" + latitud + "+" + longitud + ")&f=json", function( data ) {
         arregloJson = JSON.parse(data);
        $("select").on('change', function() {

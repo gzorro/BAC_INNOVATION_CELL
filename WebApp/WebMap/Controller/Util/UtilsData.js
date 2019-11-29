@@ -30,7 +30,7 @@ var modalHTML =
     <div class='modal-dialog'>
         <!-- Modal content-->
         <div class='modal-content' style='overflow-y:scroll;max-height: 32em;'>
-            <div class='modal-header modal-fixed'>
+            <div class='modal-header modal-fixed' style='width: 96%;'>
                     <button type='button' class='close' data-dismiss='modal'>&times;</button>
                     <h4 class='modal-title'>Consulta UPRA</h4>
             </div>
@@ -95,8 +95,8 @@ let modalWithAreaHTML =
                     <div class='row mensaje'>
                         <div class='col-sm-12'>
                             <span class='infoPrincipal'>A traves de la siguiente interfaz se puede consultar el tipo de aptitud por cultivo de un determinado lugar en Colombia basado en la UPRA.</span>
-                            <span class='spanSecondary'> <b>Área del polígono:</b> ${pArea} <b><i>Km^2</i></b> <br />
-                                <b>Perímetro del polígono:</b> ${pLength} <b><i>Km</i></b> 
+                            <span class='spanSecondary'> <b>Área del polígono:</b> ${pArea} <b><i>m^2</i></b> <br />
+                                <b>Perímetro del polígono:</b> ${pLength} <b><i>metros</i></b> 
                             </span>
                         </div>
                         <div class='col-sm-12'>   
@@ -155,7 +155,7 @@ var DashBoardHTML =
 </div>
 `*/
 
-`<div class="card text-center" style="background-color: azure; border-radius: 15px 15px 0px 0px;">
+`<div class="card text-center" style="background-color: azure; border-radius: 15px 15px 0px 0px; width: 30em;">
   <div class="card-header"> 
     Contenido
   </div>
@@ -166,12 +166,12 @@ var DashBoardHTML =
             <h6 class="card-subtitle mb-2 text-muted">Concepto</h6>
             <select id="slcType" class="selectpicker" data-width="8em">
                 <option value="0">Seleccione</option>
-                <option value="N">Nombre</option>
-                <option value="C">Cédula</option>
-                <option value="D">Dpto</option>
-                <option value="M">Municipio</option>
-                <option value="V">Vereda</option>
-                <option value="R">Referencia Rubro</option>
+                <option value="N">NOMBRE CLIENTE</option>
+                <option value="C">NUMERO IDENTIFICACION</option>
+                <option value="D">DEPARTAMENTO</option>
+                <option value="M">MUNICIPIO</option>
+                <option value="V">VEREDA</option>
+                <option value="R">PUNTO REFERENCIA VISITA</option>
             </select>
         </div>
         <div class="col-sm-7">
@@ -180,16 +180,16 @@ var DashBoardHTML =
         </div>
     </div><br /><br />
     <div class="row">
-            <div class="col">
-                <div id="divMain" style="border: 1px solid black; width:95%;"></div>
+            <div class="col-sm-12">
+                <div id="divMain" style="border: 1px solid black; margin: 2px; max-height: 15em;overflow-y: auto;"></div>
             </div>
         </div>
     <p class="card-text">Panel principal de consulta de clientes.</p>
-    <a href="#" class="btn btn-primary">Buscar</a>
+    <!--<a href="#" class="btn btn-primary">Buscar</a>-->
   </div>
-  <div class="card-footer text-muted">
+  <!--<div class="card-footer text-muted">
     2 days ago
-  </div>
+  </div>-->
 </div>
 `;
 
@@ -200,38 +200,33 @@ var DashBoardHTML =
  * @param person Objeto cargado con l ainformación de usuario especifoco de la búsqueda
  */
 
- function modalUser(person){
-    var modalInfoUser = 
+ function ModalUser(person){
+    let modalInfoUser = 
     `
-    <div id="modalUser" class="modal fade" role="dialog">
-      <div class="modal-dialog">    
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Información usuario</h4>
-          </div>
-    
-          <div class="modal-body">
-               <ul class="list-group">
-                    <li class="list-group-item active"> Cliente Banco Agrario </li>
-                    ${ $.each( JSON.parse(person), function( index, item ){ 
-                        `<li class="list-group-item">Nombre: ${ item["NOMBRE CLIENTE"] }</li> `
-                        `<li class="list-group-item">Tipo identificación: ${ item["TIPO IDENTIFICACION"] }</li>`
-                        `<li class="list-group-item">Identificación: ${ item["NUMERO IDENTIFICACION"] }</li>`
-                        `<li class="list-group-item">Departamento: ${ item["DEPARTAMENTO"] } </li>`
-                        `<li class="list-group-item">Municipio: ${ item["MUNICIPIO"] }</li>`
-                        `<li class="list-group-item">Vereda: ${ item["VEREDA"] }</li>`
-                        `<li class="list-group-item">Oficina: ${ item["OFICINA"] }</li>`
-                        `<li class="list-group-item">Rubro: ${ item["RUBRO"] }</li>`
-                    }) }  
-               </ul>
-          </div>
-    
+    <div id="modalUser" class="row">
+        <div class="col">
+            <span> <b>Nombre:</b> ${person["NOMBRE CLIENTE"]}</span><br />
+            <span> <b>Tipo identificación:</b> ${person["TIPO IDENTIFICACION"]}</span><br />
+            <span> <b>Identificación:</b> ${person["NUMERO IDENTIFICACION"]}</span><br />
+            <span> <b>Departamento:</b> ${person["DEPARTAMENTO"]}</span><br />
+            <span> <b>Municipio:</b> ${person["MUNICIPIO"]}</span><br />
+            <span> <b>Vereda:</b> ${person["VEREDA"]}</span><br />
+            <span> <b>Oficina:</b> ${person["OFICINA"]}</span><br />
+            <span> <b>Rubro:</b> ${person["RUBRO"]}</span><br />
+            <span> <b>Monto:</b> ${person["MONTO"]}</span><br />
+            <span> <b>Un. Ejecutadas:</b> ${person["UNID. EJECUTADAS"]}</span><br />
+            <span> <b>Un. Financiadas:</b> ${person["UNID. FINANCIADAS"]}</span><br />
+            <span> <b>Valor destino:</b> ${person["VALOR DESTINO"]}</span><br />
+            <span> <b>Valor Rubro:</b> ${person["VALOR RUBRO"]}</span><br />
+            <span> <b>ejecutado:</b> ${person["COSTO EJECUTADO"]}</span><br />
+            <span> <b>Referencia visita:</b> ${person["PUNTO REFERENCIA VISITA"]}</span><br />
+            <span> <b>Punto referencia(Lat/Lon):</b> ${person["PTO REFERENCIADO"]}</span><br />
+            <span> <b>Tiene polígono asociado:</b> No </span><br />
+            <button type="button" class="btn btn-secondary" onclick="ClosePersonInfo()">Volver</button>
         </div>
-    
-      </div>
     </div>
     `
+
+    return modalInfoUser;
  }
 

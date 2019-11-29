@@ -74,7 +74,7 @@ function AddElementToView(nameElement, idElement, description, classes, ubicatio
  * @param {string} ubication Ubicación del elemento a agregar según librería de esri
  * @param {bool} isVisible determinado si el elemento debe de mostrarse inmediatamente
  */
-function AddDivToView(idElement, ubication, isVisible = true) {
+function AddDivToView(idElement, ubication, isVisible = true, webMercator) {
     let elementHTML;
     elementHTML = document.createElement("div");
     elementHTML.id = idElement;
@@ -85,14 +85,13 @@ function AddDivToView(idElement, ubication, isVisible = true) {
 
     if(!isVisible)
         $(elementHTML).hide();
-    debugger;
-    BindEventsToSelect();
+    BindEventsToSelect(webMercator);
 }
 
 /**
  * Vincula eventos sobre los elementos select creados dinámicamente
  */
-function BindEventsToSelect()
+function BindEventsToSelect(webMercator)
 {
     $('#slcType').on('change', function()
     {
@@ -101,13 +100,12 @@ function BindEventsToSelect()
     
     $('#slcValue').on('change',function()
     {
-        EventToSelectValue();
+        EventToSelectValue(webMercator);
     });
 }
 
 function EventToTypeSelect ()
 {
-    debugger;
     let valueSelected = $('#slcType').val();
     $('#slcValue').empty().selectpicker('refresh');
     if(valueSelected == "0")
@@ -206,7 +204,7 @@ function EventToTypeSelect ()
                     
                 break;
             case 'R':
-                listBD.forEach(x => listImplicit.push(x["PUNTO REFERENCIA VISITA"]))
+                listBD.forEach(x => listImplicit.push(x["RUBRO"]))
                 uniqueItems = Array.from(new Set(listImplicit));
                 $.each(uniqueItems, function (id, item) {
                     if (id === 0) {
@@ -229,18 +227,25 @@ function EventToTypeSelect ()
     }
 }
 
-function EventToSelectValue ()
+function EventToSelectValue (webMercator)
 {
-    debugger;
+    let textSelected = $('#slcType option:selected').text();
     let valueSelected = $('#slcValue').val();
     if(valueSelected == "0")
     {
         alert('Debe seleccionar una opción válida');
     }else{
-        let listElements = listBD;
+        let listElements = []; 
+        listBD.forEach(x => 
+            {
+                if(x[textSelected] == valueSelected)
+                {
+                    listElements.push(x);
+                }
+            });//.find(x => x[textSelected] == valueSelected);
         
-        var divToAddTable = $("#divMain");
-        var table = $("<table />"),
+        var divToAddTable = $('#divMain');
+        var table = $('<table />'),
             thead,
             tfoot,
             rows = [],
@@ -261,35 +266,68 @@ function EventToSelectValue ()
 
         table.attr(options.attrs);
         row = $('<tr />');
-        row.append($('<th colspan=4 />').html(`<center><b>Resultado consulta</b></center>`));
+        row.append($('<th colspan=4 />').html('<center><b>Resultado consulta</b></center>'));
         rows.push(row);
 
         row = $('<tr />');
-        row.append($("<td />").html("<b>Nombre</b>"));
-        row.append($('<td />').html(`<center><b>Cédula</b></center>`));
-        row.append($('<td />').html(`<center><b>Rubro</b></center>`));
-        row.append($('<td />').html(`<center><b>Monto</b></center>`));
+        row.append($('<td />').html('<b>Nombre</b>'));
+        row.append($('<td />').html('<center><b>Cédula</b></center>'));
+        // row.append($('<td />').html('<center><b>Rubro</b></center>'));
+        // row.append($('<td />').html('<center><b>Monto</b></center>'));
         rows.push(row);
 
         $.each(listElements, function (value, obj) {
             row = $('<tr />');
 
-                row.append($("<td align='center' style='white-space:pre;'/>").html(`${obj.scheduleContext[0].details[z].hInicio}`));
-                
-                row.append($("<td align='center' style='white-space:pre;'/>").html(
-                    `${obj["NOMBRE CLIENTE"]} `));
-                row.append($("<td align='center' style='white-space:pre;'/>").html(
-                    `${obj["NUMERO IDENTIFICACION"]}`));
-                row.append($("<td align='center' style='white-space:pre;'/>").html(
-                    `${obj["PUNTO REFERENCIA VISITA"]}`));
+            row.append($("<td align='center' style='white-space:pre;'/>").html(
+                `${obj["NOMBRE CLIENTE"]} `));
+            row.append($("<td align='center' style='white-space:pre;'/>").html(
+                `${obj["NUMERO IDENTIFICACION"]}`));
+            // row.append($("<td align='center' style='white-space:pre;'/>").html(
+            //     `${obj["PUNTO REFERENCIA VISITA"]}`));
+            // row.append($("<td align='center' style='white-space:pre;'/>").html(
+            //     `${obj["MONTO"]}`));
 
-                rows.push(row);
+            let imgViewMap = document.createElement("input");
+            imgViewMap.id = obj["NUMERO IDENTIFICACION"];
+            imgViewMap.type = "image";
+            imgViewMap.title = "Consulta UPRA";
+            imgViewMap.src = "../Content/Images/find-map.png";
+            $(imgViewMap).prop('cursor', 'pointer');
+            $(imgViewMap).on('click', function () {
+                let arrPosition = obj["PTO REFERENCIADO"].split(',');
+                let objLat = arrPosition[0].trim();
+                let objLon = arrPosition[1].trim();
+                let result = webMercator.lngLatToXY(objLon, objLat);
+                objLat = result[0];
+                objLon = result[1];
+
+                createModal();
+                searchCultivo(objLat, objLon);
+                searchPoint(objLat, objLon);
+            });
+            row.append($("<td align='center' style='white-space:pre;'/>").html(
+                $(imgViewMap)));
+
+                let imgViewPerfil = document.createElement("input");
+                imgViewPerfil.id = obj["NUMERO IDENTIFICACION"];
+                imgViewPerfil.type = "image";
+                imgViewPerfil.title = "Ver perfil detallado";
+                imgViewPerfil.src = "../Content/Images/person2.png";
+                $(imgViewPerfil).prop('cursor', 'pointer');
+                $(imgViewPerfil).on('click', function () {
+                    let objSelected = listBD.find(x => x["NUMERO IDENTIFICACION"] == imgViewPerfil.id);
+                    $(divToAddTable).html(ModalUser(objSelected));
+                    // $('#divPerson').html(ModalUser(objSelected));
+                });
+                row.append($("<td align='center' style='white-space:pre;'/>").html(
+                    $(imgViewPerfil)));
+
+            rows.push(row);
             table.append(rows);
-
-            divToAddTable.append(table);
-            divToAddTable.append(`<br /> <br />`);
-
         });
+        $(divToAddTable).html(table);
+        // divToAddTable.append('<br /> <br />');
     }
 }
 
@@ -336,14 +374,18 @@ function SearchPersonsByCriteria(typeSearch, value)
 function LoadBDData()
 {
     MapJsonData('JsonBD.json').then(function(obj) {
-        debugger;
         listBD = obj.Hoja1;
-        // obj.Hoja1.forEach(x => 
-        //     {
-        //         debugger;
-        //         let object = x;
-        //     })
     });
+}
+
+/**
+ * vacia el div con la información de personas
+ */
+function ClosePersonInfo()
+{
+    $('#divMain').html('');
+    $('#slcType').val('0').selectpicker('refresh');
+    $('#slcValue').empty().selectpicker('refresh');
 }
 
 

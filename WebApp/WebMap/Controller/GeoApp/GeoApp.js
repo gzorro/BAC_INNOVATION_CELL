@@ -27,6 +27,7 @@ class GeoApp {
 					// , FeatureLayer
                     , GeometryService
                     , AreasAndLengthsParameters
+                    , webMercatorUtils
 				){
 
 				/* Instancia de elementos base de aplicación */
@@ -80,11 +81,11 @@ class GeoApp {
                 //Agregar componente de coordenadas
                 AddCoordsToView();
                 
-                AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopLeading, false);
-                AddElementToView("input-file", "btnCargar2", "Cargar2", ["btn", "btn-primary", "form-control-file"], _enumTypePosition.TopLeading);
-                AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopLeading);
+                AddElementToView("input-file", "btnCargar2", "Cargar2", ["btn", "btn-primary", "form-control-file"], _enumTypePosition.TopTrailing);
+                AddElementToView("button", "btnCargar", "Cargar", ["btn", "btn-primary", "hovicon effect"], _enumTypePosition.TopTrailing);
+                AddElementToView("button", "btnGuardar", "Guardar", ["btn", "btn-success", "hovicon effect"], _enumTypePosition.TopTrailing, false);
                 //Dashboard
-                AddDivToView("dvDashBoard", _enumTypePosition.TopLeading);
+                AddDivToView("dvDashBoard", _enumTypePosition.TopLeading, true, webMercatorUtils);
 
                 LoadBDData();
 

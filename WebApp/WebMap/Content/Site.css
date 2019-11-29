@@ -2,6 +2,7 @@
 html, body, #viewDiv {
     height: 100%;
     width: 100%;
+    font-size:13px;
 }
 
 /* Ajuste a footer*/
@@ -11,7 +12,6 @@ footer {
     width: 100%;
     background-color: darkolivegreen;
     height: 18px;
-    margin: -5px;
 }
 
 /* Hover on button */
@@ -207,6 +207,14 @@ footer {
   display: flex;
   margin: 0.4em;
   /* padding: 15px; */
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    /* border: 3px solid green; */
+    z-index: 9999;
+    padding: 10px;
 }
 
 .spanSecondary {

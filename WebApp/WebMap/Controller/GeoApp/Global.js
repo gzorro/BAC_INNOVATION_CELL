@@ -42,6 +42,7 @@ var _listEsriReferences =
     // , "esri/layers/FeatureLayer"
     , "esri/tasks/GeometryService"
     , "esri/tasks/support/AreasAndLengthsParameters"
+    , "esri/geometry/support/webMercatorUtils"
 ]
 
 //Tipos de mapas a implementar(for Map)
